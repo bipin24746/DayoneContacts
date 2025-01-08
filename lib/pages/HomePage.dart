@@ -9,59 +9,65 @@ class Homepage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-            title: Text(
-              "Invite Guest",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            bottom: ButtonsTabBar(
-                backgroundColor: Color(0xFF34405F),
-                height: 50,
-                width: MediaQuery.of(context).size.width / 2,
-                radius: 0,
-                unselectedLabelStyle: TextStyle(color: Colors.black),
-                contentCenter: true,
-                tabs: [
-                  Tab(
-                    child: Tab(
-                      text: "Add Manually",
-                    ),
-                  ),
-                  Tab(
-                    text: "Add From Contact",
-                  )
-                ])),
-        body: Column(
-          children: [
-            Expanded(
-              child: TabBarView(children: [
-                Center(
-                  child: Addmanually(),
-                ),
-                Center(
-                  child: AddFromContact(),
-                )
-              ]),
-            ),
-            Container(
-              color: Colors.white,
-              padding: const EdgeInsets.all(8.0),
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  border:Border(top: BorderSide(color: Colors.black))
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: const InviteGuest(),
-                ),
-              ),
-            )
+    return GestureDetector(
+      onTap: ()=>FocusManager.instance.primaryFocus?.unfocus(),
+      child: DefaultTabController(
 
-          ],
+        length: 2,
+        child: Scaffold(
+
+          backgroundColor: Colors.white,
+          resizeToAvoidBottomInset: false,
+          appBar: AppBar(
+              title: Text(
+                "Invite Guest",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              bottom: ButtonsTabBar(
+                  backgroundColor: Color(0xFF34405F),
+                  height: 50,
+                  width: MediaQuery.of(context).size.width / 2,
+                  radius: 0,
+                  unselectedLabelStyle: TextStyle(color: Colors.black),
+                  contentCenter: true,
+                  tabs: [
+                    Tab(
+                      child: Tab(
+                        text: "Add Manually",
+                      ),
+                    ),
+                    Tab(
+                      text: "Add From Contact",
+                    )
+                  ])),
+          body: Column(
+            children: [
+              Expanded(
+                child: TabBarView(children: [
+                  Center(
+                    child: Addmanually(),
+                  ),
+                  Center(
+                    child: AddFromContact(),
+                  )
+                ]),
+              ),
+              Container(
+                color: Colors.white,
+                padding: const EdgeInsets.all(8.0),
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    border:Border(top: BorderSide(color: Colors.black))
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: const InviteGuest(),
+                  ),
+                ),
+              )
+
+            ],
+          ),
         ),
       ),
     );
