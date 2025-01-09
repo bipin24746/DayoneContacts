@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'inviteGuest.dart'; // Make sure you import the InviteGuestPage
 
 class Addmanually extends StatefulWidget {
   const Addmanually({super.key});
@@ -19,24 +20,16 @@ class _AddmanuallyState extends State<Addmanually> {
   final List<String> Name = [];
   final List<String> Number = [];
 
-  List<int> selectedMultiple =[];
+  List<int> selectedMultiple = [];
+  String? selectedName;
+  String? selectedPhone;
+
   void submitForm() {
     setState(() {
       isValid = _form.currentState!.validate();
     });
   }
 
-  // final List<Map<String, dynamic>> Visitors = [
-  //   {
-  //     "letter": "A",
-  //     "name": "Aayushman Singh Shrestha",
-  //     "phone": "9861158315",
-  //   },
-  //   {"letter": "A", "name": "Aayush Karmacharya", "phone": "9843700444"},
-  //   {"letter": "A", "name": "Suraj Shrestha", "phone": "9861845236"},
-  //   {"letter": "#", "name": "*3243*", "phone": "*3243*"},
-  //   {"letter": "9", "name": "9861158315", "phone": "9861158315"}
-  // ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +44,7 @@ class _AddmanuallyState extends State<Addmanually> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
+                padding: const EdgeInsets.all(20),
                 child: TextFormField(
                   controller: _Name,
                   autovalidateMode: AutovalidateMode.always,
@@ -68,7 +61,7 @@ class _AddmanuallyState extends State<Addmanually> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+                padding: const EdgeInsets.all(20),
                 child: TextFormField(
                   controller: _Number,
                   autovalidateMode: AutovalidateMode.always,
@@ -80,45 +73,44 @@ class _AddmanuallyState extends State<Addmanually> {
                     if (value!.isEmpty) {
                       return 'Enter your phone number';
                     } else if (int.tryParse(value) == null) {
-                      return 'please input numbers only';
+                      return 'Please input numbers only';
                     } else if (value.length != 10) {
                       return 'Enter 10 digit numbers';
                     }
-
                     return null;
                   },
                   keyboardType: TextInputType.number,
                 ),
               ),
-              SizedBox(
-                height: 20,
-              ),
+              SizedBox(height: 20),
               SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                isValid ? Colors.blue : Colors.white),
-                        onPressed: isValid
-                            ? () {
-                                submitForm();
-                                if (isValid) {
-                                  Name.add(_Name.text);
-                                  Number.add(_Number.text);
-                                }
-                                _Name.clear();
-                                _Number.clear();
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: isValid ? Colors.blue : Colors.white,
+                      ),
+                      onPressed: isValid
+                          ? () {
+                              submitForm();
+                              if (isValid) {
+                                Name.add(_Name.text);
+                                Number.add(_Number.text);
                               }
-                            : null,
-                        child: Text(
-                          "Submit",
-                          style: TextStyle(
-                              color: isValid ? Colors.white : Colors.black12,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
-                        )),
+                              _Name.clear();
+                              _Number.clear();
+                            }
+                          : null,
+                      child: Text(
+                        "Submit",
+                        style: TextStyle(
+                          color: isValid ? Colors.white : Colors.black12,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                   )),
               Padding(
                 padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
@@ -138,7 +130,7 @@ class _AddmanuallyState extends State<Addmanually> {
                           "Frequent Visitor List",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 17),
-                        )
+                        ),
                       ],
                     ),
                     Column(
@@ -148,7 +140,7 @@ class _AddmanuallyState extends State<Addmanually> {
                           style: TextStyle(fontSize: 13),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
-                        )
+                        ),
                       ],
                     )
                   ],
@@ -163,26 +155,25 @@ class _AddmanuallyState extends State<Addmanually> {
                         scrollDirection: Axis.horizontal,
                         itemCount: Name.length,
                         itemBuilder: (context, index) {
-                          final isSelected =
-                          selectedMultiple.contains(index);
-                          // final isSelected = selectedIndex == index;
-                          // final Visitor = Visitors[index];
+                          final isSelected = selectedMultiple.contains(index);
+
                           return SizedBox(
                             width: 140,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Stack(children: [
-                                DecoratedBox(
+                              child: Stack(
+                                children: [
+                                  DecoratedBox(
                                     decoration: BoxDecoration(
-                                        color: isSelected
-                                            ? Colors.orange.withOpacity(0.1)
-                                            : Colors.white,
-                                        border: Border.all(
-                                            color: isSelected
-                                                ? Colors.orange
-                                                : Colors.black),
-                                        borderRadius:
-                                            BorderRadius.circular(20)),
+                                      color: isSelected
+                                          ? Colors.orange.withOpacity(0.1)
+                                          : Colors.white,
+                                      border: Border.all(
+                                          color: isSelected
+                                              ? Colors.orange
+                                              : Colors.black),
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Column(
@@ -193,14 +184,13 @@ class _AddmanuallyState extends State<Addmanually> {
                                             child: CircleAvatar(
                                               child: Text(
                                                 Name[index][0],
-                                                // Visitor["letter"],
                                                 style: TextStyle(
-                                                    color: isSelected
-                                                        ? Colors.orange
-                                                        : Colors.black,
-                                                    fontWeight:
-                                                        FontWeight.bold,
-                                                    fontSize: 15),
+                                                  color: isSelected
+                                                      ? Colors.orange
+                                                      : Colors.black,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 15,
+                                                ),
                                               ),
                                               radius: 22,
                                               backgroundColor: isSelected
@@ -212,7 +202,6 @@ class _AddmanuallyState extends State<Addmanually> {
                                           Center(
                                               child: Text(
                                             Name[index],
-                                            // Visitor["name"],
                                             style: TextStyle(
                                               fontSize: 15,
                                               color: isSelected
@@ -226,48 +215,51 @@ class _AddmanuallyState extends State<Addmanually> {
                                             child: Text(
                                               Number[index],
                                               style: TextStyle(
-
-
                                                 color: isSelected
                                                     ? Colors.orange
                                                     : Colors.black,
                                               ),
                                             ),
                                           )
-                                          // Text(Visitor["phone"])),
                                         ],
                                       ),
-
-                                    )),
-                                Positioned(
-                                  top: -8,
-                                  right: -8,
-                                  child: Transform.scale(
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: -8,
+                                    right: -8,
+                                    child: Transform.scale(
                                       scale: 1.2,
                                       child: Checkbox(
-                                          checkColor:
-                                          isSelected ? Colors.white : null,
-                                          shape: CircleBorder(),
-                                          value: isSelected,
-                                          onChanged: (bool? newValue) {
-                                            setState(() {
-                                              if (newValue == true) {
-                                                selectedMultiple.add(index);
-                                              } else {
-                                                selectedMultiple.remove(index);
-                                              }
-                                            });
-                                          },
-                                      activeColor: Colors.orange,
-                                      )),
-                                )
-                              ]),
+                                        checkColor:
+                                            isSelected ? Colors.white : null,
+                                        shape: CircleBorder(),
+                                        value: isSelected,
+                                        onChanged: (bool? newValue) {
+                                          setState(() {
+                                            if (newValue == true) {
+                                              selectedMultiple.add(index);
+                                              selectedName = Name[index];
+                                              selectedPhone = Number[index];
+                                            } else {
+                                              selectedMultiple.remove(index);
+                                              selectedName = null;
+                                              selectedPhone = null;
+                                            }
+                                          });
+                                        },
+                                        activeColor: Colors.orange,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         }),
                   ),
                 ],
-              )
+              ),
             ],
           ),
         ),

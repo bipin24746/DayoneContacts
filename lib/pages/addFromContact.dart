@@ -9,6 +9,7 @@ class AddFromContact extends StatefulWidget {
 
 class _AddFromContactState extends State<AddFromContact> {
   bool? value = false;
+  List<int> multipleSelected = [];
   final List<Map<String,dynamic>> contacts = [
     {"letter":"A","name" : "Aayushman Singh Shrestha","phone":"9861158315",},
     {"letter":"A","name":"Aayush Karmacharya","phone":"9843700444"},
@@ -24,6 +25,7 @@ class _AddFromContactState extends State<AddFromContact> {
       ListView.builder(
           itemCount: contacts.length,
           itemBuilder: (context,index){
+            final isSelects = multipleSelected.contains(index);
         final contact = contacts[index];
         return  Column(
           children: [
@@ -50,14 +52,32 @@ class _AddFromContactState extends State<AddFromContact> {
                     ],
                   ),
                   Spacer(),
-                  Checkbox(
+                  InkWell(onTap: (){
+                    if(isSelects){
+                      multipleSelected.remove(index);
+                    }
+                    else{
+                      multipleSelected.add(index);
+                    }
+                  },
+                    child: Checkbox(
+                    checkColor: isSelects ? Colors.black : null,
+                        value: isSelects,
+                        onChanged: (bool? newValue) {
+                          setState(() {
+                            if(newValue == true){
+                              multipleSelected.add(index);
 
-                      value: value,
-                      onChanged: (bool? newValue) {
-                        setState(() {
-                          value = newValue;
-                        });
-                      })
+                            }
+                            else
+                              {
+                                multipleSelected.remove(index);
+                              }
+
+                            // value = newValue;
+                          });
+                        }),
+                  )
                 ],
               ),
             ),
