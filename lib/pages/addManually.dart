@@ -1,33 +1,63 @@
 import 'package:flutter/material.dart';
-import 'inviteGuest.dart'; // Make sure you import the InviteGuestPage
 
-class Addmanually extends StatefulWidget {
-  const Addmanually({super.key});
+class AddManually extends StatefulWidget {
+  final Function(List<Map<String, dynamic>>) selectContacts;
+  const AddManually({super.key, required this.selectContacts});
 
   @override
-  State<Addmanually> createState() => _AddmanuallyState();
+  State<AddManually> createState() => _AddManuallyState();
 }
 
-class _AddmanuallyState extends State<Addmanually> {
-  int? selectedIndex;
-  final GlobalKey<FormState> _form = GlobalKey<FormState>();
-  bool isValid = false;
+class _AddManuallyState extends State<AddManually> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _numberController = TextEditingController();
 
-  bool value = false;
+  final List<String> names = [];
+  final List<String> numbers = [];
+  final List<int> selectedIndexes = [];
 
-  final _Name = TextEditingController();
-  final _Number = TextEditingController();
-  final List<String> Name = [];
-  final List<String> Number = [];
+  bool _isFormValid = true;
 
-  List<int> selectedMultiple = [];
-  String? selectedName;
-  String? selectedPhone;
+  @override
+  void initState() {
+    super.initState();
+    _nameController.addListener(_validateForm);
+    _numberController.addListener(_validateForm);
+  }
 
-  void submitForm() {
-    setState(() {
-      isValid = _form.currentState!.validate();
-    });
+  @override
+  void dispose() {
+    _nameController.removeListener(_validateForm);
+    _numberController.removeListener(_validateForm);
+    _nameController.dispose();
+    _numberController.dispose();
+    super.dispose();
+  }
+
+  void _validateForm() {
+    final isValid = _nameController.text.isNotEmpty &&
+        _numberController.text.isNotEmpty &&
+        int.tryParse(_numberController.text) != null &&
+        _numberController.text.length == 10;
+
+    if (_isFormValid != isValid) {
+      setState(() {
+        _isFormValid = isValid;
+      });
+    }
+  }
+
+  void _submitForm() {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        names.add(_nameController.text);
+        numbers.add(_numberController.text);
+        _nameController.clear();
+        _numberController.clear();
+        _isFormValid = false; // Reset button state after submission.
+      });
+    }
   }
 
   @override
@@ -37,228 +67,189 @@ class _AddmanuallyState extends State<Addmanually> {
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         child: Form(
-          key: _form,
-          onChanged: () {
-            submitForm();
-          },
+          key: _formKey,
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20.0),
                 child: TextFormField(
-                  controller: _Name,
-                  autovalidateMode: AutovalidateMode.always,
-                  decoration: InputDecoration(
+                  controller: _nameController,
+                  decoration: const InputDecoration(
                     hintText: "Name",
                     border: OutlineInputBorder(),
                   ),
                   validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter name';
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a name';
                     }
                     return null;
                   },
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20.0),
                 child: TextFormField(
-                  controller: _Number,
-                  autovalidateMode: AutovalidateMode.always,
-                  decoration: InputDecoration(
+                  controller: _numberController,
+                  decoration: const InputDecoration(
                     hintText: "Mobile Number",
                     border: OutlineInputBorder(),
                   ),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Enter your phone number';
-                    } else if (int.tryParse(value) == null) {
-                      return 'Please input numbers only';
-                    } else if (value.length != 10) {
-                      return 'Enter 10 digit numbers';
-                    }
-                    return null;
-                  },
                   keyboardType: TextInputType.number,
+
                 ),
               ),
-              SizedBox(height: 20),
               SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: isValid ? Colors.blue : Colors.white,
-                      ),
-                      onPressed: isValid
-                          ? () {
-                              submitForm();
-                              if (isValid) {
-                                Name.add(_Name.text);
-                                Number.add(_Number.text);
-                              }
-                              _Name.clear();
-                              _Number.clear();
-                            }
-                          : null,
-                      child: Text(
-                        "Submit",
-                        style: TextStyle(
-                          color: isValid ? Colors.white : Colors.black12,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
+                width: MediaQuery.of(context).size.width,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: ElevatedButton(
+                    onPressed: _isFormValid ? _submitForm : null,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                      _isFormValid ? Colors.blue : Colors.grey, // Optional
+                    ),
+                    child: const Text(
+                      "Submit",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  )),
-              Padding(
-                padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-                child: Divider(
-                  color: Colors.grey,
-                  thickness: 1,
+                  ),
                 ),
               ),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 20.0),
+                child: Divider(color: Colors.grey, thickness: 1),
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 20.0),
+                child: Divider(color: Colors.grey, thickness: 1),
+              ),
               Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Frequent Visitor List",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 17),
-                        ),
-                      ],
+                    const Text(
+                      "Frequent Visitor List",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 17,
+                      ),
                     ),
-                    Column(
-                      children: [
-                        Text(
-                          "Guest who are frequently visiting here will be shown here.",
-                          style: TextStyle(fontSize: 13),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                        ),
-                      ],
-                    )
+                    const SizedBox(height: 8),
+                    const Text(
+                      "Guests who frequently visit here will be shown here.",
+                      style: TextStyle(fontSize: 13),
+                    ),
+                    const SizedBox(height: 20),
                   ],
                 ),
               ),
-              Row(
-                children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: 130,
-                    child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: Name.length,
-                        itemBuilder: (context, index) {
-                          final isSelected = selectedMultiple.contains(index);
-
-                          return SizedBox(
-                            width: 140,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Stack(
-                                children: [
-                                  DecoratedBox(
-                                    decoration: BoxDecoration(
-                                      color: isSelected
-                                          ? Colors.orange.withOpacity(0.1)
-                                          : Colors.white,
-                                      border: Border.all(
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 150,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: names.length,
+                  itemBuilder: (context, index) {
+                    final isSelected = selectedIndexes.contains(index);
+                    return SizedBox(
+                      width: 140,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Stack(
+                          children: [
+                            DecoratedBox(
+                              decoration: BoxDecoration(
+                                color: isSelected
+                                    ? Colors.orange.withOpacity(0.1)
+                                    : Colors.white,
+                                border: Border.all(
+                                  color: isSelected ? Colors.orange : Colors.black,
+                                ),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    CircleAvatar(
+                                      child: Text(
+                                        names[index][0],
+                                        style: TextStyle(
                                           color: isSelected
                                               ? Colors.orange
-                                              : Colors.black),
-                                      borderRadius: BorderRadius.circular(20),
+                                              : Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      radius: 22,
+                                      backgroundColor:
+                                      isSelected ? Colors.white : Colors.grey,
                                     ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Center(
-                                            child: CircleAvatar(
-                                              child: Text(
-                                                Name[index][0],
-                                                style: TextStyle(
-                                                  color: isSelected
-                                                      ? Colors.orange
-                                                      : Colors.black,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 15,
-                                                ),
-                                              ),
-                                              radius: 22,
-                                              backgroundColor: isSelected
-                                                  ? Colors.white
-                                                  : Colors.grey,
-                                            ),
-                                          ),
-                                          SizedBox(height: 8), // Add spacing
-                                          Center(
-                                              child: Text(
-                                            Name[index],
-                                            style: TextStyle(
-                                              fontSize: 15,
-                                              color: isSelected
-                                                  ? Colors.orange
-                                                  : Colors.black,
-                                            ),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                          )),
-                                          Center(
-                                            child: Text(
-                                              Number[index],
-                                              style: TextStyle(
-                                                color: isSelected
-                                                    ? Colors.orange
-                                                    : Colors.black,
-                                              ),
-                                            ),
-                                          )
-                                        ],
+                                    const SizedBox(height: 8),
+                                    Center(
+                                      child: Text(
+                                        names[index],
+                                        style: TextStyle(
+                                          color: isSelected
+                                              ? Colors.orange
+                                              : Colors.black,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  Positioned(
-                                    top: -8,
-                                    right: -8,
-                                    child: Transform.scale(
-                                      scale: 1.2,
-                                      child: Checkbox(
-                                        checkColor:
-                                            isSelected ? Colors.white : null,
-                                        shape: CircleBorder(),
-                                        value: isSelected,
-                                        onChanged: (bool? newValue) {
-                                          setState(() {
-                                            if (newValue == true) {
-                                              selectedMultiple.add(index);
-                                              selectedName = Name[index];
-                                              selectedPhone = Number[index];
-                                            } else {
-                                              selectedMultiple.remove(index);
-                                              selectedName = null;
-                                              selectedPhone = null;
-                                            }
-                                          });
-                                        },
-                                        activeColor: Colors.orange,
+                                    Text(
+                                      numbers[index],
+                                      style: TextStyle(
+                                        color: isSelected
+                                            ? Colors.orange
+                                            : Colors.black,
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
-                          );
-                        }),
-                  ),
-                ],
+                            Positioned(
+                              top: -8,
+                              right: -8,
+                              child: Transform.scale(
+                                scale: 1.2,
+                                child: Checkbox(
+                                  value: isSelected,
+                                  onChanged: (bool? value) {
+                                    setState(() {
+                                      if (value == true) {
+                                        selectedIndexes.add(index);
+                                      } else {
+                                        selectedIndexes.remove(index);
+                                      }
+                                      widget.selectContacts(
+                                        selectedIndexes
+                                            .map((i) => {
+
+                                          'name': names[i],
+                                          'number': numbers[i],
+                                        })
+                                            .toList(),
+                                      );
+                                    });
+                                  },
+                                  activeColor: Colors.orange,
+                                  shape: const CircleBorder(),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
               ),
             ],
           ),

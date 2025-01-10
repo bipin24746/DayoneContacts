@@ -1,84 +1,121 @@
 import 'package:flutter/material.dart';
 
 class InviteGuest extends StatefulWidget {
-  const InviteGuest({super.key});
+  final List<Map<String, dynamic>> selectedContacts;
+  final List<Map<String, dynamic>> selectContacts;
+
+  const InviteGuest({
+    super.key,
+    required this.selectedContacts,
+    required this.selectContacts,
+  });
 
   @override
   State<InviteGuest> createState() => _InviteGuestState();
 }
 
 class _InviteGuestState extends State<InviteGuest> {
-
-  final List<Map<String,dynamic>> inviteList = [ {"letter":"A","name" : "Aayushman Singh Shrestha","phone":"9861158315",},
-    {"letter":"A","name":"Aayush Karmacharya","phone":"9843700444"},
-    {"letter":"A","name":"Suraj Shrestha","phone":"9861845236"},
-    {"letter":"#","name":"*3243*","phone":"*3243*"},
-    {"letter":"9","name":"9861158315","phone":"9861158315"}];
   @override
   Widget build(BuildContext context) {
+    // Combine both lists for display purposes.
+    final allContacts = [
+      ...widget.selectedContacts.map((contact) => {
+        ...contact,
+        "type": "Selected", // Add type to identify the list.
+      }),
+      ...widget.selectContacts.map((contact) => {
+        ...contact,
+        "type": "Select", // Add type to identify the list.
+      }),
+    ];
+
+    // Debug: Print contacts to verify.
+    print("All Contacts: $allContacts");
+
+    // Check if the combined contact list is empty.
+    if (allContacts.isEmpty) {
+      return const SizedBox.shrink(); // Return an invisible widget if empty.
+    }
+
     return Container(
       color: Colors.white,
-      height: 200
-      ,
+      height: 195,
       width: MediaQuery.of(context).size.width,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-              child: Text("Invite 1 Guest",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold)),
+              child: Text(
+                "Invite Guests",
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
             ),
-            Divider(
-              thickness: 1,
-            ),
+            const Divider(thickness: 1),
             Expanded(
               child: ListView.builder(
-                itemCount: inviteList.length,
+                itemCount: allContacts.length,
                 scrollDirection: Axis.horizontal,
-                itemBuilder: (context,index){
-                  final invite = inviteList[index];
-
-
-                return Column(
-                  children: [
-                    DecoratedBox(
-                      decoration: BoxDecoration(color: Colors.grey[100]),
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 10, left: 10),
-                        child: Row(
+                itemBuilder: (context, index) {
+                  final contact = allContacts[index];
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        // CircleAvatar with the first letter of the name.
+                        CircleAvatar(
+                          radius: 20,
+                          child: Text(
+                            contact["name"]?.isNotEmpty == true
+                                ? contact["name"]![0].toUpperCase()
+                                : "?",
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        // Display name and phone number.
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-
-                            CircleAvatar(
-                              backgroundColor: Colors.white,
-                              radius: 15,
-                              child: Text(invite["letter"]),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    invite["name"],
-                                    style: TextStyle(
-                                        fontSize: 10, fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                   invite["phone"],
-                                    style: TextStyle(
-                                        fontSize: 10, fontWeight: FontWeight.bold),
-                                  )
-                                ],
+                            Text(
+                              contact["name"] ?? "Unknown",
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                            Icon(
-                              Icons.cancel,
-                            )
+                            Text(
+                              contact["number"]?.isNotEmpty == true
+                                  ? contact["number"]
+                                  : "No phone",
+                              style: const TextStyle(fontSize: 12),
+                            ),
                           ],
                         ),
-                      ),
+                        const SizedBox(width: 8),
+                        // Cancel button to remove contact.
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              if (contact["type"] == "Selected") {
+                                widget.selectedContacts.removeWhere(
+                                      (c) => c["name"] == contact["name"],
+                                );
+                              } else if (contact["type"] == "Select") {
+                                widget.selectContacts.removeWhere(
+                                      (c) => c["name"] == contact["name"],
+                                );
+                              }
+                            });
+                          },
+                          child: const Icon(Icons.cancel, color: Colors.red),
+                        ),
+                      ],
                     ),
-                  ],
-                );}
+                  );
+                },
               ),
             ),
             SizedBox(
@@ -87,15 +124,15 @@ class _InviteGuestState extends State<InviteGuest> {
               child: Padding(
                 padding: const EdgeInsets.only(top: 8.0),
                 child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.orange),
-                    onPressed: () {},
-                    child: Text(
-                      "Next",
-                      style: TextStyle(color: Colors.white),
-                    )),
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
+                  onPressed: () {},
+                  child: const Text(
+                    "Next",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
               ),
-            )
+            ),
           ],
         ),
       ),
