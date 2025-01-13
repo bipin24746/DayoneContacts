@@ -1,7 +1,7 @@
 import 'package:buttons_tabbar/buttons_tabbar.dart';
-import 'package:dayonecontacts/pages/addFromContact.dart';
-import 'package:dayonecontacts/pages/addManually.dart';
-import 'package:dayonecontacts/pages/inviteGuest.dart';
+import 'package:dayonecontacts/pages/MainPages/addFromContact.dart';
+import 'package:dayonecontacts/pages/MainPages/addManually.dart';
+import 'package:dayonecontacts/pages/MainPages/inviteGuest.dart';
 import 'package:flutter/material.dart';
 
 class Homepage extends StatefulWidget {
