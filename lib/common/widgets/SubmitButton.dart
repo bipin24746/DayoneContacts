@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
-class SubmitButton extends StatelessWidget {
+class CustomButton extends StatelessWidget {
   final bool isFormValid;
   final VoidCallback? submitForm;
-  const SubmitButton({super.key,required this.isFormValid,required this.submitForm});
+  final String text;
+  const CustomButton({super.key,required this.isFormValid,required this.submitForm,
+    this.text='Submit',
+
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +21,8 @@ class SubmitButton extends StatelessWidget {
             backgroundColor:
             isFormValid ? Colors.blue : Colors.grey, // Optional
           ),
-          child: const Text(
-            "Submit",
+          child:  Text(
+            text,
             style: TextStyle(
               color: Colors.white,
               fontSize: 18,

@@ -1,4 +1,5 @@
-import 'package:dayonecontacts/pages/widgets/addfromContacts/addContactDetails.dart';
+import 'package:dayonecontacts/features/invite_guest/widgets/addfromContacts/addContactDetails.dart';
+
 import 'package:flutter/material.dart';
 
 class AddFromContact extends StatefulWidget {
@@ -15,10 +16,10 @@ class _AddFromContactState extends State<AddFromContact> {
   final List<Map<String, dynamic>> contacts = [
     {
       "letter": "A",
-      "name": "Aayushman Singh Shrestha",
+      "name": "Aayushman Singh",
       "phone": "9861158315",
     },
-    {"letter": "A", "name": "Aayush Karmacharya", "phone": "9843700444"},
+    {"letter": "A", "name": "Aayush ", "phone": "9843700444"},
     {"letter": "A", "name": "Suraj Shrestha", "phone": "9861845236"},
     {"letter": "#", "name": "*3243*", "phone": "*3243*"},
     {"letter": "9", "name": "9861158315", "phone": "9861158315"}
@@ -36,10 +37,12 @@ class _AddFromContactState extends State<AddFromContact> {
               backgroundColor: Colors.grey,
               child: Text(contact["letter"]),
           ),
-          title: addContactDetails(
-          contactletter: contact["letter"],
+          title: AddContactDetails(
+
+          contactLetter: contact["letter"],
           contactName: contact["name"],
-          contactPhone: contact["phone"],),
+          contactPhone: contact["phone"],
+          ),
             // leading: SizedBox(
             //   width: MediaQuery.of(context).size.width * 0.8,
             //   child: Row(

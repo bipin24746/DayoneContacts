@@ -1,6 +1,7 @@
+import 'package:dayonecontacts/features/invite_guest/widgets/addManuallyRefractored/SplashScreen.dart';
+import 'package:dayonecontacts/main_home_screen/pages/main_home_screen.dart';
 import 'package:flutter/material.dart';
 
-import 'pages/widgets/addManuallyRefractored/SplashScreen.dart';
 
 
 
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const SplashScreen(
+      home: const MainHomeScreen(
 
       ),
     );

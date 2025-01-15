@@ -1,9 +1,10 @@
-import 'package:dayonecontacts/pages/widgets/addManuallyRefractored/ContactCard.dart';
+import 'package:dayonecontacts/features/invite_guest/widgets/addManuallyRefractored/ContactCard.dart';
+import 'package:dayonecontacts/features/invite_guest/widgets/addManuallyRefractored/VisitorList.dart';
+import 'package:dayonecontacts/features/invite_guest/widgets/addManuallyRefractored/nameFromField.dart';
+import 'package:dayonecontacts/features/invite_guest/widgets/addManuallyRefractored/numberFormField.dart';
 
-import 'package:dayonecontacts/pages/widgets/addManuallyRefractored/SubmitButton.dart';
-import 'package:dayonecontacts/pages/widgets/addManuallyRefractored/VisitorList.dart';
-import 'package:dayonecontacts/pages/widgets/addManuallyRefractored/nameFromField.dart';
-import 'package:dayonecontacts/pages/widgets/addManuallyRefractored/numberFormField.dart';
+
+import 'package:dayonecontacts/common/widgets/SubmitButton.dart';
 
 import 'package:flutter/material.dart';
 
@@ -77,7 +78,7 @@ class _AddManuallyState extends State<AddManually> {
           key: _formKey,
           child: Column(
             children: [
-              nameFormFieldWidgets(
+              NameFormFieldWidgets(
                 controller: _nameController,
                 hintText: 'Enter Name',
               ),
@@ -114,7 +115,7 @@ class _AddManuallyState extends State<AddManually> {
               //     keyboardType: TextInputType.number,
               //   ),
               // ),
-              SubmitButton(
+              CustomButton(
                 isFormValid: _isFormValid,
                 submitForm: () {
                   _submitForm();

@@ -1,3 +1,4 @@
+import 'package:dayonecontacts/common/widgets/common_avatar_widget.dart';
 import 'package:flutter/material.dart';
 
 class ContactCard extends StatelessWidget {
@@ -5,7 +6,7 @@ class ContactCard extends StatelessWidget {
   final String numbers;
   final bool isSelected;
   final VoidCallback onToggleSelection;
-  const ContactCard({super.key, required this.name, required this.numbers, required this.isSelected, required this.onToggleSelection});
+  const ContactCard({super.key, required this.name, required this.numbers, required this.isSelected, required this.onToggleSelection,});
 
   @override
   Widget build(BuildContext context) {
@@ -31,21 +32,7 @@ class ContactCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    CircleAvatar(
-                      child: Text(
-                        name[0],
-                        style: TextStyle(
-                          color: isSelected
-                              ? Colors.orange
-                              : Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      radius: 22,
-                      backgroundColor: isSelected
-                          ? Colors.white
-                          : Colors.grey,
-                    ),
+                    CustomCircleAvatar(isSelected: isSelected, name: name,),
                     const SizedBox(height: 8),
                     Center(
                       child: Text(

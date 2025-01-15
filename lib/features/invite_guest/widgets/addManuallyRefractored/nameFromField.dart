@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class nameFormFieldWidgets extends StatelessWidget {
-  const nameFormFieldWidgets({super.key,
+class NameFormFieldWidgets extends StatelessWidget {
+  const NameFormFieldWidgets({super.key,
  required this.controller,
   required  this.hintText,
     this.keyboardType=TextInputType.text,
