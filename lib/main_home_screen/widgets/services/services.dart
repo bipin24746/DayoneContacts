@@ -7,7 +7,7 @@ class ServicesHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 500,
+      height: 300,
       width: 330,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,23 +40,22 @@ class ServicesHome extends StatelessWidget {
                 mainAxisSpacing: 10, // Space between rows
               ),
               itemCount: serviceLists.length,
+              physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 final service = serviceLists[index];
                 return Container(
                   width: 50,
                   height: 100,
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      border: Border.all(),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(service["icon"]),
-                        Text(service['serviceName']),
-                      ],
-                    ),
+                  decoration: BoxDecoration(
+                    border: Border.all(),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(service["icon"]),
+                      Text(service['serviceName']),
+                    ],
                   ),
                 );
               },

@@ -1,4 +1,6 @@
+import 'package:dayonecontacts/main_home_screen/widgets/current_notices/current_notices_home.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/navbar/home_navbar.dart';
+import 'package:dayonecontacts/main_home_screen/widgets/personal_staff/personal_staff.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/services/services.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/visitors_list/home_visitors.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +23,10 @@ backgroundColor: Colors.white,
           children: [
 
             HomeVisitors(),
-        ServicesHome()
+            ServicesHome(),
+            PersonalStaffHome(),
+            SizedBox(height: 30,),
+            CurrentNoticesHome()
           ],
         ),
       ),
