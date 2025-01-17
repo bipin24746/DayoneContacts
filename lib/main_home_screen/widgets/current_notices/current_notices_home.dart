@@ -6,7 +6,7 @@ class CurrentNoticesHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 600,
+      height: 550,
       color: Colors.orangeAccent.withOpacity(0.1),
       child: Padding(
         padding: const EdgeInsets.all(18.0),
