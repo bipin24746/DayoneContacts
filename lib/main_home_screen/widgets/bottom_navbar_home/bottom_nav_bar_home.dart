@@ -1,4 +1,4 @@
-import 'package:dayonecontacts/main_home_screen/pages/home_screen.dart';
+import 'package:dayonecontacts/main_home_screen/pages/home_screen_pages/home_screen.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/navbar/home_navbar.dart';
 import 'package:flutter/material.dart';
 
