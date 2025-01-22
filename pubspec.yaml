@@ -43,6 +43,7 @@ dependencies:
   dio: ^5.7.0
   flutter_otp_text_field: ^1.4.0+2
   flutter_timer_countdown: ^1.0.7
+  fluttertoast: ^8.2.10
 
 dev_dependencies:
   flutter_test:

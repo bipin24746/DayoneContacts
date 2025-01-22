@@ -1,21 +1,30 @@
 import 'dart:async';
+import 'dart:developer';
 
+import 'package:dayonecontacts/main_home_screen/pages/home_screen_pages/home_screen.dart';
+import 'package:dayonecontacts/main_home_screen/pages/login_pages/widgets/api_modules/otp_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 
 class OtpVerificationPage extends StatefulWidget {
+
   final String number;
-  const OtpVerificationPage({super.key, required this.number});
+  final String hash;
+  final String deviceId;
+  final String fcmToken;
+  const OtpVerificationPage({super.key, required this.number, required this.hash, required this.deviceId, required this.fcmToken});
 
   @override
   State<OtpVerificationPage> createState() => _OtpVerificationPageState();
 }
 
 class _OtpVerificationPageState extends State<OtpVerificationPage> {
-  TextEditingController NumField = TextEditingController();
-  int _remainingtime = 10;
+
+
+  int _remainingtime = 30;
   late Timer _timer;
+ final  TextEditingController  _otp = TextEditingController();
 
   @override
   void initState() {
@@ -27,9 +36,53 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
       });
     });
   }
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  Future<dynamic> _verifyOtp() async {
+    log('otp log $_otp');
+    if (_otp.text.length !=6
+    ) {
+      // Show an error message if OTP is not 6 characters
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Please enter a valid 6-digit OTP")),
+      );
+      return;
+    }
+
+    try {
+       await OtpApi().verifyOtp(
+        _otp.text,
+        widget.number,
+        widget.hash,
+        widget.deviceId,
+        widget.fcmToken,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("OTP verified successfullyss")),
+      );
+
+      // Navigate to the homepage
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreenMain()),
+      );
+    } catch (e) {
+      print("error");
+      log(e.toString());
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString())),
+      );
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
@@ -71,12 +124,16 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             OtpTextField(
+
               mainAxisAlignment: MainAxisAlignment.start,
               fieldHeight: 40,
               numberOfFields: 6,
               borderColor: Colors.black,
               showFieldAsBox: true,
-              onCodeChanged: (String code) {},
+
+              onCodeChanged: (String code) {
+                _otp.text = _otp.text + code;
+              },
             ),
             SizedBox(
               height: 10,
@@ -111,7 +168,10 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
           height: 50,
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
-            onPressed: () {},
+            onPressed: () {
+
+              _verifyOtp();
+            },
             child: Text(
               "Continue",
               style: TextStyle(

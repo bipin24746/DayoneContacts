@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 class ApiService{
   final Dio _dio =Dio();
@@ -11,6 +13,7 @@ Future<Map<String,dynamic>> login(String contact) async{
     );
 
     if(response.statusCode == 200){
+      log('response of mobile number : ${response.data}');
       return response.data;
     }
     else{

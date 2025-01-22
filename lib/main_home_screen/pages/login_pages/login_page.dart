@@ -13,6 +13,8 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _numberController = TextEditingController();
 
   bool isNumFieldValid = false;
+
+  @override
   void initState() {
     super.initState();
     _numberController.addListener(_numberValidate);
@@ -103,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                         decoration: InputDecoration(
                           labelText: "Mobile Number",
                           floatingLabelStyle:
-                              const TextStyle(color: Colors.black),
+                          const TextStyle(color: Colors.black),
                           focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
                               color: Colors.black,
@@ -112,8 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                              color: Colors
-                                  .black, // The border color when not focused
+                              color: Colors.black,
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -132,8 +133,7 @@ class _LoginPageState extends State<LoginPage> {
         padding: EdgeInsets.only(
           left: 15.0,
           right: 15.0,
-          bottom: MediaQuery.of(context).viewInsets.bottom +
-              15, // Adjust padding based on keyboard
+          bottom: MediaQuery.of(context).viewInsets.bottom + 15, // Adjust padding based on keyboard
         ),
         child: SizedBox(
           height: 50,
@@ -141,30 +141,25 @@ class _LoginPageState extends State<LoginPage> {
             style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
             onPressed: isNumFieldValid
                 ? () async {
-                    try {
-                      ApiService apiService = ApiService();
-                      final response =
-                          await apiService.login(_numberController.text);
-                      if (response['success']) {
-                        print("Sucessed");
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Successful")));
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => OtpVerificationPage(
-                                number: _numberController.text)));
-                      }
-                    } catch (e) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Failed to send otp")));
-                      print("failed");
-                    }
-                    // {
-                    //   // Navigator.of(context).push(
-                    //   //   MaterialPageRoute(
-                    //   //     builder: (context) =>
-                    //   //         OtpVerificationPage(number: _numberController.text),
-                    //   //   ),
-                    //   // );
-                    // }
-                  }
+              try {
+                ApiService apiService = ApiService();
+                final response = await apiService.login(_numberController.text);
+                if (response['success']) {
+                  print("Success");
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Successful")));
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => OtpVerificationPage(
+                      number: _numberController.text,
+                      hash: '',
+                      fcmToken: '',
+                      deviceId: '',
+                    ),
+                  ));
+                }
+              } catch (e) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Failed to send otp")));
+              }
+            }
                 : null,
             child: const Text(
               "Continue",
