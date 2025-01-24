@@ -1,6 +1,8 @@
-import 'package:dayonecontacts/main_home_screen/pages/login_pages/otp_verification.dart';
-import 'package:dayonecontacts/main_home_screen/pages/login_pages/widgets/api_modules/modules.dart';
+import 'package:dayonecontacts/main_home_screen/pages/login_pages/widgets/api_response/login_response.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'otp_verification.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -10,20 +12,20 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController _numberController = TextEditingController();
-
+  final TextEditingController phoneController = TextEditingController();
+  bool isLoading = false;
   bool isNumFieldValid = false;
 
   @override
   void initState() {
     super.initState();
-    _numberController.addListener(_numberValidate);
+    phoneController.addListener(_numberValidate);
   }
 
   void _numberValidate() {
-    final isValid = _numberController.text.isNotEmpty &&
-        int.tryParse(_numberController.text) != null &&
-        _numberController.text.length == 10;
+    final isValid = phoneController.text.isNotEmpty &&
+        int.tryParse(phoneController.text) != null &&
+        phoneController.text.length == 10;
 
     if (isNumFieldValid != isValid) {
       setState(() {
@@ -34,8 +36,53 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void dispose() {
-    _numberController.dispose();
+    phoneController.dispose();
     super.dispose();
+  }
+
+  Future<void> sendOtp() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    final url = Uri.parse('https://housing-stagingserver.aitc.ai/api/v1/client/auth');
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'contact': phoneController.text}),
+    );
+
+    setState(() {
+      isLoading = false;
+    });
+
+    if (response.statusCode == 200) {
+      final responseData = jsonDecode(response.body);
+      final loginResponse = LoginResponse.fromJson(responseData);
+
+      if (loginResponse.success) {
+        print('OTP sent successfully: ${loginResponse.data!.otp}');
+        print('Hash: ${loginResponse.data!.hash}');
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => OtpVerificationPage(
+              phone: loginResponse.data!.phone,
+              hash: loginResponse.data!.hash,
+            ),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(loginResponse.message)),
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to send OTP. Please try again.')),
+      );
+    }
   }
 
   @override
@@ -101,7 +148,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     Expanded(
                       child: TextFormField(
-                        controller: _numberController,
+                        controller: phoneController,
                         decoration: InputDecoration(
                           labelText: "Mobile Number",
                           floatingLabelStyle:
@@ -133,33 +180,14 @@ class _LoginPageState extends State<LoginPage> {
         padding: EdgeInsets.only(
           left: 15.0,
           right: 15.0,
-          bottom: MediaQuery.of(context).viewInsets.bottom + 15, // Adjust padding based on keyboard
+          bottom: MediaQuery.of(context).viewInsets.bottom + 15,
         ),
         child: SizedBox(
           height: 50,
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
             onPressed: isNumFieldValid
-                ? () async {
-              try {
-                ApiService apiService = ApiService();
-                final response = await apiService.login(_numberController.text);
-                if (response['success']) {
-                  print("Success");
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Successful")));
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => OtpVerificationPage(
-                      number: _numberController.text,
-                      hash: '',
-                      fcmToken: '',
-                      deviceId: '',
-                    ),
-                  ));
-                }
-              } catch (e) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Failed to send otp")));
-              }
-            }
+                ? sendOtp
                 : null,
             child: const Text(
               "Continue",
