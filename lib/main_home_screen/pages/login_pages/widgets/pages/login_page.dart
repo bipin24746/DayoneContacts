@@ -1,4 +1,5 @@
 import 'package:dayonecontacts/main_home_screen/pages/login_pages/widgets/api_response/login_response.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -13,7 +14,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController phoneController = TextEditingController();
-  bool isLoading = false;
+  // bool isLoading = false;
   bool isNumFieldValid = false;
 
   @override
@@ -41,46 +42,60 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> sendOtp() async {
-    setState(() {
-      isLoading = true;
-    });
+    // Dio instance
+    Dio dio = Dio();
 
-    final url = Uri.parse('https://housing-stagingserver.aitc.ai/api/v1/client/auth');
-    final response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'contact': phoneController.text}),
-    );
+    final url = 'https://housing-stagingserver.aitc.ai/api/v1/client/auth';
 
-    setState(() {
-      isLoading = false;
-    });
+    // Set the request headers
+    dio.options.headers = {
+      'Content-Type': 'application/json',
+    };
 
-    if (response.statusCode == 200) {
-      final responseData = jsonDecode(response.body);
-      final loginResponse = LoginResponse.fromJson(responseData);
+    try {
+      // Send POST request using dio
+      final response = await dio.post(
+        url,
+        data: jsonEncode({'contact': phoneController.text}),
+      );
 
-      if (loginResponse.success) {
-        print('OTP sent successfully: ${loginResponse.data.otp}');
-        print('Hash: ${loginResponse.data.hash}');
+      // Check if the response status code is 200 (Success)
+      if (response.statusCode == 200) {
+        // Decode the response data
+        final responseData = response.data;
 
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => OtpVerificationPage(
-              phone: loginResponse.data.phone,
-              hash: loginResponse.data.hash,
+        // Parse the response data to LoginResponse model
+        final loginResponse = LoginResponse.fromJson(responseData);
+
+        if (loginResponse.success) {
+          print('OTP sent successfully: ${loginResponse.data.otp}');
+          print('Hash: ${loginResponse.data.hash}');
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => OtpVerificationPage(
+                phone: loginResponse.data.phone,
+                hash: loginResponse.data.hash,
+              ),
             ),
-          ),
-        );
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(loginResponse.message)),
+          );
+        }
       } else {
+        // Handle server error if statusCode isn't 200
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(loginResponse.message)),
+          SnackBar(content: Text('Failed to send OTP. Please try again.')),
         );
       }
-    } else {
+    } catch (e) {
+      // Handle any errors during the request (network, timeout, etc.)
+      print('Error: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to send OTP. Please try again.')),
+        SnackBar(content: Text('Something went wrong. Please try again.')),
       );
     }
   }
