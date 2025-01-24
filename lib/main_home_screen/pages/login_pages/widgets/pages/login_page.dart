@@ -61,15 +61,15 @@ class _LoginPageState extends State<LoginPage> {
       final loginResponse = LoginResponse.fromJson(responseData);
 
       if (loginResponse.success) {
-        print('OTP sent successfully: ${loginResponse.data!.otp}');
-        print('Hash: ${loginResponse.data!.hash}');
+        print('OTP sent successfully: ${loginResponse.data.otp}');
+        print('Hash: ${loginResponse.data.hash}');
 
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => OtpVerificationPage(
-              phone: loginResponse.data!.phone,
-              hash: loginResponse.data!.hash,
+              phone: loginResponse.data.phone,
+              hash: loginResponse.data.hash,
             ),
           ),
         );
