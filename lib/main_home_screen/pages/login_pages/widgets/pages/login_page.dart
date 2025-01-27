@@ -49,23 +49,28 @@ class _LoginPageState extends State<LoginPage> {
 
     // Set the request headers
     dio.options.headers = {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json', //sending the data in json format.
     };
 
     try {
       // Send POST request using dio
       final response = await dio.post(
         url,
-        data: jsonEncode({'contact': phoneController.text}),
+        data: jsonEncode  //encode the phone number into a json string, which is necessary for the request body.
+
+          ({'contact':
+        phoneController.text //entered phone number sent to server as the value of contact field in json body.
+
+          }),
       );
 
       // Check if the response status code is 200 (Success)
       if (response.statusCode == 200) {
         // Decode the response data
-        final responseData = response.data;
+        final responseData = response.data; //contains the response of body which is in json format.
 
         // Parse the response data to LoginResponse model
-        final loginResponse = LoginResponse.fromJson(responseData);
+        final loginResponse = LoginResponse.fromJson(responseData); // Decoding the response using LoginResponse.fromJson(responseData), which maps the response data to loginresponsemodel.
 
         if (loginResponse.success) {
           print('OTP sent successfully: ${loginResponse.data.otp}');

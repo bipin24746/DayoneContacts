@@ -28,6 +28,7 @@ class OtpResponse {
 }
 
 class Data {
+  //contains the accessToken and refreshToken, which are used for authentication after a successful otp verification.
   String accessToken;
   String refreshToken;
 

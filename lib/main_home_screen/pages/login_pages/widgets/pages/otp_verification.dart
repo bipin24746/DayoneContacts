@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:http/http.dart' as http;
 
 class OtpVerificationPage extends StatefulWidget {
+  //phone and hash are passed from the previous page(where user entered their phone number and received the OTP).
   final String phone;
   final String hash;
 
@@ -32,7 +33,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
   void initState() {
     super.initState();
     _startTimer();
-  // _checkForExistingToken();
+
 
   }
 
@@ -69,13 +70,19 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
       return;
     }
 
+
+//preparing the data that will be sent to the server to verify the otp.
+
+    //endpoint where otp verification request is sent
     final url =
         'https://housing-stagingserver.aitc.ai/api/v1/client/otp/verify';
+
+    //requestbody : a map that holds the data we're sending to the server.
     final requestBody = {
-      'hash': widget.hash,
-      'otp': otp,
-      'phone': widget.phone,
-      'deviceType': 'android',
+      'hash': widget.hash, //a unique hash which receiver during the OTP sending process, it is used by the server to associate the otp with the correct request.
+      'otp': otp, //otp entered by the user.
+      'phone': widget.phone, //the phone number on which the otp was sent, which is also passed from the previous screen.
+      'deviceType': 'android', // specifies the device type.
       //these are optional may be
       'deviceId': '04762b6a13fe52fb',
       'fcmToken':
@@ -83,15 +90,19 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
     };
 
     try {
+
+      //dio library used to make an HTTP POST request to the server.
       final response = await _dio.post(
-        url,
-        data: jsonEncode(requestBody),
+        url, //endpoint to send request
+        data: jsonEncode(requestBody), //requestbody is encoded into json format(jsonencoded(requestbody)), because the server expects data in json format.
+
+        // request headers are set to specify that the data being sent is in JSON format ('Content-Type': 'application/json').
         options: Options(
-          headers: {'Content-Type': 'application/json'},
+          headers: {'Content-Type': 'application/json'},//sending the data into json format.
         ),
       );
       if (response.statusCode == 201) {
-        final responseData = response.data;
+        final responseData = response.data; //if status code is 201. the response data extracted into responseData.this data will be in form of json and contains the result of the otp verification.
 
         final otpResponse = OtpResponse.fromJson(responseData);
 
@@ -100,8 +111,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
         if (otpResponse.success) {
           //save token to sharedpreferences
           final prefs = await SharedPreferences.getInstance();
-          // await prefs.setString('authToken', otpResponse.token);
-          // print('Token saved: ${otpResponse.token}');
+
           final String? accessToken = otpResponse.data.accessToken;
 
           if (accessToken != null && accessToken.isNotEmpty) {
@@ -123,6 +133,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
             SnackBar(content: Text(otpResponse.message)),
           );
           Navigator.pushReplacement(
+
             context,
             MaterialPageRoute(builder: (context) => const HomeScreenMain()),
           );
