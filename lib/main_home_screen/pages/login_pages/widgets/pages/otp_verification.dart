@@ -5,6 +5,7 @@ import 'package:dayonecontacts/main_home_screen/pages/login_pages/widgets/api_re
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:http/http.dart' as http;
 
 class OtpVerificationPage extends StatefulWidget {
@@ -31,7 +32,11 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
   void initState() {
     super.initState();
     _startTimer();
+  // _checkForExistingToken();
+
   }
+
+
 
   void _startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -51,6 +56,8 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
     _otpController.dispose();
     super.dispose();
   }
+
+
 
   Future<void> _verifyOtp() async {
     final String otp = _otpController.text.trim();
@@ -88,7 +95,30 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
 
         final otpResponse = OtpResponse.fromJson(responseData);
 
+
+        print('Mapped Model: $responseData');
         if (otpResponse.success) {
+          //save token to sharedpreferences
+          final prefs = await SharedPreferences.getInstance();
+          // await prefs.setString('authToken', otpResponse.token);
+          // print('Token saved: ${otpResponse.token}');
+          final String? accessToken = otpResponse.data.accessToken;
+
+          if (accessToken != null && accessToken.isNotEmpty) {
+            // Save the accessToken to SharedPreferences
+            final prefs = await SharedPreferences.getInstance();
+
+            await prefs.setString('authToken', accessToken);
+            // Save the token
+            final authtoken = prefs.getString('authToken');
+            print('accesstoken:$accessToken');
+            print('Token saved: $accessToken');
+
+          } else {
+            // Handle the case where accessToken is null or empty
+            print('Access token is null or empty, cannot save');
+          }
+
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(otpResponse.message)),
           );

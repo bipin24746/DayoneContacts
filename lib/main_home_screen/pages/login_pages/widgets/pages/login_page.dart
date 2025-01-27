@@ -1,7 +1,7 @@
 import 'package:dayonecontacts/main_home_screen/pages/login_pages/widgets/api_response/login_response.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'otp_verification.dart';
 
@@ -167,7 +167,7 @@ class _LoginPageState extends State<LoginPage> {
                         decoration: InputDecoration(
                           labelText: "Mobile Number",
                           floatingLabelStyle:
-                          const TextStyle(color: Colors.black),
+                              const TextStyle(color: Colors.black),
                           focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
                               color: Colors.black,
@@ -201,9 +201,7 @@ class _LoginPageState extends State<LoginPage> {
           height: 50,
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
-            onPressed: isNumFieldValid
-                ? sendOtp
-                : null,
+            onPressed: isNumFieldValid ? sendOtp : null,
             child: const Text(
               "Continue",
               style: TextStyle(

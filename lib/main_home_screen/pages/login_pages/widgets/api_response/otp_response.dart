@@ -3,6 +3,7 @@ class OtpResponse {
   String message;
   Data data;
 
+
   OtpResponse({
     required this.success,
     required this.message,
