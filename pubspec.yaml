@@ -45,6 +45,10 @@ dependencies:
   flutter_timer_countdown: ^1.0.7
   fluttertoast: ^8.2.10
   shared_preferences: ^2.4.0
+  equatable: ^2.0.7
+  dartz: ^0.10.1
+  flutter_bloc: ^9.0.0
+  bloc: ^9.0.0
 
 
 dev_dependencies:
