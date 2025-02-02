@@ -4,6 +4,7 @@ import 'package:dayonecontacts/main_home_screen/widgets/current_notices/clean_co
 import 'package:dayonecontacts/main_home_screen/widgets/current_notices/clean_code/domain/use_case/get_notices.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/current_notices/clean_code/presentation/bloc/notice_bloc.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/current_notices/clean_code/presentation/pages/current_notices.dart';
+import 'package:dayonecontacts/main_home_screen/widgets/current_notices/current_notices_home.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/ongoing_polls/ongoing_polls.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/personal_staff/personal_staff.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/services/services.dart';
@@ -23,6 +24,7 @@ class HomeScreenMain extends StatelessWidget {
           HomeVisitors(),
           ServicesHome(),
           PersonalStaffHome(),
+          CurrentNoticesHome(),
           const SizedBox(height: 30),
           BlocProvider(
             create: (context) => NoticeBloc(
