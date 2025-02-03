@@ -2,14 +2,12 @@ import 'package:dartz/dartz.dart';
 import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_code_login/data/models/login_response.dart';
 import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_code_login/domain/repositories/auth_repository.dart';
 
-class LoginUseCase {
-  final AuthRepository authRepository;
+class OtpUseCase {
+  final AuthRepository repository;
 
-  // Constructor
-  LoginUseCase(this.authRepository);
+  OtpUseCase(this.repository);
 
-  // Login method
-  Future<Either<String, LoginResponse>> login(String phoneNumber) async {
-    return await authRepository.login(phoneNumber);
+  Future<Either<String, LoginResponse>> verifyOtp(String phone, String otp, String hash) {
+    return repository.verifyOtp(phone, otp, hash);
   }
 }

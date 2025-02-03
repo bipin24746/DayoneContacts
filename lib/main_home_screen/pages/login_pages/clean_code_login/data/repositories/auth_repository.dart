@@ -1,34 +1,38 @@
 import 'package:dartz/dartz.dart';
 import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_code_login/core/network/api_client.dart';
+import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_code_login/data/models/login_response.dart';
+import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_code_login/domain/repositories/auth_repository.dart';
 
-
-class AuthRepository {
+class AuthRepositoryImpl implements AuthRepository {
   final ApiClient apiClient;
 
-  AuthRepository({required this.apiClient});
+  AuthRepositoryImpl({required this.apiClient});
 
-  /// Login request using phone number
-  /// Returns → Either<String, Map<String, dynamic>>
-  Future<Either<String, Map<String, dynamic>>> login(String phoneNumber) async {
+  @override
+  Future<Either<String, LoginResponse>> login(String phoneNumber) async {
     try {
       final response = await apiClient.postRequest(
-        '/auth', // Automatically appends to base URL
-        {'phone_number': phoneNumber},
+        '/auth',
+        {'contact': phoneNumber},
       );
-      return Right(response);
+
+      final loginResponse = LoginResponse.fromJson(response);
+      return Right(loginResponse);
     } catch (e) {
       return Left(e.toString());
     }
   }
 
-  /// OTP verification request
-  Future<Either<String, Map<String, dynamic>>> verifyOtp(String phoneNumber, String otp) async {
+  @override
+  Future<Either<String, LoginResponse>> verifyOtp(String phoneNumber, String otp, String hash) async {
     try {
       final response = await apiClient.postRequest(
         '/otp/verify',
-        {'phone_number': phoneNumber, 'otp': otp},
+        {'phone_number': phoneNumber, 'otp': otp, 'hash': hash},
       );
-      return Right(response);
+
+      final otpResponse = LoginResponse.fromJson(response);
+      return Right(otpResponse);
     } catch (e) {
       return Left(e.toString());
     }

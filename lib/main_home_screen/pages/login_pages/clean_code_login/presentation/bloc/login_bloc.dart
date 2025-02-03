@@ -1,41 +1,25 @@
 import 'package:bloc/bloc.dart';
-import 'package:dio/dio.dart';
-import 'login_event.dart';
-import 'login_state.dart';
+import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_code_login/domain/usecases/login_usecase.dart';
+import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_code_login/presentation/bloc/login_event.dart';
+import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_code_login/presentation/bloc/login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  final Dio _dio = Dio(); // Creating Dio instance for API calls
+  final LoginUseCase loginUseCase;
 
-  LoginBloc() : super(LoginInitial()) {
-    on<LoginRequestOtp>((event, emit) async {
-      emit(LoginLoading()); // Set state to loading
+  LoginBloc({required this.loginUseCase}) : super(LoginInitial());
 
-      try {
-        final response = await _dio.post(
-          'https://housing-stagingserver.aitc.ai/api/v1/client/auth',
-          data: {'contact': event.phoneNumber},
-          options: Options(headers: {'Content-Type': 'application/json'}),
-        );
+  @override
+  @override
+  Stream<LoginState> mapEventToState(LoginEvent event) async* {
+    if (event is LoginRequestOtp) {
+      yield LoginLoading();
+      final result = await loginUseCase.login(event.phoneNumber);
 
-        if (response.statusCode == 200) {
-          final responseData = response.data;
-          final success = responseData['success'];
-          final message = responseData['message'];
-
-          if (success) {
-            emit(LoginSuccess(
-              phone: responseData['data']['phone'],
-              hash: responseData['data']['hash'],
-            ));
-          } else {
-            emit(LoginFailure(message));
-          }
-        } else {
-          emit(LoginFailure("Failed to send OTP. Please try again."));
-        }
-      } catch (e) {
-        emit(LoginFailure("Something went wrong. Please check your network."));
-      }
-    });
+      result.fold(
+            (failure) => emit(LoginFailure(error: failure)),
+            (loginResponse) => emit(LoginSuccess(loginResponse: loginResponse)),
+      );
+    }
   }
+
 }

@@ -1,28 +1,34 @@
+// lib/main_home_screen/pages/login_pages/clean_code_login/core/network/api_client.dart
+
 import 'package:dio/dio.dart';
 
 class ApiClient {
-  final Dio dio;
+  final Dio _dio;
 
-  ApiClient()
-      : dio = Dio(BaseOptions(
-    baseUrl: "https://housing-stagingserver.aitc.ai/api/v1/client", // Set the base URL
-    connectTimeout: const Duration(seconds: 10), // Set connection timeout
-    receiveTimeout: const Duration(seconds: 10), // Set response timeout
-  ));
+  ApiClient(this._dio);
 
-  /// Generic method to send a POST request
-  Future<Map<String, dynamic>> postRequest(String endpoint, Map<String, dynamic> data) async {
+  // Define the login method
+  Future<Map<String, dynamic>> login(String phoneNumber) async {
     try {
-      final response = await dio.post(endpoint, data: data);
+      final response = await _dio.post(
+        'https://your-api-url/login', // Replace with your actual API endpoint
+        data: {'phone_number': phoneNumber},
+      );
 
-      // Ensure the response is a Map<String, dynamic>
-      if (response.data is Map<String, dynamic>) {
+      // Check the response status and return data
+      if (response.statusCode == 200) {
         return response.data;
       } else {
-        throw Exception("Invalid response format");
+        throw Exception('Failed to load login data');
       }
-    } on DioException catch (e) {
-      throw Exception(e.response?.data['message'] ?? "Something went wrong");
+    } catch (e) {
+      throw Exception('Error logging in: ${e.toString()}');
     }
+  }
+
+  // Example of another method to perform a POST request
+  Future<Map<String, dynamic>> postRequest(String endpoint, Map<String, dynamic> data) async {
+    final response = await _dio.post(endpoint, data: data);
+    return response.data;
   }
 }
