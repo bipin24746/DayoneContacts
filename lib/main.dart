@@ -1,3 +1,4 @@
+import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_code_login/presentation/screens/login_screen.dart';
 import 'package:dayonecontacts/main_home_screen/pages/login_pages/widgets/pages/login_page.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/current_notices/clean_code/data/data_sources/notice_remote_datasource.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/current_notices/clean_code/domain/use_case/get_notices.dart';
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-        child: const LoginPage(), // Your main screen
+        child: const LoginScreens(), // Your main screen
       ),
     );
   }
