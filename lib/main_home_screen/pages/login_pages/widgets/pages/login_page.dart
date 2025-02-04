@@ -61,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
           ({'contact':
         phoneController.text //entered phone number sent to server as the value of contact field in json body.
 
-          }),
+        }),
       );
 
       // Check if the response status code is 200 (Success)
@@ -172,7 +172,7 @@ class _LoginPageState extends State<LoginPage> {
                         decoration: InputDecoration(
                           labelText: "Mobile Number",
                           floatingLabelStyle:
-                              const TextStyle(color: Colors.black),
+                          const TextStyle(color: Colors.black),
                           focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
                               color: Colors.black,

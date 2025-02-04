@@ -11,7 +11,7 @@ class ApiClient {
   Future<Map<String, dynamic>> login(String phoneNumber) async {
     try {
       final response = await _dio.post(
-        'https://your-api-url/login', // Replace with your actual API endpoint
+        'https://housing-stagingserver.aitc.ai/api/v1/client/auth', // Replace with your actual API endpoint
         data: {'phone_number': phoneNumber},
       );
 

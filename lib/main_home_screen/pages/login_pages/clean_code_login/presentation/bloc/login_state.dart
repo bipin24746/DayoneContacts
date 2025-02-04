@@ -1,34 +1,34 @@
-// lib/main_home_screen/pages/login_pages/clean_code_login/presentation/bloc/login_state.dart
-import 'package:equatable/equatable.dart';
-import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_code_login/data/models/login_response.dart';  // Import LoginResponse
+part of 'login_bloc.dart';
+
+
 
 abstract class LoginState extends Equatable {
+  const LoginState();
   @override
   List<Object> get props => [];
 }
 
-// Initial state
 class LoginInitial extends LoginState {}
 
-// Loading state
 class LoginLoading extends LoginState {}
 
-// Success state after login
 class LoginSuccess extends LoginState {
-  final LoginResponse loginResponse;  // Store the LoginResponse
+  final LoginResponse loginData;  // Assuming `LoginResponse` is your data type
+  final String phone;
+  final String hash;
 
-  LoginSuccess({required this.loginResponse});
+  const LoginSuccess({
+    required this.loginData,   // Add the loginData parameter
+    required this.phone,
+    required this.hash,
+  });
 
   @override
-  List<Object> get props => [loginResponse];  // Include loginResponse in the props for comparison
+  List<Object> get props => [loginData, phone, hash];
 }
 
-// Failure state
 class LoginFailure extends LoginState {
   final String error;
 
-  LoginFailure({required this.error});
-
-  @override
-  String toString() => error;
+  const LoginFailure({required this.error});
 }

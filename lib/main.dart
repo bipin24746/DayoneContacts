@@ -1,26 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_code_login/presentation/bloc/login_bloc.dart';
-import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_code_login/presentation/screens/login_screen.dart';
-import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_code_login/core/dependency_injection/service_locator.dart';
+import 'package:dio/dio.dart';
+
+import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_login/data/datasources/login_remote_data_source.dart';
+import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_login/data/repositories/login_repository_impl.dart';
+import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_login/domain/domain_usecases/phone_validation_usecase.dart';
+import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_login/domain/domain_usecases/send_otp_usecase.dart';
+import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_login/presentation/bloc/login_bloc.dart';
+import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_login/presentation/screens/login_page.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  init(); // Initialize service locator
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Clean Code Login',
-      theme: ThemeData(primarySwatch: Colors.orange),
       home: BlocProvider(
-        create: (context) => sl<LoginBloc>(),
-        child: LoginScreen(),
+        create: (context) => LoginBloc(
+          sendOtpUseCase: SendOtpUseCase(
+            LoginRepositoryImpl(LoginRemoteDataSourceImpl(Dio())),
+          ),
+          phoneValidationUseCase: PhoneValidationUseCase(),
+        ),
+        child: const LoginPage(),
       ),
     );
   }

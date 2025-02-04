@@ -1,15 +1,14 @@
 import 'package:dartz/dartz.dart';
-import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_code_login/data/models/login_response.dart';
-import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_code_login/domain/repositories/auth_repository.dart';
+import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_code_login/domain/entity/login_entity.dart';
+import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_code_login/domain/repositories/login_repository.dart';
 
 class LoginUseCase {
-  final AuthRepository authRepository;
+  final LoginRepository loginRepository;
 
-  // Constructor
-  LoginUseCase(this.authRepository);
+  LoginUseCase(this.loginRepository);
 
-  // Login method
-  Future<Either<String, LoginResponse>> login(String phoneNumber) async {
-    return await authRepository.login(phoneNumber);
+  // Assuming you have a method for request OTP or login
+  Future<LoginEntity> call(String phoneNumber) {
+    return loginRepository.requestOtp(phoneNumber);
   }
 }

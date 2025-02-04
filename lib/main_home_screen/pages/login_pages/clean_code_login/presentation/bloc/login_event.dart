@@ -1,16 +1,15 @@
-import 'package:equatable/equatable.dart';
+part of 'login_bloc.dart';
 
-// Abstract class for all events
 abstract class LoginEvent extends Equatable {
   const LoginEvent();
-
   @override
   List<Object> get props => [];
 }
 
-// Event when the user requests an OTP
 class LoginRequestOtp extends LoginEvent {
   final String phoneNumber;
-  LoginRequestOtp({required this.phoneNumber});
-}
+  const LoginRequestOtp({required this.phoneNumber});
 
+  @override
+  List<Object> get props => [phoneNumber];
+}
