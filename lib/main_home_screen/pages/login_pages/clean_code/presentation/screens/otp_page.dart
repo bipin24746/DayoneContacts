@@ -7,6 +7,7 @@ class OtpPage extends StatefulWidget {
   final String hash;
   final String otp;
   final String phoneNo;
+
   const OtpPage({
     Key? key,
     required this.hash,
@@ -78,7 +79,8 @@ class _OtpPageState extends State<OtpPage> {
             const Text("OTP VERIFICATION",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
             const Text("Please enter the 6-digit code sent via SMS to"),
-            Text('+977 ', style: const TextStyle(fontWeight: FontWeight.bold)),
+            Text('+977 ${widget.phoneNo}',
+                style: const TextStyle(fontWeight: FontWeight.bold)),
             OtpTextField(
               mainAxisAlignment: MainAxisAlignment.start,
               numberOfFields: 6,
