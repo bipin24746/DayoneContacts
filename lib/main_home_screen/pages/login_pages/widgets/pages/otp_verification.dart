@@ -12,12 +12,12 @@ class OtpVerificationPage extends StatefulWidget {
   //phone and hash are passed from the previous page(where user entered their phone number and received the OTP).
   final String phone;
   final String hash;
-  final String otp;
+
 
   const OtpVerificationPage({
     Key? key,
     required this.phone,
-    required this.hash,  required this.otp,
+    required this.hash,
   }) : super(key: key);
 
   @override
