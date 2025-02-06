@@ -10,8 +10,8 @@ class AuthModel extends AuthEntity {
     // countryCode: json["countryCode"] as int,
   );
 
-  Map<String, dynamic> toJson() => {
-    'phone_number': int.tryParse(phoneNo),
-    // "country_code": countryCode,
-  };
+  // Map<String, dynamic> toJson() => {
+  //   'phone_number': int.tryParse(phoneNo),
+  //   // "country_code": countryCode,
+  // };
 }

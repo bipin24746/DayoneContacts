@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_code/core/shared_prefs_const.dart';
 import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_code/domain/entity/login_entity/auth_entity.dart';
 import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_code/domain/entity/login_entity/auth_response_entity.dart';
 import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_code/domain/usecases/auth_usecase.dart';

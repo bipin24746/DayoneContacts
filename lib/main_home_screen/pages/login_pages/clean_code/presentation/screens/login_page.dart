@@ -55,13 +55,22 @@ class _LoginPageState extends State<LoginPage> {
           return BlocListener<AuthBloc, AuthState>(
             listener: (context, state) {
               if (state is AuthSuccessState) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("Otp Sent Successfully."),
+                  ),
+                );
                 // Navigate to OTP verification page on success
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => OtpPage(
-                      hash: state.authResponseEntity.authResponseDataEntity?.hash ?? '',
-                      otp: state.authResponseEntity.authResponseDataEntity?.otp ?? '',
+                      hash: state.authResponseEntity.authResponseDataEntity
+                              ?.hash ??
+                          '',
+                      otp: state
+                              .authResponseEntity.authResponseDataEntity?.otp ??
+                          '',
                       phoneNo: _phoneNoController.text,
                     ),
                   ),
@@ -103,7 +112,8 @@ class _LoginPageState extends State<LoginPage> {
                     children: [
                       Text(
                         "BEGIN YOUR JOURNEY TO HOME",
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16),
                       ),
                       Text(
                         "Please enter your mobile number to create your account.",
@@ -130,13 +140,16 @@ class _LoginPageState extends State<LoginPage> {
                                 controller: _phoneNoController,
                                 decoration: InputDecoration(
                                   labelText: "Mobile Number",
-                                  floatingLabelStyle: const TextStyle(color: Colors.black),
+                                  floatingLabelStyle:
+                                      const TextStyle(color: Colors.black),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.black),
+                                    borderSide:
+                                        const BorderSide(color: Colors.black),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   enabledBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.black),
+                                    borderSide:
+                                        const BorderSide(color: Colors.black),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
@@ -159,16 +172,21 @@ class _LoginPageState extends State<LoginPage> {
                 child: SizedBox(
                   height: 50,
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.orange),
                     onPressed: _isPhoneNumberValid
                         ? () {
-                      // Trigger the event to authenticate the user
-                      context.read<AuthBloc>().add(AuthUserEvent(phoneNo: _phoneNoController.text));
-                    }
+                            // Trigger the event to authenticate the user
+                            context.read<AuthBloc>().add(AuthUserEvent(
+                                phoneNo: _phoneNoController.text));
+                          }
                         : null,
                     child: const Text(
                       "Continue",
-                      style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),

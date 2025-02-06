@@ -1,7 +1,8 @@
+
+
 import 'dart:developer';
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_code/core/shared_prefs_const.dart';
 import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_code/domain/entity/otp_entity/otp_entity.dart';
 import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_code/domain/entity/otp_entity/otp_response_entity.dart';
 import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_code/domain/usecases/otp_use_case.dart';
@@ -12,11 +13,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 part 'otp_verification_event.dart';
 part 'otp_verification_state.dart';
 
-class OtpVerificationBloc
-    extends Bloc<OtpVerificationEvent, OtpVerificationState> {
+class OtpVerificationBloc extends Bloc<OtpVerificationEvent, OtpVerificationState> {
   final OtpUseCase otpUseCase;
 
-  // Constructor accepting OtpUseCase directly
   OtpVerificationBloc({
     required this.otpUseCase,
   }) : super(OtpVerificationInitial()) {
@@ -44,35 +43,51 @@ class OtpVerificationBloc
 
       await otpVerificationUser.fold((failure) {
         log('this is error state ############');
-        // final error = failure as SignInFailure;
-
         emit(
           OtpVerificationErrorState(
-            // errorMessage: error.signInError.message,
-            errorMessage: 'error',
+            errorMessage: 'OTP verification failed: ${failure.message}',
           ),
         );
-      }, (r) async {
-        log('otp response from bloc $r');
-        final prefs = await SharedPreferences.getInstance();
+      }, (response) async {
+        // Logging the complete mapped model
+        log('Mapped Model: $response');
 
-        log('-------hash is now: ${r.otpData}');
+        // Check if OTP is valid (assuming `success` field in response indicates this)
+        if (response.success) {
+          log('OTP verification successful');
 
-        // await prefs.setString(
-        //   SharedPrefConstants.token,
-        //   r.otpData.accessToken,
-        // );
-        //
-        // await prefs.setString(
-        //   SharedPrefConstants.refreshToken,
-        //   r.otpData.refreshToken,
-        // );
-        // await prefs.remove(SharedPrefConstants.hashValue);
-        // emit(
-        //   OtpVerificationSuccessState(
-        //     otpResponse: r,
-        //   ),
-        // );
+          // Access the tokens based on your model's structure
+          final accessToken = response.otpData.accessToken; // <-- Adjusted this line
+          final refreshToken = response.otpData.refreshToken; // <-- Adjusted this line
+
+          // Log the accessToken
+          log('accessToken: $accessToken');
+          log('refreshToken: $refreshToken');
+
+          // Save accessToken and refreshToken to SharedPreferences
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('accessToken', accessToken);
+          await prefs.setString('refreshToken', refreshToken);
+
+          // Log the saved token
+          log('Token saved: $accessToken');
+
+          // Emit success state
+          emit(
+            OtpVerificationSuccessState(
+              otpResponse: response,
+            ),
+          );
+        } else {
+          log('OTP verification failed: Invalid OTP');
+
+          // Emit error state if OTP is invalid
+          emit(
+            OtpVerificationErrorState(
+              errorMessage: 'Invalid OTP entered',
+            ),
+          );
+        }
       });
     }
   }

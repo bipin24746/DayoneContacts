@@ -1,3 +1,4 @@
+
 part of 'otp_verification_bloc.dart';
 
 abstract class OtpVerificationEvent extends Equatable {
