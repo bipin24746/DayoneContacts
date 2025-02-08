@@ -68,7 +68,9 @@ class OtpVerificationBloc extends Bloc<OtpVerificationEvent, OtpVerificationStat
           final prefs = await SharedPreferences.getInstance();
           await prefs.setString('accessToken', accessToken);
           await prefs.setString('refreshToken', refreshToken);
-
+          await prefs.setString('authToken', accessToken);
+          // Save the token
+          final authtoken = prefs.getString('authToken');
           // Log the saved token
           log('Token saved: $accessToken');
 

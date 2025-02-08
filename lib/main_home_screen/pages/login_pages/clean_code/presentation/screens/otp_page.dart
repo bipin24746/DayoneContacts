@@ -28,8 +28,8 @@ class OtpPage extends StatefulWidget {
 class _OtpPageState extends State<OtpPage> {
   TextEditingController _otpVerified = TextEditingController();
   bool _isotpValid = false;
-
   int _remainingTime = 30;
+  String _authToken = ''; // Store the token here
 
   @override
   void initState() {
@@ -53,7 +53,7 @@ class _OtpPageState extends State<OtpPage> {
   void _validateOtp() {
     final isValid = _otpVerified.text.isNotEmpty &&
         int.tryParse(_otpVerified.text) != null &&
-        _otpVerified.text.length == 6; // Correcting length to 6
+        _otpVerified.text.length == 6;
 
     if (_isotpValid != isValid) {
       setState(() {
@@ -66,7 +66,6 @@ class _OtpPageState extends State<OtpPage> {
     setState(() {
       _remainingTime = 30; // Resetting the timer
     });
-    // Implement the logic to resend the OTP here
   }
 
   @override
@@ -142,6 +141,8 @@ class _OtpPageState extends State<OtpPage> {
                     ),
                 ],
               ),
+              SizedBox(height: 20),
+              Text('Auth Token: $_authToken'), // Show the authToken here
             ],
           ),
         ),
@@ -156,6 +157,7 @@ class _OtpPageState extends State<OtpPage> {
                       content: Text("Otp Verified Successfully."),
                     ),
                   );
+
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -179,11 +181,10 @@ class _OtpPageState extends State<OtpPage> {
                         context.read<OtpVerificationBloc>().add(
                               OtpVerificationUserEvent(
                                 phoneNo: widget.phoneNo,
-                                otp: _otpVerified.text, // Using user input OTP
+                                otp: _otpVerified.text,
                                 hash: widget.hash,
                                 fcmToken:
                                     'fhCbQpQSQCKFH5pIXRl8aL:APA91bFQurQq0hivgZGZ3A3QI4IkZojznFPgtskZsvVh16aSnl56JkquQVMddRq3QNSIJe7qv4YlxI7Uv-N_YsxqeYb4_1Wy551BYzCFJCObDXZE-VzLtIhp1iBBy8nv-PyTTKTx1apL', // Replace with actual FCM token
-
                                 deviceId:
                                     '04762b6a13fe52fb', // Replace with actual device ID
                                 deviceType:

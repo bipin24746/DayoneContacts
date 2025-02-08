@@ -26,7 +26,7 @@ class HomeScreenMain extends StatelessWidget {
           HomeVisitors(),
           ServicesHome(),
           PersonalStaffHome(),
-          // CurrentNoticesHome(),
+          CurrentNoticesHome(),
            SizedBox(height: 30),
           BlocProvider(
             create: (context) => NoticeBloc(
