@@ -7,14 +7,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_code/presentation/bloc/login_bloc/auth_bloc.dart';
 import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_code/presentation/screens/otp_page.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class BlocLoginPage extends StatefulWidget {
+  const BlocLoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<BlocLoginPage> createState() => _BlocLoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _BlocLoginPageState extends State<BlocLoginPage> {
   final TextEditingController _phoneNoController = TextEditingController();
   bool _isPhoneNumberValid = false;
 

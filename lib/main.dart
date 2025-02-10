@@ -1,9 +1,6 @@
 
-
-
-
-
-import 'package:dayonecontacts/main_home_screen/pages/home_screen_pages/home_screen.dart';
+// import 'package:dayonecontacts/main_home_screen/pages/home_screen_pages/home_screen.dart';
+// import 'package:dayonecontacts/main_home_screen/pages/login_pages/widgets/pages/login_page.dart';
 import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_code/presentation/screens/login_page.dart';
 import 'package:flutter/material.dart';
 
@@ -23,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const LoginPage(),
+      home: const BlocLoginPage(),
     );
   }
 }
