@@ -36,7 +36,7 @@ class DatumModel extends Datum  {
 
   factory DatumModel.fromJson(Map<String, dynamic> json) {
     return DatumModel(
-      id: json["id"],
+      id: json["id"] as String? ?? '',
       title: json["title"],
       category: json["category"],
       message: json["message"],

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:dayonecontacts/main_home_screen/pages/home_screen_pages/home_screen.dart';
 import 'package:dayonecontacts/main_home_screen/pages/login_pages/widgets/api_response/otp_response.dart';
+import 'package:dayonecontacts/main_home_screen/widgets/current_notices/current_notices_home.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';

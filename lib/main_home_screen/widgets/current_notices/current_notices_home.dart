@@ -16,7 +16,6 @@ class _CurrentNoticesHomeState extends State<CurrentNoticesHome> {
   void initState() {
     super.initState();
     ApiServices().getData();
-
     getData();
   }
 

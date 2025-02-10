@@ -1,4 +1,6 @@
 import 'package:dayonecontacts/main_home_screen/widgets/connect_home/connect_home.dart';
+import 'package:dayonecontacts/main_home_screen/widgets/current_flat/api_data/api_data_current_flat.dart';
+import 'package:dayonecontacts/main_home_screen/widgets/current_flat/current_flat.dart';
 
 import 'package:dayonecontacts/main_home_screen/widgets/current_notices/current_notices_home.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/current_notices/notices_clean_code/data/data_sources/notice_remote_datasource.dart';
@@ -26,7 +28,7 @@ class HomeScreenMain extends StatelessWidget {
           HomeVisitors(),
           ServicesHome(),
           PersonalStaffHome(),
-          // CurrentNoticesHome(),
+          CurrentNoticesHome(),
            SizedBox(height: 30),
           BlocProvider(
             create: (context) => NoticeBloc(
@@ -40,6 +42,7 @@ class HomeScreenMain extends StatelessWidget {
           ),
           OngoingPollsHome(),
           ConnectHomeContainer(),
+          CurrentFlatWidget()
         ],
       ),
     );

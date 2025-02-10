@@ -82,6 +82,10 @@ flutter:
   assets:
     - lib/assets/images/Photu.jpg
     - lib/assets/images/signupimage.png
+    - lib/assets/images/flat_buildings.png
+    - lib/assets/images/red_building.png
+    - lib/assets/images/house.png
+
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
