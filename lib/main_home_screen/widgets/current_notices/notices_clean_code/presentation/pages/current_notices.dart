@@ -25,10 +25,10 @@ class CurrentNoticeHome extends StatelessWidget {
   }
 
   Widget _buildNoticesList(Integration notices) {
-    if (notices.data == null || notices.data.isEmpty) {
-      debugPrint("No notices found!");
+    if (notices.data.isEmpty) {
       return const Center(child: Text('No notices available'));
     }
+
 
     return Container(
       height: 550,

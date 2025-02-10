@@ -1,3 +1,7 @@
+
+
+
+
 import 'package:equatable/equatable.dart';
 
 class Integration extends Equatable {
@@ -11,12 +15,6 @@ class Integration extends Equatable {
 
   @override
   List<Object?> get props => [success, data];
-
-  // ✅ Fix: Add a `toJson()` method
-  Map<String, dynamic> toJson() => {
-    "success": success,
-    "data": data.map((x) => x.toJson()).toList(), // ✅ Fix here
-  };
 }
 
 class Datum extends Equatable {
@@ -38,14 +36,4 @@ class Datum extends Equatable {
 
   @override
   List<Object?> get props => [id, title, category, message, document, createdAt];
-
-  // ✅ Fix: Add a `toJson()` method
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "title": title,
-    "category": category,
-    "message": message,
-    "document": document, // Assuming this is already in JSON-compatible format
-    "createdAt": createdAt.toIso8601String(), // Convert DateTime to String
-  };
 }

@@ -14,25 +14,40 @@ class NoticeRemoteDataSource {
 
   Future<IntegrationModel> getNotices() async {
     // Retrieve the token from SharedPreferences
-    final authtoken = await SharedPrefs.getAuthToken();
+    final authToken = await SharedPrefs.getAuthToken();
 
-    if (authtoken == null) {
+    if (authToken == null) {
       throw Exception('Authentication token not found');
     }
 
+
     final response = await client.get(
-      Uri.parse(ApiConstants.noticeEndpoint),
+      Uri.parse('https://housing-stagingserver.aitc.ai/api/v1/client/notice'),
       headers: {
-        'Authorization': 'Bearer $authtoken', // Use the retrieved token
+        'Authorization': 'Bearer $authToken', // 🔹 Add the token here
+        'Content-Type': 'application/json',
       },
     );
 
+    // Making the HTTP request
+    // final response = await client.get(
+    //   Uri.parse(ApiConstants.noticeEndpoint),
+    //   headers: {
+    //     'Authorization': 'Bearer $authToken', // Use the retrieved token
+    //   },
+    // );
+
     if (response.statusCode == 200) {
+      // Parsing the response data
       final data = json.decode(response.body);
-      log("data from notices:$data");
+      log('Response status: ${response.statusCode}, data: $data');
+
+      // Returning the parsed model
       return IntegrationModel.fromJson(data);
     } else {
-      throw Exception('Failed to load notice');
+      // Log the error response for debugging
+      log('Error response: ${response.body}');
+      throw Exception('Failed to load notice: ${response.statusCode}');
     }
   }
 }

@@ -21,10 +21,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-//
-//
-//
-//
+
 // import 'package:dayonecontacts/main_home_screen/pages/home_screen_pages/home_screen.dart';
 // import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_code/data/data_sources/auth_data_sources.dart';
 // import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_code/data/repositories/auth_repo_impl.dart';

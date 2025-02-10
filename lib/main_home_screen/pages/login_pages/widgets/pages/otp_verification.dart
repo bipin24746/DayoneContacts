@@ -144,7 +144,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
           );
         }
       } else {
-        throw Exception('Failed to verify OTP. Please try again.');
+        throw Exception('it is Failed to verify OTP. Please try again.');
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(

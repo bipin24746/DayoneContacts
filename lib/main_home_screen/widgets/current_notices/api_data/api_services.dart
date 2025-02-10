@@ -13,8 +13,8 @@ class ApiServices {
     final prefs = await SharedPreferences.getInstance();
 
     //retrive the access token from sharedpreferences
-    final authtoken = prefs.getString('authToken');
-    print('auth token in homescreen:$authtoken');
+    final authtoken = prefs.getString('accessToken');
+    print('auth token in homescreen:$accessToken');
 
     //make the GET request with the authorization header
     var response = await http.get(Uri.parse(uri),
