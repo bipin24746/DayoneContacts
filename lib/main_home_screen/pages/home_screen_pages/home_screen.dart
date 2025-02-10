@@ -1,7 +1,5 @@
 import 'package:dayonecontacts/main_home_screen/widgets/connect_home/connect_home.dart';
-import 'package:dayonecontacts/main_home_screen/widgets/current_flat/api_data/api_data_current_flat.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/current_flat/current_flat.dart';
-
 import 'package:dayonecontacts/main_home_screen/widgets/current_notices/current_notices_home.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/current_notices/notices_clean_code/data/data_sources/notice_remote_datasource.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/current_notices/notices_clean_code/data/repositories/notice_repository_impl.dart';
@@ -17,7 +15,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 
 class HomeScreenMain extends StatelessWidget {
-
   const HomeScreenMain({super.key});
 
   @override
@@ -25,11 +22,15 @@ class HomeScreenMain extends StatelessWidget {
     return Scaffold(
       body: ListView(
         children: [
+
           HomeVisitors(),
           ServicesHome(),
           PersonalStaffHome(),
           CurrentNoticesHome(),
-           SizedBox(height: 30),
+
+          SizedBox(height: 30), // Add spacing between widgets
+
+          // BlocProvider for NoticeBloc - provides NoticeBloc to the widget tree
           BlocProvider(
             create: (context) => NoticeBloc(
               getNotices: GetNoticesUsecase(
@@ -38,11 +39,14 @@ class HomeScreenMain extends StatelessWidget {
                 ),
               ),
             )..add(FetchNotices()),
-            child: const CurrentNoticeHome(), // Provide NoticeBloc here
+            child:
+                const CurrentNoticeHome(), // The widget that will use the NoticeBloc
           ),
           OngoingPollsHome(),
+
           ConnectHomeContainer(),
-          CurrentFlatWidget()
+          CurrentFlatUI(),
+
         ],
       ),
     );

@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CurrentFlatApiServices {
-  Future<CurrentFlat?> getData() async {
+  Future<CurrentFlat?> getDataFlat() async {
     var uri = 'https://housing-stagingserver.aitc.ai/api/v1/client/user/currentflat';
 
     final prefs = await SharedPreferences.getInstance();
@@ -21,8 +21,7 @@ class CurrentFlatApiServices {
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = convert.json.decode(response.body);
-
-      return CurrentFlat.fromJson(responseData);  // Parse the response
+      return CurrentFlat.fromJson(responseData);
     } else {
       throw Exception('Failed to load flat data');
     }
