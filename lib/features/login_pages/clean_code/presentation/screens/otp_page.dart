@@ -94,7 +94,9 @@ class _OtpPageState extends State<OtpPage> {
           child: AppBar(
             backgroundColor: Colors.white,
             leading: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pop(context);
+              },
               icon: const Icon(
                 Icons.arrow_back,
                 size: 35,
@@ -141,8 +143,10 @@ class _OtpPageState extends State<OtpPage> {
                       onPressed: _resendOtp,
                       child: const Text("Resend OTP"),
                     ),
+
                 ],
               ),
+              Text("${widget.otp}")
             ],
           ),
         ),

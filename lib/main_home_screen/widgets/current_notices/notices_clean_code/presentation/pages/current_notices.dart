@@ -30,8 +30,12 @@ class CurrentNoticeHome extends StatelessWidget {
       return const Center(child: Text('No notices available'));
     }
 
+    // Calculate height dynamically based on the number of notices
+    double containerHeight = notices.data.length * 200.0 + 100.0; // Adjust item height (200) and extra padding (100)
+
     return Container(
-      height: 550,
+
+      height: containerHeight, // Set dynamic height
       color: Colors.orangeAccent.withOpacity(0.1),
       child: Padding(
         padding: const EdgeInsets.all(18.0),
@@ -79,7 +83,7 @@ class CurrentNoticeHome extends StatelessWidget {
                   final notice = notices.data[index];
                   return Container(
                     width: MediaQuery.of(context).size.width,
-                    height: 200,
+                    height: 170, // Fixed height per item
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(16),
@@ -90,6 +94,7 @@ class CurrentNoticeHome extends StatelessWidget {
                           child: DecoratedBox(
                             decoration: BoxDecoration(
                               color: Colors.black,
+
                               border: Border.all(),
                               borderRadius: BorderRadius.circular(25),
                             ),
@@ -99,8 +104,7 @@ class CurrentNoticeHome extends StatelessWidget {
                               child: Text(
                                 notice.category,
                                 style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
+                                    color: Colors.white, fontWeight: FontWeight.bold),
                               ),
                             ),
                           ),
@@ -155,4 +159,5 @@ class CurrentNoticeHome extends StatelessWidget {
       ),
     );
   }
+
 }

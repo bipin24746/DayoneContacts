@@ -31,7 +31,7 @@ class _CurrentNoticesHomeState extends State<CurrentNoticesHome> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 550,
+      height: 275,
       color: Colors.orangeAccent.withOpacity(0.1),
       child: Padding(
         padding: const EdgeInsets.all(18.0),
@@ -80,7 +80,7 @@ class _CurrentNoticesHomeState extends State<CurrentNoticesHome> {
                   itemBuilder: (context, index) {
                     return Container(
                       width: MediaQuery.of(context).size.width,
-                      height: 200,
+                      height: 150,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(16),

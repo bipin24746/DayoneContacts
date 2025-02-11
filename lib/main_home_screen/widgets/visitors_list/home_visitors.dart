@@ -25,7 +25,7 @@ class _HomeVisitorsState extends State<HomeVisitors> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: isExpanded ? 330 : null,
+      height: isExpanded ? 350 : null,
       decoration: BoxDecoration(
         border: Border.all(),
         borderRadius: BorderRadius.only(
@@ -54,7 +54,8 @@ class _HomeVisitorsState extends State<HomeVisitors> {
                 onPressed: () => _logout(context), // Fixed onPressed
                 child: Row(
                   children: [
-                    Text("View all"),
+                    Text("LogOut"),
+                    // Text("View all"),
                     Icon(Icons.arrow_right),
                   ],
                 ),

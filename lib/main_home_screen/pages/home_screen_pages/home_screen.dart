@@ -34,7 +34,7 @@ class HomeScreenMain extends StatelessWidget {
               HomeVisitors(),
               ServicesHome(),
               PersonalStaffHome(),
-              CurrentNoticesHome(),
+              // CurrentNoticesHome(),
 
               SizedBox(height: 30),
               // Add spacing between widgets

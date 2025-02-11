@@ -3,12 +3,13 @@
 
 
 
+import 'package:dayonecontacts/core/errors/failures.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/current_notices/clean_code/domain/use_case/get_notices.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dartz/dartz.dart';
 import '../../domain/entities/integration.dart';
-import '../../core/error/failures.dart';
+
 
 part 'notice_event.dart';
 part 'notice_state.dart';
