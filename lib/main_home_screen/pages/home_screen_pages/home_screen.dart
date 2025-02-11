@@ -19,36 +19,36 @@ class HomeScreenMain extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView(
-        children: [
-
-          HomeVisitors(),
-          ServicesHome(),
-          PersonalStaffHome(),
-          CurrentNoticesHome(),
-
-          SizedBox(height: 30), // Add spacing between widgets
-
-          // BlocProvider for NoticeBloc - provides NoticeBloc to the widget tree
-          BlocProvider(
-            create: (context) => NoticeBloc(
-              getNotices: GetNoticesUsecase(
-                NoticeRepositoryImpl(
-                  NoticeRemoteDataSource(http.Client()),
-                ),
-              ),
-            )..add(FetchNotices()),
-            child:
-                const CurrentNoticeHome(), // The widget that will use the NoticeBloc
+    return BlocProvider(
+      create: (context) => NoticeBloc(
+        getNotices: GetNoticesUsecase(
+          NoticeRepositoryImpl(
+            NoticeRemoteDataSource(http.Client()),
           ),
-          OngoingPollsHome(),
+        ),
+      )..add(FetchNotices()),
+      child: Builder(builder: (context) {
+        return Scaffold(
+          body: ListView(
+            children: [
+              HomeVisitors(),
+              ServicesHome(),
+              PersonalStaffHome(),
+              CurrentNoticesHome(),
 
-          ConnectHomeContainer(),
-          CurrentFlatUI(),
+              SizedBox(height: 30),
+              // Add spacing between widgets
+              const CurrentNoticeHome(),
+              // BlocProvider for NoticeBloc - provides NoticeBloc to the widget tree
 
-        ],
-      ),
+              OngoingPollsHome(),
+
+              ConnectHomeContainer(),
+              CurrentFlatUI(),
+            ],
+          ),
+        );
+      }),
     );
   }
 }

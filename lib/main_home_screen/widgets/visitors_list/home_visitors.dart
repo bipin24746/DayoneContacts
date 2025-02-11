@@ -1,5 +1,18 @@
+import 'package:dayonecontacts/features/login_pages/clean_code/presentation/screens/login_page.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/visitors_list/visitors_list.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+// Move logout function outside of HomeVisitors class
+Future<void> _logout(BuildContext context) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.clear();
+
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(builder: (context) => BlocLoginPage()), // Redirect to login
+  );
+}
 
 class HomeVisitors extends StatefulWidget {
   @override
@@ -8,6 +21,7 @@ class HomeVisitors extends StatefulWidget {
 
 class _HomeVisitorsState extends State<HomeVisitors> {
   bool isExpanded = false;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -36,8 +50,15 @@ class _HomeVisitorsState extends State<HomeVisitors> {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               Spacer(),
-              Text("View all"),
-              Icon(Icons.arrow_right),
+              TextButton(
+                onPressed: () => _logout(context), // Fixed onPressed
+                child: Row(
+                  children: [
+                    Text("View all"),
+                    Icon(Icons.arrow_right),
+                  ],
+                ),
+              ),
             ],
           ),
           SizedBox(height: 15),
