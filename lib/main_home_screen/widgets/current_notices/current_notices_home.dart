@@ -1,3 +1,4 @@
+import 'package:dayonecontacts/main_home_screen/widgets/all_notices/all_notices.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/current_notices/api_data/api_data.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/current_notices/api_data/api_services.dart';
 import 'package:flutter/material.dart';
@@ -49,23 +50,28 @@ class _CurrentNoticesHomeState extends State<CurrentNoticesHome> {
                     ),
                   ],
                 ),
-                Row(
-                  children: [
-                    Text(
-                      "View all",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(Icons.arrow_right),
+                GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => AllNotices()));
+                  },
+                  child: Row(
+                    children: [
+                      Text(
+                        "View all",
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(Icons.arrow_right),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

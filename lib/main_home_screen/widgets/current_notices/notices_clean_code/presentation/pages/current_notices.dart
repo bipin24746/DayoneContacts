@@ -1,3 +1,4 @@
+import 'package:dayonecontacts/main_home_screen/widgets/all_notices/all_notices.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/entities/integration.dart';
@@ -14,7 +15,7 @@ class CurrentNoticeHome extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         } else if (state is NoticeLoaded) {
           debugPrint("Notices received: ${state.notices.data.length}");
-          return _buildNoticesList(state.notices);
+          return _buildNoticesList(state.notices,context);
         } else if (state is NoticeError) {
           return Center(child: Text(state.message));
         } else {
@@ -24,14 +25,14 @@ class CurrentNoticeHome extends StatelessWidget {
     );
   }
 
-  Widget _buildNoticesList(Integration notices) {
+  Widget _buildNoticesList(Integration notices,BuildContext context) {
     if (notices.data == null || notices.data.isEmpty) {
       debugPrint("No notices found!");
       return const Center(child: Text('No notices available'));
     }
 
     // Calculate height dynamically based on the number of notices
-    double containerHeight = notices.data.length * 200.0 + 100.0; // Adjust item height (200) and extra padding (100)
+    double containerHeight = notices.data.length * 170.0 + 130.0; // Adjust item height (200) and extra padding (100)
 
     return Container(
 
@@ -53,23 +54,28 @@ class CurrentNoticeHome extends StatelessWidget {
                     ),
                   ],
                 ),
-                Row(
-                  children: [
-                    Text(
-                      "View all",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(Icons.arrow_right),
+                GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => AllNotices()));
+                  },
+                  child: Row(
+                    children: [
+                      Text(
+                        "View all",
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(Icons.arrow_right),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
