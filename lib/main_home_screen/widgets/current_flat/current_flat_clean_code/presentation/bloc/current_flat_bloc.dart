@@ -11,18 +11,17 @@ part 'current_flat_state.dart';
 class CurrentFlatBloc extends Bloc<CurrentFlatEvent, CurrentFlatState> {
   final GetCurrentFlat getCurrentFlat;
 
-  CurrentFlatBloc({required this.getCurrentFlat})
-      : super(CurrentFlatInitial()) {}
+  CurrentFlatBloc({required this.getCurrentFlat}) : super(CurrentFlatInitial()) {
+    on<FetchCurrentFlat>(_onFetchCurrentFlat);
+  }
 
-  void _onFetchCurrentFlat(
-      FetchCurrentFlat event, Emitter<CurrentFlatState> emit) async {
-    emit(CurrenFlatLoading());
-    final Either<Failure, CurrentFlatIntegration> result =
-        await getCurrentFlat();
+
+  void _onFetchCurrentFlat(FetchCurrentFlat event, Emitter<CurrentFlatState> emit) async {
+    emit(CurrentFlatLoading());
+    final Either<Failure, CurrentFlatIntegration> result = await getCurrentFlat();
 
     result.fold(
-        (failure) => emit(CurrentFlatError(message: failure.toString())),
-        (currentflat) =>
-            emit(CurrentFlatLoaded(currentFlatIntegration: currentflat)));
+            (failure) => emit(CurrentFlatError(message: failure.toString())),
+            (currentflat) => emit(CurrentFlatLoaded(currentFlatIntegration: currentflat)));
   }
 }

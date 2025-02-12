@@ -36,6 +36,6 @@ class CurrentFlatRemoteDataSource {
 
   Future<String?> _getAuthToken() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('authtoken');
+    return prefs.getString('authToken');
   }
 }

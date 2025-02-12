@@ -9,7 +9,7 @@ abstract class CurrentFlatState extends Equatable{
 
 class CurrentFlatInitial extends CurrentFlatState{}
 
-class CurrenFlatLoading extends CurrentFlatState{}
+class CurrentFlatLoading extends CurrentFlatState{}
 class CurrentFlatLoaded extends CurrentFlatState{
   final CurrentFlatIntegration currentFlatIntegration;
   const CurrentFlatLoaded({required this.currentFlatIntegration});

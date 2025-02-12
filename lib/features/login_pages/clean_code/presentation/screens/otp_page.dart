@@ -4,6 +4,7 @@ import 'package:dayonecontacts/features/login_pages/clean_code/data/repositories
 import 'package:dayonecontacts/features/login_pages/clean_code/domain/usecases/otp_use_case.dart';
 import 'package:dayonecontacts/features/login_pages/clean_code/presentation/bloc/otp_bloc/otp_verification_bloc.dart';
 import 'package:dayonecontacts/main_home_screen/pages/home_screen_pages/home_screen.dart';
+import 'package:dayonecontacts/main_home_screen/widgets/all_notices/all_notices.dart';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -165,6 +166,7 @@ class _OtpPageState extends State<OtpPage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => HomeScreenMain(),
+
                     ),
                   );
                 } else if (state is OtpVerificationErrorState) {

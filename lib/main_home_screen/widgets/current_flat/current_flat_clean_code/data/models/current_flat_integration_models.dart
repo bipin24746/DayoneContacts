@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dayonecontacts/main_home_screen/widgets/current_flat/current_flat_clean_code/domain/entity/integration.dart';
 
 class CurrentFlatIntegrationModel extends CurrentFlatIntegration {
@@ -5,7 +7,9 @@ class CurrentFlatIntegrationModel extends CurrentFlatIntegration {
       : super(success: success, data: data);
 
   factory CurrentFlatIntegrationModel.fromJson(Map<String, dynamic> json) {
+    log("Received JSON: $json");
     return CurrentFlatIntegrationModel(
+
       success: json["success"],
       data: List<Data>.from(json["data"].map((x) => DataModel.fromJson(x))),
     );
@@ -18,8 +22,9 @@ class DataModel extends Data {
 
   factory DataModel.fromJson(Map<String, dynamic> json) {
     return DataModel(
+
         id: json['id'] as String? ?? "",
-        name: json["name"],
-        floor: json["floor"]);
+        name: json["name"] as String? ?? "",
+        floor: json["floor"] as String? ?? "") ;
   }
 }
