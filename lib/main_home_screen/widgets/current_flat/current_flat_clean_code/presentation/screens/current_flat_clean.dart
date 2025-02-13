@@ -13,7 +13,7 @@ class CurrentFlatClean extends StatelessWidget {
         if (state is CurrentFlatLoading) {
           return const Center(child: CircularProgressIndicator());
         } else if (state is CurrentFlatLoaded) {
-          debugPrint("Flat: ${state.currentFlatIntegration.data.length}");
+          debugPrint("Flat: ${state.currentFlatIntegration.data.name}");
           return _buildCurrentFlat(state.currentFlatIntegration);
         } else if (state is CurrentFlatError) {
           return Center(child: Text(state.message));
@@ -25,15 +25,11 @@ class CurrentFlatClean extends StatelessWidget {
   }
 
   Widget _buildCurrentFlat(CurrentFlatIntegration currentFlatIntegration) {
-    if (currentFlatIntegration.data == null || currentFlatIntegration.data.isEmpty) {
-      debugPrint("No flats found!");
-      return const Center(child: Text('No flats available'));
+    // Since data is now a single object, no need to check for list emptiness
+    if (currentFlatIntegration.data == null) {
+      debugPrint("No flat found!");
+      return const Center(child: Text('No flat available'));
     }
-
-    // if (currentFlatIntegration.data == null || currentFlatIntegration.data.isEmpty) {
-    //   debugPrint("No flats found!");
-    //   return const Center(child: Text('No flats available'));
-    // }
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
@@ -55,44 +51,36 @@ class CurrentFlatClean extends StatelessWidget {
               thickness: 2,
               color: Colors.blueGrey.withOpacity(0.3),
             ),
-            // ListView.builder will be used to display all the flat items
-            ListView.builder(
-              shrinkWrap: true,  // To prevent ListView from taking all available space
-              itemCount: currentFlatIntegration.data.length,
-              itemBuilder: (context, index) {
-                final flat = currentFlatIntegration.data[index];
-                return Container(
-                  height: 90,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    border: Border.all(),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+            // Now we are just displaying the single flat (not a list)
+            Container(
+              height: 90,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                border: Border.all(),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      currentFlatIntegration.data.name ?? 'Unknown Apartment',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    Row(
                       children: [
+                        SizedBox(width: 10),
                         Text(
-                          flat.name ?? 'Unknown Apartment',  // Ensure null safety
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                        Row(
-                          children: [
-                            SizedBox(width: 10),
-                            Text(
-                              flat.floor ?? 'Unknown floor',  // Display floor if available
-                              style: TextStyle(fontSize: 15),
-                            ),
-                          ],
+                          currentFlatIntegration.data.floor ?? 'Unknown floor',
+                          style: TextStyle(fontSize: 15),
                         ),
                       ],
                     ),
-                  ),
-                );
-              },
+                  ],
+                ),
+              ),
             ),
-
             SizedBox(height: 10),
             Row(
               children: [
@@ -106,11 +94,6 @@ class CurrentFlatClean extends StatelessWidget {
                   child: Row(
                     children: [
                       // Image.asset('lib/assets/images/red_building.png', width: 40),
-                      // Text(
-                      //   currentFlatIntegration?.data?.first?.floor?.block?.name
-                      //
-                      //       ?? 'Unknown Block',
-                      // ),
                     ],
                   ),
                 ),
@@ -125,7 +108,7 @@ class CurrentFlatClean extends StatelessWidget {
                   child: Row(
                     children: [
                       Image.asset('lib/assets/images/house.png', width: 40),
-                      Text(currentFlatIntegration.data.first.name ?? "Unknown Flat Number"),
+                      Text(currentFlatIntegration.data.name ?? "Unknown Flat Number"),
                     ],
                   ),
                 ),
