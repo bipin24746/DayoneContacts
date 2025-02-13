@@ -1,4 +1,5 @@
 import 'package:dayonecontacts/main_home_screen/widgets/all_notices/all_notices.dart';
+import 'package:dayonecontacts/main_home_screen/widgets/all_notices/all_notices_clean_code/presentation/screens/all_notices_clean.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/entities/integration.dart';
@@ -56,7 +57,7 @@ class CurrentNoticeHome extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => AllNotices()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => AllNoticesClean()));
                   },
                   child: Row(
                     children: [

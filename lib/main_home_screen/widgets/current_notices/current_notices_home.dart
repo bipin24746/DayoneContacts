@@ -1,4 +1,5 @@
 import 'package:dayonecontacts/main_home_screen/widgets/all_notices/all_notices.dart';
+import 'package:dayonecontacts/main_home_screen/widgets/all_notices/all_notices_clean_code/presentation/screens/all_notices_clean.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/current_notices/api_data/api_data.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/current_notices/api_data/api_services.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +53,7 @@ class _CurrentNoticesHomeState extends State<CurrentNoticesHome> {
                 ),
                 GestureDetector(
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => AllNotices()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => AllNoticesClean()));
                   },
                   child: Row(
                     children: [

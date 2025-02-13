@@ -9,7 +9,6 @@ class CurrentFlatIntegrationModel extends CurrentFlatIntegration {
   factory CurrentFlatIntegrationModel.fromJson(Map<String, dynamic> json) {
     log("Received JSON: $json");
     return CurrentFlatIntegrationModel(
-
       success: json["success"],
       data: List<Data>.from(json["data"].map((x) => DataModel.fromJson(x))),
     );
@@ -22,9 +21,8 @@ class DataModel extends Data {
 
   factory DataModel.fromJson(Map<String, dynamic> json) {
     return DataModel(
-
         id: json['id'] as String? ?? "",
         name: json["name"] as String? ?? "",
-        floor: json["floor"] as String? ?? "") ;
+        floor: json["floor"] as String? ?? "");
   }
 }
