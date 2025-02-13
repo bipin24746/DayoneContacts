@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dayonecontacts/features/login_pages/clean_code/core/errors/failures.dart';
 import 'package:equatable/equatable.dart';
 
+
 abstract class UseCase<Type, Params>{
   Future<Either<Failure,Type>> call(Params params);
 }
