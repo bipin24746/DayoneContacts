@@ -1,19 +1,19 @@
 import 'package:dayonecontacts/main_home_screen/widgets/current_notices/api_data/api_data.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/current_notices/api_data/api_services.dart';
 import 'package:flutter/material.dart';
-
+import 'package:intl/intl.dart';
 class AllNotices extends StatefulWidget {
   const AllNotices({super.key});
 
   @override
   State<AllNotices> createState() => _AllNoticesState();
 }
-
 class _AllNoticesState extends State<AllNotices> {
-  bool _isExpanded = false; // Track if the text is expanded or not
-
   Integration? ApiIntegration;
   var isLoaded = false;
+  String sortOrder = "Latest";  // Track sorting order (Latest or Oldest)
+  Map<int, bool> expandedStates = {};  // Map to track expansion for each notice
+
   @override
   void initState() {
     super.initState();
@@ -27,8 +27,20 @@ class _AllNoticesState extends State<AllNotices> {
       setState(() {
         isLoaded = true;
       });
+      _sortData(); // Sort the data initially
     }
   }
+
+  // Method to sort the data based on the selected order
+  void _sortData() {
+    if (sortOrder == "Latest") {
+      ApiIntegration!.data.sort((a, b) => b.createdAt.compareTo(a.createdAt));  // Latest First
+    } else if (sortOrder == "Oldest") {
+      ApiIntegration!.data.sort((a, b) => a.createdAt.compareTo(b.createdAt));  // Oldest First
+    }
+    setState(() {}); // Rebuild the widget after sorting
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,13 +72,16 @@ class _AllNoticesState extends State<AllNotices> {
         visible: isLoaded,
         child: ListView.builder(
           itemCount: ApiIntegration?.data.length,
-          // itemCount: 5,
           itemBuilder: (context, index) {
+            // Format the createdAt field using the DateFormat class
+            String formattedDate = DateFormat('MMM dd, yyyy').format(ApiIntegration!.data[index].createdAt);
+            String formattedTime = DateFormat('hh:mm a').format(ApiIntegration!.data[index].createdAt);
+
             return Padding(
               padding: const EdgeInsets.all(15.0),
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                height: _isExpanded ? null : 200, // Dynamically increase height when expanded
+                height: expandedStates[index] == true ? null : 270,  // Use the map to track individual expansion
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
@@ -92,16 +107,13 @@ class _AllNoticesState extends State<AllNotices> {
                               top: 5, bottom: 5, left: 25, right: 25),
                           child: Text(
                             ApiIntegration!.data[index].category,
-                            // "Society Program", // Placeholder text
                             style: TextStyle(
                                 color: Colors.white, fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
+                    SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
@@ -109,18 +121,16 @@ class _AllNoticesState extends State<AllNotices> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-
                             ApiIntegration!.data[index].title,
-                            // "Blood Donation Programme",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18),
                           ),
                           Row(
                             children: [
-                              Text("Nov 16, 2023"),
+                              Text(formattedDate), // Display formatted date
                               Padding(
                                 padding: const EdgeInsets.only(left: 18.0),
-                                child: Text("12:15 AM"),
+                                child: Text(formattedTime), // Display formatted time
                               ),
                             ],
                           ),
@@ -128,45 +138,26 @@ class _AllNoticesState extends State<AllNotices> {
                             thickness: 2,
                             color: Colors.orangeAccent.withOpacity(0.3),
                           ),
-                          // Text content with dynamic size
                           Text(
-                            "Please contact with admin to understand the necessary documents to be included for this application process. More information part is okay.Please contact with admin to understand the necessary documents to be included for this application process. More information part is okay.", // Placeholder text
-                            // ApiIntegration!.data[index].message,
-                            maxLines: _isExpanded ? 6 : 3, // Show all text when expanded
+                            ApiIntegration!.data[index].message,
+                            maxLines: expandedStates[index] == true ? 3 : 6,  // Check the expansion state for this notice
                             overflow: TextOverflow.ellipsis,
                           ),
-
-                          if (!_isExpanded)
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  _isExpanded = !_isExpanded;
-                                });
-                              },
-                              child: Text(
-                                "Read More",
-                                style: TextStyle(
-                                  color: Colors.blue,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                          // The Read More / Read Less button is always displayed
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                expandedStates[index] = !(expandedStates[index] ?? false);  // Toggle the expansion for the clicked index
+                              });
+                            },
+                            child: Text(
+                              expandedStates[index] == true ? "Read More" : "Read Less",
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                          // If expanded, show "Read Less"
-                          if (_isExpanded)
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  _isExpanded = !_isExpanded;
-                                });
-                              },
-                              child: Text(
-                                "Read Less",
-                                style: TextStyle(
-                                  color: Colors.blue,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -179,37 +170,48 @@ class _AllNoticesState extends State<AllNotices> {
       ),
     );
   }
-}
 
-// Method to show the popup menu (unchanged)
-void _showPopupMenu(BuildContext context) async {
-  final RenderBox overlay = Overlay.of(context)!.context.findRenderObject() as RenderBox;
+  // Method to show the popup menu and handle the sorting order
+  void _showPopupMenu(BuildContext context) async {
+    final RenderBox overlay = Overlay.of(context)!.context.findRenderObject() as RenderBox;
 
-  await showMenu(
-    context: context,
-    position: RelativeRect.fromLTRB(200, 100, 0, 0),
-    items: [
-      PopupMenuItem<int>(
-        value: 1,
-        child: Row(
-          children: [
-            Icon(Icons.upgrade),
-            SizedBox(width: 10),
-            Text("Latest First"),
-          ],
+    await showMenu(
+      context: context,
+      position: RelativeRect.fromLTRB(200, 100, 0, 0),
+      items: [
+        PopupMenuItem<int>(
+          value: 1,
+          child: Row(
+            children: [
+              Icon(Icons.upgrade),
+              SizedBox(width: 10),
+              Text("Latest First"),
+            ],
+          ),
         ),
-      ),
-      PopupMenuItem<int>(
-        value: 2,
-        child: Row(
-          children: [
-            Icon(Icons.download),
-            SizedBox(width: 10),
-            Text("Oldest First"),
-          ],
+        PopupMenuItem<int>(
+          value: 2,
+          child: Row(
+            children: [
+              Icon(Icons.download),
+              SizedBox(width: 10),
+              Text("Oldest First"),
+            ],
+          ),
         ),
-      ),
-    ],
-    elevation: 8.0,
-  );
+      ],
+      elevation: 8.0,
+    ).then((value) {
+      if (value == 1) {
+        setState(() {
+          sortOrder = "Latest";
+        });
+      } else if (value == 2) {
+        setState(() {
+          sortOrder = "Oldest";
+        });
+      }
+      _sortData(); // Sort the data after selection
+    });
+  }
 }
