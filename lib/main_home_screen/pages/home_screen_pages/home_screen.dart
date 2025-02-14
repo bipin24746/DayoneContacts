@@ -65,7 +65,7 @@ class HomeScreenMain extends StatelessWidget {
               const CurrentNoticeHome(), // BlocProvider for NoticeBloc
               OngoingPollsHome(),
               ConnectHomeContainer(),
-              CurrentFlatUI(),
+              // CurrentFlatUI(),
               CurrentFlatClean(),
               // AllNoticesClean()// This is where you add CurrentFlatClean
             ],
