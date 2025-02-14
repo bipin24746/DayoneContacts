@@ -1,3 +1,113 @@
+// import 'package:dayonecontacts/features/login_pages/clean_code/presentation/widgets/login_widgets/continue_button.dart';
+// import 'package:dayonecontacts/features/login_pages/clean_code/presentation/widgets/login_widgets/phone_number_input.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:dayonecontacts/features/login_pages/clean_code/presentation/bloc/login_bloc/auth_bloc.dart';
+// import 'package:dayonecontacts/features/login_pages/clean_code/presentation/screens/otp_page.dart';
+// import 'package:dayonecontacts/features/login_pages/clean_code/data/data_sources/auth_data_sources.dart';
+// import 'package:dayonecontacts/features/login_pages/clean_code/data/repositories/auth_repo_impl.dart';
+// import 'package:dayonecontacts/features/login_pages/clean_code/domain/usecases/auth_usecase.dart';
+// import 'package:dio/dio.dart';
+//
+// class BlocLoginPage extends StatefulWidget {
+//   const BlocLoginPage({super.key});
+//
+//   @override
+//   State<BlocLoginPage> createState() => _BlocLoginPageState();
+// }
+//
+// class _BlocLoginPageState extends State<BlocLoginPage> {
+//   final TextEditingController _phoneNoController = TextEditingController();
+//   bool _isPhoneNumberValid = false;
+//
+//   @override
+//   void initState() {
+//     super.initState();
+//     _phoneNoController.addListener(_validatePhoneNumber);
+//   }
+//
+//   void _validatePhoneNumber() {
+//     final isValid = _phoneNoController.text.isNotEmpty &&
+//         int.tryParse(_phoneNoController.text) != null &&
+//         _phoneNoController.text.length == 10;
+//
+//     if (_isPhoneNumberValid != isValid) {
+//       setState(() {
+//         _isPhoneNumberValid = isValid;
+//       });
+//     }
+//   }
+//
+//   @override
+//   void dispose() {
+//     _phoneNoController.dispose();
+//     super.dispose();
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocProvider(
+//       create: (context) => AuthBloc(
+//         authUseCase: AuthUseCase(
+//           authRepository: AuthRepositoryImpl(AuthDataSource(Dio())),
+//         ),
+//       ),
+//       child: BlocListener<AuthBloc, AuthState>(
+//         listener: (context, state) {
+//           if (state is AuthSuccessState) {
+//             Navigator.push(
+//               context,
+//               MaterialPageRoute(
+//                 builder: (context) => OtpPage(
+//                   hash: state.authResponseEntity.authResponseDataEntity?.hash ?? '',
+//                   otp: state.authResponseEntity.authResponseDataEntity?.otp ?? '',
+//                   phoneNo: _phoneNoController.text,
+//                 ),
+//               ),
+//             );
+//           } else if (state is AuthErrorState) {
+//             ScaffoldMessenger.of(context).showSnackBar(
+//               SnackBar(content: Text('Error: ${state.errorMessage}')),
+//             );
+//           }
+//         },
+//         child: Scaffold(
+//           backgroundColor: Colors.white,
+//           appBar: PreferredSize(
+//             preferredSize: Size.fromHeight(200),
+//             child: AppBar(
+//               backgroundColor: Colors.white,
+//               leading: IconButton(
+//                 onPressed: () {},
+//                 icon: Icon(Icons.arrow_back, size: 35),
+//               ),
+//               flexibleSpace: Padding(
+//                 padding: const EdgeInsets.only(top: 15.0),
+//                 child: Image.asset("lib/assets/images/signupimage.png"),
+//               ),
+//             ),
+//           ),
+//           body: SingleChildScrollView(
+//             child: Column(
+//               children: [
+//                 BlocPhoneNumberInput(phoneNoController: _phoneNoController),
+//                 BlocContinueButton(
+//                   isPhoneNumberValid: _isPhoneNumberValid,
+//                   phoneNoController: _phoneNoController,
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+
+
+
+
 import 'package:dayonecontacts/features/login_pages/clean_code/data/data_sources/auth_data_sources.dart';
 import 'package:dayonecontacts/features/login_pages/clean_code/data/repositories/auth_repo_impl.dart';
 import 'package:dayonecontacts/features/login_pages/clean_code/domain/usecases/auth_usecase.dart';

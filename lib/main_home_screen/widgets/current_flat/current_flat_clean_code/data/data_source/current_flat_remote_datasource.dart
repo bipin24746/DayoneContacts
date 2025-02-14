@@ -32,6 +32,7 @@ class CurrentFlatRemoteDataSource {
         final Map<String, dynamic> data = json.decode(response.body);
         log('Data from flats: $data');
         // Ensure that CurrentFlatIntegrationModel can handle the data
+
         return CurrentFlatIntegrationModel.fromJson(data);
       } else {
         // Handle different HTTP errors more specifically

@@ -18,7 +18,7 @@ class CurrentFlatBloc extends Bloc<CurrentFlatEvent, CurrentFlatState> {
 
   void _onFetchCurrentFlat(FetchCurrentFlat event, Emitter<CurrentFlatState> emit) async {
     emit(CurrentFlatLoading());
-    final Either<Failure, CurrentFlatIntegration> result = await getCurrentFlat();
+    final Either<Failure, CurrentFlatIntegration> result = await getCurrentFlat.call();
 
     result.fold(
             (failure) => emit(CurrentFlatError(message: failure.toString())),

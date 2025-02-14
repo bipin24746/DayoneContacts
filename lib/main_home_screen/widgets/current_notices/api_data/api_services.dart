@@ -38,3 +38,13 @@ class ApiServices {
 
   }
 }
+
+
+
+//
+// {
+// "type":"two_wheeler",
+// "name": "name",
+// "noPlate":"noPlate",
+// "file": ""
+// }

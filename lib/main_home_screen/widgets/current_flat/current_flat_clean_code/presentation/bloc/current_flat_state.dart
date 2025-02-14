@@ -3,7 +3,6 @@ part of 'current_flat_bloc.dart';
 abstract class CurrentFlatState extends Equatable{
   const CurrentFlatState();
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 
@@ -15,7 +14,6 @@ class CurrentFlatLoaded extends CurrentFlatState{
   const CurrentFlatLoaded({required this.currentFlatIntegration});
 
   @override
-  // TODO: implement props
   List<Object?> get props => [currentFlatIntegration];
 }
 class CurrentFlatError extends CurrentFlatState{
@@ -24,6 +22,5 @@ class CurrentFlatError extends CurrentFlatState{
 
 
   @override
-  // TODO: implement props
   List<Object?> get props => [message];
 }
