@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:dayonecontacts/features/login_pages/clean_code/presentation/screens/login_page.dart';
 import 'package:dayonecontacts/main_home_screen/pages/home_screen_pages/home_screen.dart';
+import 'package:dayonecontacts/main_home_screen/widgets/add_vehicle/add_vehicle.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
