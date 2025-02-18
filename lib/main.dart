@@ -1,40 +1,70 @@
-
-// import 'package:dayonecontacts/main_home_screen/pages/home_screen_pages/home_screen.dart';
-// import 'package:dayonecontacts/main_home_screen/pages/login_pages/widgets/pages/login_page.dart';
-import 'package:dayonecontacts/features/invite_guest/widgets/addManuallyRefractored/SplashScreen.dart';
-import 'package:dayonecontacts/features/login_pages/clean_code/presentation/screens/login_page.dart';
-import 'package:dayonecontacts/main_home_screen/pages/home_screen_pages/home_screen.dart';
-import 'package:dayonecontacts/main_home_screen/widgets/add_vehicle/add_vehicle.dart';
-import 'package:dayonecontacts/main_home_screen/widgets/add_vehicle/vehicle_refractored/add_vehicle.dart';
-import 'package:dayonecontacts/main_home_screen/widgets/all_notices/all_notices.dart';
+import 'package:dayonecontacts/features/login_pages/clean_code/presentation/bloc/login_bloc/auth_bloc.dart';
+import 'package:dayonecontacts/main_home_screen/widgets/current_notices/notices_clean_code/core/di/service_locator.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dayonecontacts/router/app_router.dart';
 
-import 'package:flutter/material.dart';
-
-// import 'main_home_screen/pages/login_pages/widgets/pages/login_page.dart';
 
 void main() {
+  setupLocator(); // Initialize Dependency Injection
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
-final _appRouter =AppRouter();
+  final _appRouter = AppRouter();
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'To-Do App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => sl<AuthBloc>()),
+      ],
+      child: MaterialApp.router(
+        title: 'To-Do App',
+        theme: ThemeData(primarySwatch: Colors.blue),
+        routerConfig: _appRouter.config(), // Use AutoRoute
       ),
-      routerConfig: _appRouter.config(),
-      // home: const BlocLoginPage(),
-      // home: SplashScreen(),
-      // home: AllNotices(),
-      // home: AddVehicle(),
     );
   }
 }
+
+// import 'package:dayonecontacts/main_home_screen/pages/home_screen_pages/home_screen.dart';
+// import 'package:dayonecontacts/main_home_screen/pages/login_pages/widgets/pages/login_page.dart';
+// import 'package:dayonecontacts/features/invite_guest/widgets/addManuallyRefractored/SplashScreen.dart';
+// import 'package:dayonecontacts/features/login_pages/clean_code/presentation/screens/login_page.dart';
+// import 'package:dayonecontacts/main_home_screen/pages/home_screen_pages/home_screen.dart';
+// import 'package:dayonecontacts/main_home_screen/widgets/add_vehicle/add_vehicle.dart';
+// import 'package:dayonecontacts/main_home_screen/widgets/add_vehicle/vehicle_refractored/add_vehicle.dart';
+// import 'package:dayonecontacts/main_home_screen/widgets/all_notices/all_notices.dart';
+// import 'package:dayonecontacts/router/app_router.dart';
+//
+// import 'package:flutter/material.dart';
+//
+// // import 'main_home_screen/pages/login_pages/widgets/pages/login_page.dart';
+//
+// void main() {
+//   runApp(MyApp());
+// }
+//
+// class MyApp extends StatelessWidget {
+//   MyApp({super.key});
+// final _appRouter =AppRouter();
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp.router(
+//       title: 'To-Do App',
+//       theme: ThemeData(
+//         primarySwatch: Colors.blue,
+//       ),
+//       routerConfig: _appRouter.config(),
+//       // home: const BlocLoginPage(),
+//       // home: SplashScreen(),
+//       // home: AllNotices(),
+//       // home: AddVehicle(),
+//     );
+//   }
+// }
 
 
 

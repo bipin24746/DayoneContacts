@@ -2,6 +2,7 @@ import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/all_notices/all_notices.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/all_notices/all_notices_clean_code/presentation/screens/all_notices_clean.dart';
+import 'package:dayonecontacts/main_home_screen/widgets/current_notices/notices_clean_code/core/di/service_locator.dart';
 import 'package:dayonecontacts/router/app_router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +18,9 @@ class CurrentNoticeHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return BlocBuilder<NoticeBloc, NoticeState>(
+    return BlocProvider(
+  create: (context) => sl<NoticeBloc>()..add(FetchNotices()),
+  child: BlocBuilder<NoticeBloc, NoticeState>(
       builder: (context, state) {
         if (state is NoticeLoading) {
           return const Center(child: CircularProgressIndicator());
@@ -30,7 +33,8 @@ class CurrentNoticeHome extends StatelessWidget {
           return const Center(child: Text('No notices available'));
         }
       },
-    );
+    ),
+);
   }
 
   Widget _buildNoticesList(Integration notices, BuildContext context) {
