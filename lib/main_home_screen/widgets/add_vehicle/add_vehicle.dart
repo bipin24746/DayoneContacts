@@ -1,17 +1,18 @@
 import 'dart:io';
+import 'package:auto_route/annotations.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-class AddVehicle extends StatefulWidget {
-  const AddVehicle({super.key});
+@RoutePage()
+class AddVehicles extends StatefulWidget {
+  const AddVehicles({super.key});
 
   @override
-  State<AddVehicle> createState() => _AddVehicleState();
+  State<AddVehicles> createState() => _AddVehiclesState();
 }
 
-class _AddVehicleState extends State<AddVehicle> {
+class _AddVehiclesState extends State<AddVehicles> {
   final List<String> vehicles = ["two_wheeler", "four_wheeler"];
   String? _selectedValue;
   File? _image;

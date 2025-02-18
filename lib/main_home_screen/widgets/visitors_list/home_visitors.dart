@@ -1,5 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:dayonecontacts/features/login_pages/clean_code/presentation/screens/login_page.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/visitors_list/visitors_list.dart';
+import 'package:dayonecontacts/router/app_router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -8,10 +10,11 @@ Future<void> _logout(BuildContext context) async {
   final prefs = await SharedPreferences.getInstance();
   await prefs.clear();
 
-  Navigator.pushReplacement(
-    context,
-    MaterialPageRoute(builder: (context) => BlocLoginPage()), // Redirect to login
-  );
+  AutoRouter.of(context).push(BlocLoginPageRoute());
+  // Navigator.pushReplacement(
+  //   context,
+  //   MaterialPageRoute(builder: (context) => BlocLoginPage()), // Redirect to login
+  // );
 }
 
 class HomeVisitors extends StatefulWidget {
@@ -21,6 +24,35 @@ class HomeVisitors extends StatefulWidget {
 
 class _HomeVisitorsState extends State<HomeVisitors> {
   bool isExpanded = false;
+
+
+  // Navigate to different pages based on the visitor selection
+  void _navigateToPage(BuildContext context, String visitorType) {
+    switch (visitorType) {
+      case "Guest":
+      // Navigate to Guest page (you can create a route for this page)
+      //   AutoRouter.of(context).push(GuestPageRoute());
+        break;
+      case "Delivery":
+      // Navigate to the Delivery page
+      //   AutoRouter.of(context).push(DeliveryPageRoute());
+        break;
+      case "Ride Sharing":
+      // Navigate to Ride Sharing page
+        AutoRouter.of(context).push(AddVehiclesRoute());
+        break;
+      case "Services":
+      // Navigate to Services page
+      //   AutoRouter.of(context).push(ServicesPageRoute());
+        break;
+      default:
+      // Fallback navigation
+      //   AutoRouter.of(context).push(GuestPageRoute());
+        break;
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -256,30 +288,34 @@ class _HomeVisitorsState extends State<HomeVisitors> {
                     children: [
                       Row(
                         children: List.generate(hiddenVisitors.length, (index) {
-                          final visibleItem =
-                              hiddenVisitors[index]; // Access the map
+                          final visibleItem = hiddenVisitors[index]; // Access the map
                           return Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Column(
-                              children: [
-                                Icon(
-                                  visibleItem[
-                                      "iconVisible"], // Access the icon key
-                                  size: 50,
-                                ),
-                                SizedBox(height: 5), // Add spacing
-                                Text(
-                                  visibleItem["text"], // Access the text key
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                // Call the navigate function when an icon is clicked
+                                _navigateToPage(context, visibleItem["text"]);
+                              },
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    visibleItem["iconVisible"], // Access the icon key
+                                    size: 50,
+                                  ),
+                                  SizedBox(height: 5), // Add spacing
+                                  Text(
+                                    visibleItem["text"], // Access the text key
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         }),
-                      ),
+                      )
+
                     ],
                   )
                 ],

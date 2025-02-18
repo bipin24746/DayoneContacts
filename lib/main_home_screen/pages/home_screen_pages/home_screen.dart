@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/all_notices/all_notices_clean_code/data/data_source/all_notices_remote_datasource.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/all_notices/all_notices_clean_code/data/repositories/all_notices_repository_implementation.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/all_notices/all_notices_clean_code/domain/usecase/get_all_notices_usecases.dart';
@@ -24,6 +25,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
+
+@RoutePage()
 
 class HomeScreenMain extends StatelessWidget {
   const HomeScreenMain({super.key});

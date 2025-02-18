@@ -1,16 +1,20 @@
 import 'dart:async';
+import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:dayonecontacts/features/login_pages/clean_code/data/data_sources/verify_otp_data_source.dart';
 import 'package:dayonecontacts/features/login_pages/clean_code/data/repositories/verify_otp_repo_impl.dart';
 import 'package:dayonecontacts/features/login_pages/clean_code/domain/usecases/otp_use_case.dart';
 import 'package:dayonecontacts/features/login_pages/clean_code/presentation/bloc/otp_bloc/otp_verification_bloc.dart';
 import 'package:dayonecontacts/main_home_screen/pages/home_screen_pages/home_screen.dart';
+import 'package:dayonecontacts/main_home_screen/widgets/add_vehicle/vehicle_refractored/add_vehicle.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/all_notices/all_notices.dart';
+import 'package:dayonecontacts/router/app_router.gr.dart';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
-
+@RoutePage()
 class OtpPage extends StatefulWidget {
   final String phoneNo;
   final String hash;
@@ -26,6 +30,7 @@ class OtpPage extends StatefulWidget {
   @override
   _OtpPageState createState() => _OtpPageState();
 }
+
 
 class _OtpPageState extends State<OtpPage> {
   TextEditingController _otpVerified = TextEditingController();
@@ -162,13 +167,14 @@ class _OtpPageState extends State<OtpPage> {
                       content: Text("Otp Verified Successfully."),
                     ),
                   );
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HomeScreenMain(),
-
-                    ),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => HomeScreenMain(),
+                  //
+                  //   ),
+                  // );
+                  AutoRouter.of(context).push(HomeScreenMainRoute());
                 } else if (state is OtpVerificationErrorState) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(

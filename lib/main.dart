@@ -5,28 +5,31 @@ import 'package:dayonecontacts/features/invite_guest/widgets/addManuallyRefracto
 import 'package:dayonecontacts/features/login_pages/clean_code/presentation/screens/login_page.dart';
 import 'package:dayonecontacts/main_home_screen/pages/home_screen_pages/home_screen.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/add_vehicle/add_vehicle.dart';
+import 'package:dayonecontacts/main_home_screen/widgets/add_vehicle/vehicle_refractored/add_vehicle.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/all_notices/all_notices.dart';
+import 'package:dayonecontacts/router/app_router.dart';
 
 import 'package:flutter/material.dart';
 
 // import 'main_home_screen/pages/login_pages/widgets/pages/login_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+  MyApp({super.key});
+final _appRouter =AppRouter();
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'To-Do App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      routerConfig: _appRouter.config(),
       // home: const BlocLoginPage(),
-      home: SplashScreen(),
+      // home: SplashScreen(),
       // home: AllNotices(),
       // home: AddVehicle(),
     );

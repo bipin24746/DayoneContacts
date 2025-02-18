@@ -1,11 +1,16 @@
+import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/all_notices/all_notices.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/all_notices/all_notices_clean_code/presentation/screens/all_notices_clean.dart';
+import 'package:dayonecontacts/router/app_router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/entities/integration.dart';
 import '../bloc/notice_bloc.dart';
 import 'package:intl/intl.dart'; // Import the intl package
 
+
+@RoutePage()
 class CurrentNoticeHome extends StatelessWidget {
   const CurrentNoticeHome({super.key});
 
@@ -36,7 +41,7 @@ class CurrentNoticeHome extends StatelessWidget {
     }
 
     // Calculate height dynamically based on the number of notices
-    double containerHeight = notices.data.length * 180.0; // Adjust item height (200) and extra padding (100)
+    double containerHeight = notices.data.length * 330.0; // Adjust item height (200) and extra padding (100)
 
     return Container(
       height: containerHeight, // Set dynamic height
@@ -58,10 +63,11 @@ class CurrentNoticeHome extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => AllNoticesClean()));
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => AllNoticesClean()));
+                    AutoRouter.of(context).push(AllNoticesCleanRoute());
                   },
                   child: Row(
                     children: [

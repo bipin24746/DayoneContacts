@@ -37,8 +37,10 @@ final List<Map<String,dynamic>> hiddenVisitors = [
     "text" : "Delivery"
   },
   {
-    "iconVisible" : Icons.car_crash,
+    "iconVisible" :
+    Icons.car_crash,
     "text" : "Ride Sharing"
+
   },
   {
     "iconVisible" : Icons.electrical_services,
