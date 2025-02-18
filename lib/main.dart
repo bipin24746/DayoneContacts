@@ -1,12 +1,15 @@
-import 'package:dayonecontacts/features/login_pages/clean_code/presentation/bloc/login_bloc/auth_bloc.dart';
-import 'package:dayonecontacts/main_home_screen/widgets/current_notices/notices_clean_code/core/di/service_locator.dart';
+
+import 'package:dayonecontacts/main_home_screen/widgets/current_notices/notices_clean_code/core/di/injection.dart';
+import 'package:dayonecontacts/main_home_screen/widgets/current_notices/notices_clean_code/presentation/bloc/notice_bloc.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dayonecontacts/router/app_router.dart';
 
 
 void main() {
-  setupLocator(); // Initialize Dependency Injection
+  // setupLocator(); // Initialize Dependency Injection
+  configureDependencies();
   runApp(MyApp());
 }
 
@@ -18,7 +21,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => sl<AuthBloc>()),
+        BlocProvider(create: (context) => sl<NoticeBloc>()),
       ],
       child: MaterialApp.router(
         title: 'To-Do App',

@@ -3,9 +3,11 @@ import 'dart:developer';
 import 'package:dayonecontacts/main_home_screen/widgets/current_notices/notices_clean_code/core/constants/api_constants.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/current_notices/notices_clean_code/data/models/shared_prefs.dart';
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 
 import '../models/integration_models.dart';
 
+@lazySingleton
 class NoticeRemoteDataSource {
   final Dio dio;
 

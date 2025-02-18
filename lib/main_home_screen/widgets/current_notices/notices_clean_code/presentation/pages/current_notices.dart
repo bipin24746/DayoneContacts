@@ -10,17 +10,13 @@ import '../../domain/entities/integration.dart';
 import '../bloc/notice_bloc.dart';
 import 'package:intl/intl.dart'; // Import the intl package
 
-
 @RoutePage()
 class CurrentNoticeHome extends StatelessWidget {
   const CurrentNoticeHome({super.key});
 
   @override
   Widget build(BuildContext context) {
-
-    return BlocProvider(
-  create: (context) => sl<NoticeBloc>()..add(FetchNotices()),
-  child: BlocBuilder<NoticeBloc, NoticeState>(
+    return BlocBuilder<NoticeBloc, NoticeState>(
       builder: (context, state) {
         if (state is NoticeLoading) {
           return const Center(child: CircularProgressIndicator());
@@ -33,8 +29,27 @@ class CurrentNoticeHome extends StatelessWidget {
           return const Center(child: Text('No notices available'));
         }
       },
-    ),
-);
+    );
+
+
+  // Widget build(BuildContext context) {
+  //   return BlocProvider(
+  //     create: (context) => sl<NoticeBloc>()..add(FetchNotices()),
+  //     child: BlocBuilder<NoticeBloc, NoticeState>(
+  //       builder: (context, state) {
+  //         if (state is NoticeLoading) {
+  //           return const Center(child: CircularProgressIndicator());
+  //         } else if (state is NoticeLoaded) {
+  //           debugPrint("Notices received: ${state.notices.data.length}");
+  //           return _buildNoticesList(state.notices, context);
+  //         } else if (state is NoticeError) {
+  //           return Center(child: Text(state.message));
+  //         } else {
+  //           return const Center(child: Text('No notices available'));
+  //         }
+  //       },
+  //     ),
+  //   );
   }
 
   Widget _buildNoticesList(Integration notices, BuildContext context) {
@@ -45,7 +60,8 @@ class CurrentNoticeHome extends StatelessWidget {
     }
 
     // Calculate height dynamically based on the number of notices
-    double containerHeight = notices.data.length * 330.0; // Adjust item height (200) and extra padding (100)
+    double containerHeight = notices.data.length *
+        330.0; // Adjust item height (200) and extra padding (100)
 
     return Container(
       height: containerHeight, // Set dynamic height
@@ -61,7 +77,8 @@ class CurrentNoticeHome extends StatelessWidget {
                   children: [
                     Text(
                       "Current Notices",
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -104,8 +121,10 @@ class CurrentNoticeHome extends StatelessWidget {
                   final notice = notices.data[index];
 
                   // Format the createdAt field using the DateFormat class
-                  String formattedDate = DateFormat('MMM dd, yyyy').format(notice.createdAt);
-                  String formattedTime = DateFormat('hh:mm a').format(notice.createdAt);
+                  String formattedDate =
+                      DateFormat('MMM dd, yyyy').format(notice.createdAt);
+                  String formattedTime =
+                      DateFormat('hh:mm a').format(notice.createdAt);
 
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
@@ -131,7 +150,8 @@ class CurrentNoticeHome extends StatelessWidget {
                                 child: Text(
                                   notice.category,
                                   style: TextStyle(
-                                      color: Colors.white, fontWeight: FontWeight.bold),
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ),
@@ -147,17 +167,21 @@ class CurrentNoticeHome extends StatelessWidget {
                               children: [
                                 Text(
                                   notice.title,
-                                  maxLines:3, // Expand on Read More
+                                  maxLines: 3, // Expand on Read More
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 18),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
                                 ),
                                 Row(
                                   children: [
-                                    Text(formattedDate), // Display formatted date
+                                    Text(
+                                        formattedDate), // Display formatted date
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 18.0),
-                                      child: Text(formattedTime), // Display formatted time
+                                      padding:
+                                          const EdgeInsets.only(left: 18.0),
+                                      child: Text(
+                                          formattedTime), // Display formatted time
                                     ),
                                   ],
                                 ),
@@ -171,14 +195,16 @@ class CurrentNoticeHome extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 GestureDetector(
-                                  onTap: (){
+                                  onTap: () {
                                     isExpanded = !isExpanded;
                                   },
-                                  child: Text(  isExpanded ? "Read Less" : "Read More",
+                                  child: Text(
+                                    isExpanded ? "Read Less" : "Read More",
                                     style: TextStyle(
                                       color: Colors.blue,
                                       fontWeight: FontWeight.bold,
-                                    ),),
+                                    ),
+                                  ),
                                 )
                               ],
                             ),
