@@ -39,7 +39,7 @@ class _HomeVisitorsState extends State<HomeVisitors> {
         break;
       case "Ride Sharing":
       // Navigate to Ride Sharing page
-        AutoRouter.of(context).push(AddVehiclesRoute());
+        AutoRouter.of(context).push(AddVehicleRoute());
         break;
       case "Services":
       // Navigate to Services page

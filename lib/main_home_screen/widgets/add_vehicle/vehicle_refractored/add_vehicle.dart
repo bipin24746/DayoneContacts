@@ -1,11 +1,13 @@
 import 'dart:io';
 
+import 'package:auto_route/annotations.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/add_vehicle/vehicle_refractored/vehicle_services.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'vehicle_image_picker.dart';
 import 'vehicle_type_dropdown.dart';
 
+@RoutePage()
 class AddVehicle extends StatefulWidget {
   const AddVehicle({super.key});
 

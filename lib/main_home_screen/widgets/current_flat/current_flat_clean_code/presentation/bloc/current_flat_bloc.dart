@@ -4,10 +4,12 @@ import 'package:dayonecontacts/core/errors/failures.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/current_flat/current_flat_clean_code/domain/entity/integration.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/current_flat/current_flat_clean_code/domain/usecases/get_current_flat.dart';
 import 'package:equatable/equatable.dart';
+import 'package:injectable/injectable.dart';
 
 part 'current_flat_event.dart';
 part 'current_flat_state.dart';
 
+@injectable
 class CurrentFlatBloc extends Bloc<CurrentFlatEvent, CurrentFlatState> {
   final GetCurrentFlat getCurrentFlat;
 

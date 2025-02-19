@@ -3,7 +3,10 @@ import 'package:dayonecontacts/core/errors/failures.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/current_flat/current_flat_clean_code/data/data_source/current_flat_remote_datasource.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/current_flat/current_flat_clean_code/domain/entity/integration.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/current_flat/current_flat_clean_code/domain/repositories/current_flat_repositories.dart';
+import 'package:injectable/injectable.dart';
 
+
+@LazySingleton(as: CurrentRepository)
 class CurrentFlatRepositoryImpl implements CurrentRepository{
   final CurrentFlatRemoteDataSource remoteDataSource;
   CurrentFlatRepositoryImpl(this.remoteDataSource);

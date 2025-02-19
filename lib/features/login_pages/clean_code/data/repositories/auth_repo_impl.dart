@@ -7,13 +7,16 @@ import 'package:dayonecontacts/features/login_pages/clean_code/domain/entity/log
 // import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_code/domain/entity/login_entity/auth_entity.dart';
 // import 'package:dayonecontacts/main_home_screen/pages/login_pages/clean_code/domain/entity/login_entity/auth_response_entity.dart';
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../models/auth_model/auth_response_model.dart';
 
+
+@LazySingleton(as: AuthRepository)
 class AuthRepositoryImpl extends AuthRepository {
   final AuthDataSource authDataSource;
 
-  AuthRepositoryImpl(this.authDataSource);
+  AuthRepositoryImpl({required this.authDataSource});
 
   @override
   Future<Either<Failure, AuthResponseEntity>> performAuth({

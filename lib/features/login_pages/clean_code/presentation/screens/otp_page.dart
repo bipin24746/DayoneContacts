@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:dayonecontacts/di/injection.dart';
 import 'package:dayonecontacts/features/login_pages/clean_code/data/data_sources/verify_otp_data_source.dart';
 import 'package:dayonecontacts/features/login_pages/clean_code/data/repositories/verify_otp_repo_impl.dart';
 import 'package:dayonecontacts/features/login_pages/clean_code/domain/usecases/otp_use_case.dart';
@@ -14,6 +15,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+
 @RoutePage()
 class OtpPage extends StatefulWidget {
   final String phoneNo;
@@ -30,7 +32,6 @@ class OtpPage extends StatefulWidget {
   @override
   _OtpPageState createState() => _OtpPageState();
 }
-
 
 class _OtpPageState extends State<OtpPage> {
   TextEditingController _otpVerified = TextEditingController();
@@ -83,16 +84,35 @@ class _OtpPageState extends State<OtpPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => OtpVerificationBloc(
-        otpUseCase: OtpUseCase(
-          otpResponseRepo: VerifyOtpRepoImpl(
-            verifyOtpDataSource: VerifyOtpDataSourceImpl(
-              dio: Dio(),
-            ),
-          ),
-        ),
-      ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => sl<OtpVerificationBloc>())
+        //     ..add(OtpVerificationUserEvent(
+        //       phoneNo: widget.phoneNo,
+        //       otp: widget.otp,
+        //       hash: widget.hash,
+        //       fcmToken:
+        //       'fhCbQpQSQCKFH5pIXRl8aL:APA91bFQurQq0hivgZGZ3A3QI4IkZojznFPgtskZsvVh16aSnl56JkquQVMddRq3QNSIJe7qv4YlxI7Uv-N_YsxqeYb4_1Wy551BYzCFJCObDXZE-VzLtIhp1iBBy8nv-PyTTKTx1apL', // Replace with actual FCM token
+        //
+        //       deviceId:
+        //       '04762b6a13fe52fb', // Replace with actual device ID
+        //       deviceType:
+        //       'android', )),
+        // ),
+        // BlocProvider(
+        //   create: (context) => OtpVerificationBloc(
+        //     otpUseCase: OtpUseCase(
+        //       otpResponseRepo: VerifyOtpRepoImpl(
+        //         verifyOtpDataSource: VerifyOtpDataSourceImpl(
+        //           dio: Dio(),
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        // ),
+
+      ],
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: PreferredSize(
@@ -149,7 +169,6 @@ class _OtpPageState extends State<OtpPage> {
                       onPressed: _resendOtp,
                       child: const Text("Resend OTP"),
                     ),
-
                 ],
               ),
               Text("${widget.otp}")

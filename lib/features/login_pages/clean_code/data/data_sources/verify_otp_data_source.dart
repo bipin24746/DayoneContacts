@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 import '../models/otp_model/otp_response_model.dart';
 
 abstract class VerifyOtpDataSource {
@@ -12,6 +13,8 @@ abstract class VerifyOtpDataSource {
     required String fcmToken,
   });
 }
+
+@LazySingleton(as: VerifyOtpDataSource)
 
 class VerifyOtpDataSourceImpl implements VerifyOtpDataSource {
   final Dio dio;

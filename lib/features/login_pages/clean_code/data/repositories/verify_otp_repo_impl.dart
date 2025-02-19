@@ -6,8 +6,9 @@ import 'package:dayonecontacts/features/login_pages/clean_code/data/models/otp_m
 import 'package:dayonecontacts/features/login_pages/clean_code/domain/repositories/otp_reponse_repo.dart';
 
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 
-
+@LazySingleton(as: OtpResponseRepo)
 class VerifyOtpRepoImpl extends OtpResponseRepo {
   final VerifyOtpDataSource verifyOtpDataSource;
 
