@@ -159,16 +159,16 @@ class _BlocLoginPageState extends State<BlocLoginPage> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-            create: (context) => sl<AuthBloc>()
-              ..add(AuthUserEvent(phoneNo: _phoneNoController.text))),
-        BlocProvider(
-          create: (context) => AuthBloc(
-            authUseCase: AuthUseCase(
-              authRepository:
-                  AuthRepositoryImpl(authDataSource: AuthDataSourceimpl(dio:Dio())),
-            ),
-          ),
-        ),
+            create: (context) => sl<AuthBloc>())
+              // ..add(AuthUserEvent(phoneNo: _phoneNoController.text))),
+        // BlocProvider(
+        //   create: (context) => AuthBloc(
+        //      AuthUseCase(
+        //       authRepository:
+        //           AuthRepositoryImpl(authDataSource: AuthDataSourceimpl(dio:Dio())),
+        //     ),
+        //   ),
+        // ),
       ],
       child: Builder(
         builder: (context) {

@@ -3,7 +3,10 @@ import 'package:dayonecontacts/core/errors/failures.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/all_notices/all_notices_clean_code/data/data_source/all_notices_remote_datasource.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/all_notices/all_notices_clean_code/domain/entities/all_notice_integration.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/all_notices/all_notices_clean_code/domain/repositories/all_notice_repositories.dart';
+import 'package:injectable/injectable.dart';
 
+
+@LazySingleton(as: AllNoticeRepositories)
 class AllNoticesRepositoryImplementation implements AllNoticeRepositories{
   final AllNoticeRemoteDataSource allNoticeRemoteDataSource;
   AllNoticesRepositoryImplementation(this.allNoticeRemoteDataSource);

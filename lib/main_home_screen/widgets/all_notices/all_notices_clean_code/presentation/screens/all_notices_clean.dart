@@ -1,4 +1,5 @@
 import 'package:auto_route/annotations.dart';
+import 'package:dayonecontacts/di/injection.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/all_notices/all_notices_clean_code/data/data_source/all_notices_remote_datasource.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/all_notices/all_notices_clean_code/data/repositories/all_notices_repository_implementation.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/all_notices/all_notices_clean_code/domain/entities/all_notice_integration.dart';
@@ -24,16 +25,17 @@ class _AllNoticesCleanState extends State<AllNoticesClean> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AllNoticeBloc(
-        getAllNotices: GetAllNoticesUsecase(
-          AllNoticesRepositoryImplementation(
-            AllNoticeRemoteDataSource(
-              Dio(),
-            ),
-          ),
-        ),
-      )..add(FetchAllNotices()),
+    return BlocProvider(create: (context) => sl<AllNoticeBloc>()..add(FetchAllNotices()),
+    // return BlocProvider(
+    //   create: (context) => AllNoticeBloc(
+    //     getAllNotices: GetAllNoticesUsecase(
+    //       AllNoticesRepositoryImplementation(
+    //         AllNoticeRemoteDataSource(
+    //           Dio(),
+    //         ),
+    //       ),
+    //     ),
+    //   )..add(FetchAllNotices()),
       child: BlocBuilder<AllNoticeBloc, AllNoticeState>(
         builder: (context, state) {
           if (state is AllNoticeLoading) {

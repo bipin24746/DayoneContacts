@@ -40,25 +40,25 @@ class HomeScreenMain extends StatelessWidget {
 
         BlocProvider(    create: (context) => sl<NoticeBloc>()..add(FetchNotices()), ),
         BlocProvider(create: (context) => sl<CurrentFlatBloc>()..add(FetchCurrentFlat())),
-        BlocProvider(
-          create: (context) => NoticeBloc(
-            getNotices: GetNoticesUsecase(
-              NoticeRepositoryImpl(
-                NoticeRemoteDataSourceimpl(Dio()),
-              ),
-            ),
-          )..add(FetchNotices()),
-        ),
-        BlocProvider(
-            create: (context) => CurrentFlatBloc(
-                  getCurrentFlat: GetCurrentFlat(
-                    CurrentFlatRepositoryImpl(
-                      CurrentFlatRemoteDataSourceimpl(
-                        Dio(),
-                      ),
-                    ),
-                  ),
-                )..add(FetchCurrentFlat())),
+        // BlocProvider(
+        //   create: (context) => NoticeBloc(
+        //     getNotices: GetNoticesUsecase(
+        //       NoticeRepositoryImpl(
+        //         NoticeRemoteDataSourceimpl(Dio()),
+        //       ),
+        //     ),
+        //   )..add(FetchNotices()),
+        // ),
+        // BlocProvider(
+        //     create: (context) => CurrentFlatBloc(
+        //           getCurrentFlat: GetCurrentFlat(
+        //             CurrentFlatRepositoryImpl(
+        //               CurrentFlatRemoteDataSourceimpl(
+        //                 Dio(),
+        //               ),
+        //             ),
+        //           ),
+        //         )..add(FetchCurrentFlat())),
 
       ],
       child: Builder(builder: (context) {

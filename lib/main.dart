@@ -9,7 +9,7 @@ import 'package:dayonecontacts/router/app_router.dart';
 
 void main() {
   // setupLocator(); // Initialize Dependency Injection
-  // configureDependencies();
+  configureDependencies();
   runApp(MyApp());
 }
 

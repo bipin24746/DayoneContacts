@@ -87,30 +87,30 @@ class _OtpPageState extends State<OtpPage> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => sl<OtpVerificationBloc>()
-            ..add(OtpVerificationUserEvent(
-              phoneNo: widget.phoneNo,
-              otp: widget.otp,
-              hash: widget.hash,
-              fcmToken:
-              'fhCbQpQSQCKFH5pIXRl8aL:APA91bFQurQq0hivgZGZ3A3QI4IkZojznFPgtskZsvVh16aSnl56JkquQVMddRq3QNSIJe7qv4YlxI7Uv-N_YsxqeYb4_1Wy551BYzCFJCObDXZE-VzLtIhp1iBBy8nv-PyTTKTx1apL', // Replace with actual FCM token
-
-              deviceId:
-              '04762b6a13fe52fb', // Replace with actual device ID
-              deviceType:
-              'android', )),
-        ),
-        BlocProvider(
-          create: (context) => OtpVerificationBloc(
-            otpUseCase: OtpUseCase(
-              otpResponseRepo: VerifyOtpRepoImpl(
-                verifyOtpDataSource: VerifyOtpDataSourceImpl(
-                  dio: Dio(),
-                ),
-              ),
-            ),
-          ),
-        ),
+          create: (context) => sl<OtpVerificationBloc>())
+        //     ..add(OtpVerificationUserEvent(
+        //       phoneNo: widget.phoneNo,
+        //       otp: widget.otp,
+        //       hash: widget.hash,
+        //       fcmToken:
+        //       'fhCbQpQSQCKFH5pIXRl8aL:APA91bFQurQq0hivgZGZ3A3QI4IkZojznFPgtskZsvVh16aSnl56JkquQVMddRq3QNSIJe7qv4YlxI7Uv-N_YsxqeYb4_1Wy551BYzCFJCObDXZE-VzLtIhp1iBBy8nv-PyTTKTx1apL', // Replace with actual FCM token
+        //
+        //       deviceId:
+        //       '04762b6a13fe52fb', // Replace with actual device ID
+        //       deviceType:
+        //       'android', )),
+        // ),
+        // BlocProvider(
+        //   create: (context) => OtpVerificationBloc(
+        //     otpUseCase: OtpUseCase(
+        //       otpResponseRepo: VerifyOtpRepoImpl(
+        //         verifyOtpDataSource: VerifyOtpDataSourceImpl(
+        //           dio: Dio(),
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        // ),
 
       ],
       child: Scaffold(
