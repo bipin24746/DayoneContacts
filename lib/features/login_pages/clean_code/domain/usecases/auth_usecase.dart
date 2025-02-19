@@ -4,8 +4,9 @@ import 'package:dayonecontacts/features/login_pages/clean_code/core/usecases/use
 import 'package:dayonecontacts/features/login_pages/clean_code/domain/entity/login_entity/auth_entity.dart';
 import 'package:dayonecontacts/features/login_pages/clean_code/domain/entity/login_entity/auth_response_entity.dart';
 import 'package:dayonecontacts/features/login_pages/clean_code/domain/repositories/auth_repository.dart';
+import 'package:injectable/injectable.dart';
 
-
+@lazySingleton
 class AuthUseCase implements UseCase<AuthResponseEntity, AuthEntity> {
   final AuthRepository authRepository;
 

@@ -1,11 +1,11 @@
 import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:dayonecontacts/main_home_screen/widgets/all_notices/all_notices.dart';
-import 'package:dayonecontacts/main_home_screen/widgets/all_notices/all_notices_clean_code/presentation/screens/all_notices_clean.dart';
-import 'package:dayonecontacts/main_home_screen/widgets/current_notices/notices_clean_code/core/di/service_locator.dart';
+import 'package:dayonecontacts/di/injection.dart';
+
 import 'package:dayonecontacts/router/app_router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import '../../domain/entities/integration.dart';
 import '../bloc/notice_bloc.dart';
 import 'package:intl/intl.dart'; // Import the intl package
@@ -15,41 +15,37 @@ class CurrentNoticeHome extends StatelessWidget {
   const CurrentNoticeHome({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<NoticeBloc, NoticeState>(
-      builder: (context, state) {
-        if (state is NoticeLoading) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (state is NoticeLoaded) {
-          debugPrint("Notices received: ${state.notices.data.length}");
-          return _buildNoticesList(state.notices, context);
-        } else if (state is NoticeError) {
-          return Center(child: Text(state.message));
-        } else {
-          return const Center(child: Text('No notices available'));
-        }
-      },
-    );
-
-
   // Widget build(BuildContext context) {
-  //   return BlocProvider(
-  //     create: (context) => sl<NoticeBloc>()..add(FetchNotices()),
-  //     child: BlocBuilder<NoticeBloc, NoticeState>(
-  //       builder: (context, state) {
-  //         if (state is NoticeLoading) {
-  //           return const Center(child: CircularProgressIndicator());
-  //         } else if (state is NoticeLoaded) {
-  //           debugPrint("Notices received: ${state.notices.data.length}");
-  //           return _buildNoticesList(state.notices, context);
-  //         } else if (state is NoticeError) {
-  //           return Center(child: Text(state.message));
-  //         } else {
-  //           return const Center(child: Text('No notices available'));
-  //         }
-  //       },
-  //     ),
+  //   return BlocBuilder<NoticeBloc, NoticeState>(
+  //     builder: (context, state) {
+  //       if (state is NoticeLoading) {
+  //         return const Center(child: CircularProgressIndicator());
+  //       } else if (state is NoticeLoaded) {
+  //         debugPrint("Notices received: ${state.notices.data.length}");
+  //         return _buildNoticesList(state.notices, context);
+  //       } else if (state is NoticeError) {
+  //         return Center(child: Text(state.message));
+  //       } else {
+  //         return const Center(child: Text('No notices available'));
+  //       }
+  //     },
   //   );
+
+    Widget build(BuildContext context) {
+      return BlocBuilder<NoticeBloc, NoticeState>(
+        builder: (context, state) {
+          if (state is NoticeLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is NoticeLoaded) {
+            debugPrint("Notices received: ${state.notices.data.length}");
+            return _buildNoticesList(state.notices, context);
+          } else if (state is NoticeError) {
+            return Center(child: Text(state.message));
+          } else {
+            return const Center(child: Text('No notices available'));
+          }
+        },
+      );
   }
 
   Widget _buildNoticesList(Integration notices, BuildContext context) {

@@ -6,12 +6,14 @@ import 'package:dayonecontacts/features/login_pages/clean_code/domain/entity/log
 import 'package:dayonecontacts/features/login_pages/clean_code/domain/usecases/auth_usecase.dart';
 
 import 'package:equatable/equatable.dart';
+import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
 
+@injectable
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthUseCase authUseCase;
 

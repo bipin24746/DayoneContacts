@@ -1,4 +1,5 @@
 import 'package:auto_route/annotations.dart';
+import 'package:dayonecontacts/di/injection.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/all_notices/all_notices_clean_code/data/data_source/all_notices_remote_datasource.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/all_notices/all_notices_clean_code/data/repositories/all_notices_repository_implementation.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/all_notices/all_notices_clean_code/domain/usecase/get_all_notices_usecases.dart';
@@ -35,11 +36,15 @@ class HomeScreenMain extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+
+
+        BlocProvider(    create: (context) => sl<NoticeBloc>()..add(FetchNotices()), ),
+        BlocProvider(create: (context) => sl<CurrentFlatBloc>()..add(FetchCurrentFlat())),
         BlocProvider(
           create: (context) => NoticeBloc(
             getNotices: GetNoticesUsecase(
               NoticeRepositoryImpl(
-                NoticeRemoteDataSource(Dio()),
+                NoticeRemoteDataSourceimpl(Dio()),
               ),
             ),
           )..add(FetchNotices()),
@@ -48,8 +53,8 @@ class HomeScreenMain extends StatelessWidget {
             create: (context) => CurrentFlatBloc(
                   getCurrentFlat: GetCurrentFlat(
                     CurrentFlatRepositoryImpl(
-                      CurrentFlatRemoteDataSource(
-                        http.Client(),
+                      CurrentFlatRemoteDataSourceimpl(
+                        Dio(),
                       ),
                     ),
                   ),

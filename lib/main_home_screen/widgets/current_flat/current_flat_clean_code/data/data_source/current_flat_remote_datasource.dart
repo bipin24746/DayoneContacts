@@ -1,15 +1,22 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'package:dayonecontacts/main_home_screen/widgets/current_flat/current_flat_clean_code/core/constants/api_constants_current_flat.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/current_flat/current_flat_clean_code/data/models/current_flat_integration_models.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/current_flat/current_flat_clean_code/data/models/shared_prefs.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 
-class CurrentFlatRemoteDataSource {
-  final http.Client client;
 
-  CurrentFlatRemoteDataSource(this.client);
+
+abstract class CurrentFlatRemoteDataSource{
+  Future<CurrentFlatIntegrationModel> getDataFlat();
+}
+
+
+@LazySingleton(as: CurrentFlatRemoteDataSource)
+class CurrentFlatRemoteDataSourceimpl implements CurrentFlatRemoteDataSource{
+  final Dio dio;
+
+  CurrentFlatRemoteDataSourceimpl(this.dio);
 
   Future<CurrentFlatIntegrationModel> getDataFlat() async {
     try {
@@ -19,20 +26,17 @@ class CurrentFlatRemoteDataSource {
         throw Exception('Authentication token not found');
       }
 
+      // Set up Dio headers with Authorization token
+      dio.options.headers['Authorization'] = 'Bearer $token';
+
       // Make the API request
-      final response = await client.get(
-        Uri.parse(ApiConstantsCurrentFlat.currentFlatEndPoint),
-        headers: {
-          'Authorization': 'Bearer $token',
-        },
-      );
+      final response = await dio.get(ApiConstantsCurrentFlat.currentFlatEndPoint);
 
       // Check if the status code is 200 (success)
       if (response.statusCode == 200) {
-        final Map<String, dynamic> data = json.decode(response.body);
+        final Map<String, dynamic> data = response.data;
         log('Data from flats: $data');
         // Ensure that CurrentFlatIntegrationModel can handle the data
-
         return CurrentFlatIntegrationModel.fromJson(data);
       } else {
         // Handle different HTTP errors more specifically

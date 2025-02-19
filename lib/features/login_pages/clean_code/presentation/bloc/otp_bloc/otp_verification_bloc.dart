@@ -8,12 +8,13 @@ import 'package:dayonecontacts/features/login_pages/clean_code/domain/entity/otp
 import 'package:dayonecontacts/features/login_pages/clean_code/domain/usecases/otp_use_case.dart';
 
 import 'package:equatable/equatable.dart';
+import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'otp_verification_event.dart';
 part 'otp_verification_state.dart';
-
+@injectable
 class OtpVerificationBloc extends Bloc<OtpVerificationEvent, OtpVerificationState> {
   final OtpUseCase otpUseCase;
 

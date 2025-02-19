@@ -6,7 +6,8 @@ import 'package:dayonecontacts/features/login_pages/clean_code/domain/entity/otp
 import 'package:dayonecontacts/features/login_pages/clean_code/domain/repositories/otp_reponse_repo.dart';
 
 import 'package:flutter/animation.dart';
-
+import 'package:injectable/injectable.dart';
+@lazySingleton
 class OtpUseCase implements UseCase<OtpResponseEntity,OtpEntity>{
 final OtpResponseRepo otpResponseRepo;
 const OtpUseCase({

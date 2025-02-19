@@ -4,8 +4,7 @@ import 'package:injectable/injectable.dart';
 import '../repositories/notice_repository.dart';
 import '../entities/integration.dart';
 
-
-@LazySingleton()
+@lazySingleton
 class GetNoticesUsecase {
   final NoticeRepository repository;
 

@@ -1,5 +1,5 @@
 
-import 'package:dayonecontacts/main_home_screen/widgets/current_notices/notices_clean_code/core/di/injection.dart';
+import 'package:dayonecontacts/di/injection.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/current_notices/notices_clean_code/presentation/bloc/notice_bloc.dart';
 
 import 'package:flutter/material.dart';
@@ -9,7 +9,7 @@ import 'package:dayonecontacts/router/app_router.dart';
 
 void main() {
   // setupLocator(); // Initialize Dependency Injection
-  configureDependencies();
+  // configureDependencies();
   runApp(MyApp());
 }
 
@@ -19,15 +19,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => sl<NoticeBloc>()),
-      ],
-      child: MaterialApp.router(
-        title: 'To-Do App',
-        theme: ThemeData(primarySwatch: Colors.blue),
-        routerConfig: _appRouter.config(), // Use AutoRoute
-      ),
+    return MaterialApp.router(
+      title: 'To-Do App',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      routerConfig: _appRouter.config(), // Use AutoRoute
     );
   }
 }

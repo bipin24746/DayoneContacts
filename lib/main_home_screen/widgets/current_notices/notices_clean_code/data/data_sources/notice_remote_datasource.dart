@@ -7,12 +7,17 @@ import 'package:injectable/injectable.dart';
 
 import '../models/integration_models.dart';
 
-@lazySingleton
-class NoticeRemoteDataSource {
+
+abstract class NoticeRemoteDataSource {
+  Future<IntegrationModel> getNotices();
+}
+
+@LazySingleton(as: NoticeRemoteDataSource)
+class NoticeRemoteDataSourceimpl implements NoticeRemoteDataSource{
   final Dio dio;
 
   // Constructor to inject Dio instance
-  NoticeRemoteDataSource(this.dio);
+  NoticeRemoteDataSourceimpl(this.dio);
 
   Future<IntegrationModel> getNotices() async {
     // Retrieve the token from SharedPreferences

@@ -104,12 +104,9 @@
 //   }
 // }
 
-
-
-
-
 import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:dayonecontacts/di/injection.dart';
 import 'package:dayonecontacts/features/login_pages/clean_code/data/data_sources/auth_data_sources.dart';
 import 'package:dayonecontacts/features/login_pages/clean_code/data/repositories/auth_repo_impl.dart';
 import 'package:dayonecontacts/features/login_pages/clean_code/domain/usecases/auth_usecase.dart';
@@ -120,6 +117,7 @@ import 'package:dayonecontacts/router/app_router.gr.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 @RoutePage()
 class BlocLoginPage extends StatefulWidget {
   const BlocLoginPage({super.key});
@@ -158,12 +156,20 @@ class _BlocLoginPageState extends State<BlocLoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AuthBloc(
-        authUseCase: AuthUseCase(
-          authRepository: AuthRepositoryImpl(AuthDataSource(Dio())),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+            create: (context) => sl<AuthBloc>()
+              ..add(AuthUserEvent(phoneNo: _phoneNoController.text))),
+        BlocProvider(
+          create: (context) => AuthBloc(
+            authUseCase: AuthUseCase(
+              authRepository:
+                  AuthRepositoryImpl(authDataSource: AuthDataSourceimpl(dio:Dio())),
+            ),
+          ),
         ),
-      ),
+      ],
       child: Builder(
         builder: (context) {
           return BlocListener<AuthBloc, AuthState>(
@@ -189,13 +195,13 @@ class _BlocLoginPageState extends State<BlocLoginPage> {
                 //     ),
                 //   ),
                 // );
-                AutoRouter.of(context).push(OtpPageRoute(hash: state.authResponseEntity.authResponseDataEntity
-                    ?.hash ??
-                    '',
-                  otp: state
-                      .authResponseEntity.authResponseDataEntity?.otp ??
+                AutoRouter.of(context).push(OtpPageRoute(
+                  hash: state.authResponseEntity.authResponseDataEntity?.hash ??
                       '',
-                  phoneNo: _phoneNoController.text,));
+                  otp: state.authResponseEntity.authResponseDataEntity?.otp ??
+                      '',
+                  phoneNo: _phoneNoController.text,
+                ));
               } else if (state is AuthErrorState) {
                 // Show error message if authentication fails
                 ScaffoldMessenger.of(context).showSnackBar(
