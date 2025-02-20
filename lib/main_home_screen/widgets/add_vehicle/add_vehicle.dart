@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 @RoutePage()
 class AddVehicles extends StatefulWidget {
   const AddVehicles({super.key});
@@ -28,6 +29,78 @@ class _AddVehiclesState extends State<AddVehicles> {
       setState(() {
         _image = File(pickedFile.path);
       });
+    }
+  }
+
+  Future<void> vehicleAdded() async {
+    Dio dio = Dio();
+    final url = 'https://housing-stagingserver.aitc.ai/api/v1/client/vehicle';
+
+    // Declare authToken early and retrieve it from SharedPreferences
+    final prefs = await SharedPreferences.getInstance();
+    final authToken = prefs.getString('authToken'); // Retrieve the auth token
+
+    // Ensure the token is not null before proceeding
+    if (authToken == null) {
+      print('No authorization token found');
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Authorization token is missing.")));
+      return; // Exit if no token exists
+    }
+
+    // Set headers after ensuring token is available
+    dio.options.headers = {
+      'Authorization': 'Bearer $authToken', // Add the token to headers
+      'Content-Type':
+          'application/json', // Make sure you set the correct content type
+    };
+
+    try {
+      // Prepare data for the request
+      final data = {
+        'type': _selectedValue, // Use the selected vehicle type
+        'name': vehicleNameController.text,
+        'noplate': vehicleNumberController.text,
+        'file': _image != null
+            ? await MultipartFile.fromFile(_image!.path, filename: "")
+            : '', // Attach file if selected
+      };
+
+      FormData formData = FormData.fromMap(data);
+
+      final response = await dio.post(
+        url,
+        data: formData, // Send form data for file upload
+      );
+
+      if (response.statusCode == 201) {
+        // Check the success status from response
+        final responseData = response.data;
+        if (responseData['success'] == true) {
+          // Display success message
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Vehicle created successfully")));
+        } else {
+          // Handle error based on response message
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(responseData['message'] ?? 'Unknown error')));
+        }
+      } else {
+        // Handle unexpected errors (non-200 status codes)
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Errors: ${response.statusCode}")));
+      }
+    } catch (e) {
+      print("Error: $e");
+      if (e is DioError) {
+        print("Dio Error: ${e.response?.data}");
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Dio Error: ${e.response?.data}")));
+      } else {
+        // Generic error
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("An error occurred")));
+      }
     }
   }
 
@@ -62,70 +135,6 @@ class _AddVehiclesState extends State<AddVehicles> {
         });
   }
 
-  Future<void> vehicleAdded() async {
-    Dio dio = Dio();
-    final url = 'https://housing-stagingserver.aitc.ai/api/v1/client/vehicle';
-
-    // Declare authToken early and retrieve it from SharedPreferences
-    final prefs = await SharedPreferences.getInstance();
-    final authToken = prefs.getString('authToken'); // Retrieve the auth token
-
-    // Ensure the token is not null before proceeding
-    if (authToken == null) {
-      print('No authorization token found');
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Authorization token is missing.")));
-      return; // Exit if no token exists
-    }
-
-    // Set headers after ensuring token is available
-    dio.options.headers = {
-      'Authorization': 'Bearer $authToken', // Add the token to headers
-      'Content-Type': 'application/json', // Make sure you set the correct content type
-    };
-
-    try {
-      // Prepare data for the request
-      final data = {
-        'type': _selectedValue, // Use the selected vehicle type
-        'name': vehicleNameController.text,
-        'noplate': vehicleNumberController.text,
-        'file': _image != null
-            ? await MultipartFile.fromFile(_image!.path, filename: "")
-            : '', // Attach file if selected
-      };
-
-      FormData formData = FormData.fromMap(data);
-
-      final response = await dio.post(
-        url,
-        data: formData, // Send form data for file upload
-      );
-
-      if (response.statusCode == 201) {
-        // Check the success status from response
-        final responseData = response.data;
-        if (responseData['success'] == true) {
-          // Display success message
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Vehicle created successfully")));
-        } else {
-          // Handle error based on response message
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(responseData['message'] ?? 'Unknown error')));
-        }
-      } else {
-        // Handle unexpected errors (non-200 status codes)
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Errors: ${response.statusCode}")));
-      }
-    } catch (e) {
-      print("Error: $e");
-      if (e is DioError) {
-        print("Dio Error: ${e.response?.data}");
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Dio Error: ${e.response?.data}")));
-      } else {
-        // Generic error
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("An error occurred")));
-      }
-    }
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

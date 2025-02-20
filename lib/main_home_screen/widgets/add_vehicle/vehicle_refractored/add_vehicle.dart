@@ -14,7 +14,6 @@ class AddVehicle extends StatefulWidget {
   @override
   State<AddVehicle> createState() => _AddVehicleState();
 }
-
 class _AddVehicleState extends State<AddVehicle> {
   final TextEditingController vehicleNameController = TextEditingController();
   final TextEditingController vehicleNumberController = TextEditingController();
@@ -76,6 +75,8 @@ class _AddVehicleState extends State<AddVehicle> {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please fill all fields")));
                 return;
               }
+
+              // Create the vehicle and pass data back to the previous screen
               await VehicleService.addVehicle(
                 vehicleName: vehicleNameController.text,
                 vehicleNumber: vehicleNumberController.text,
@@ -83,6 +84,16 @@ class _AddVehicleState extends State<AddVehicle> {
                 image: _image,
                 context: context,
               );
+
+              // Create a map or model of vehicle data to pass back
+              Map<String, String> newVehicle = {
+                'name': vehicleNameController.text,
+                'type': _selectedValue!,
+                'vehicleNumber': vehicleNumberController.text,
+              };
+
+              // Pop the current screen and pass the new vehicle data
+              Navigator.pop(context, newVehicle);
             },
             child: const Text(
               "Create",
@@ -94,3 +105,4 @@ class _AddVehicleState extends State<AddVehicle> {
     );
   }
 }
+

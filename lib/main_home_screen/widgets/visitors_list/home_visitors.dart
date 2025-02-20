@@ -5,6 +5,8 @@ import 'package:dayonecontacts/router/app_router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../pages/house_hold/house_hold_service/house_hold_model.dart';
+
 // Move logout function outside of HomeVisitors class
 Future<void> _logout(BuildContext context) async {
   final prefs = await SharedPreferences.getInstance();
@@ -39,8 +41,10 @@ class _HomeVisitorsState extends State<HomeVisitors> {
         break;
       case "Ride Sharing":
       // Navigate to Ride Sharing page
-        AutoRouter.of(context).push(AddVehicleRoute());
+      //   AutoRouter.of(context).push(AddVehicleRoute());
+      AutoRouter.of(context).push(HouseHoldMainRoute(vehicleData: Data()));
         break;
+
       case "Services":
       // Navigate to Services page
       //   AutoRouter.of(context).push(ServicesPageRoute());
