@@ -14,7 +14,8 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: AllNoticesCleanRoute.page),
     AutoRoute(page: AddVehiclesRoute.page),
     AutoRoute(page: AddVehicleRoute.page),
-    AutoRoute(page: AddVehiclePageRoute.page),
+    // AutoRoute(page: AddVehiclePageRoute.page),
     AutoRoute(page: HouseHoldMainRoute.page),
+    AutoRoute(page: HouseHoldScreenRoute.page)
   ];
 }
