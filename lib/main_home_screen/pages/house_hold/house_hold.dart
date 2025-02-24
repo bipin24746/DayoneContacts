@@ -114,7 +114,7 @@ class _HouseHoldScreenState extends State<HouseHoldScreen> {
             // Add Vehicle Button
             GestureDetector(
               onTap: () {
-                AutoRouter.of(context).push(AddVehiclesRoute());
+                AutoRouter.of(context).push(AddVehiclePageRoute());
               },
               child: Container(
                 height: 100,
