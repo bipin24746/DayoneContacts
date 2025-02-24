@@ -1,4 +1,4 @@
-part of 'add_vehicle_bloc.dart';
+part of 'vehicle_bloc.dart';
 
 abstract class AddVehicleEvent extends Equatable {
   @override

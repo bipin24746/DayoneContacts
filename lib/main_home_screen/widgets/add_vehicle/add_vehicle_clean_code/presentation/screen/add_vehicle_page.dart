@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:dayonecontacts/di/injection.dart';
 import 'package:dayonecontacts/main_home_screen/pages/house_hold/house_hold.dart';
-import 'package:dayonecontacts/main_home_screen/widgets/add_vehicle/add_vehicle_clean_code/presentation/bloc/add_vehicle_bloc.dart';
+import 'package:dayonecontacts/main_home_screen/widgets/add_vehicle/add_vehicle_clean_code/presentation/bloc/vehicle_bloc.dart';
 import 'package:dayonecontacts/router/app_router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -84,10 +84,10 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                   ),
                 );
                 AutoRouter.of(context).push(HouseHoldScreenRoute());
-              } else if (state is AddVehicleErrorState) {
+              } else if (state is AddVehicleFailure) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text('Error: ${state.errorMessage}'),
+                    content: Text('Error: ${state.error}'),
                     backgroundColor: Colors.red,
                   ),
                 );
@@ -110,6 +110,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                         // Upload photo
                         Center(
                           child: Column(
+
                             children: [
                               GestureDetector(
                                 onTap: _showImagePickerDialog,

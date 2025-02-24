@@ -44,7 +44,8 @@ class _HomeVisitorsState extends State<HomeVisitors> {
       //   AutoRouter.of(context).push(AddVehicleRoute());
       // AutoRouter.of(context).push(HouseHoldMainRoute(vehicleType: '', vehicleName: '', vehicleNumber: ''));
       // AutoRouter.of(context).push(HouseHoldMainRoute(vehicleData: Data()));
-      AutoRouter.of(context).push(HouseHoldScreenRoute());
+      // AutoRouter.of(context).push(HouseHoldScreenRoute());
+      AutoRouter.of(context).push(GetVehiclePageRoute());
         break;
 
       case "Services":

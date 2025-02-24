@@ -1,6 +1,6 @@
 import 'dart:io';
 
-abstract class AddVehicleRepository{
+abstract class VehicleRepository{
   Future<String> addVehicle({
     required String type,
     required String name,

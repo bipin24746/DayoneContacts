@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:http_parser/http_parser.dart';
+
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-abstract class AddVehicleRemoteDataSource{
+abstract class VehicleRemoteDataSource{
   Future<String> addVehicle({
     required String type,
     required String name,
@@ -14,8 +14,8 @@ abstract class AddVehicleRemoteDataSource{
   });
 }
 
-@LazySingleton(as: AddVehicleRemoteDataSource)
-class AddVehicleRemoteDataSourceimpl implements AddVehicleRemoteDataSource {
+@LazySingleton(as: VehicleRemoteDataSource)
+class VehicleRemoteDataSourceimpl implements VehicleRemoteDataSource {
   final Dio dio = Dio();
   final String url =
       'https://housing-stagingserver.aitc.ai/api/v1/client/vehicle';
@@ -35,7 +35,6 @@ class AddVehicleRemoteDataSourceimpl implements AddVehicleRemoteDataSource {
 
     dio.options.headers = {
       'Authorization': 'Bearer $authToken',
-      'Content-Type': 'multipart/form-data',
     };
 
     try {
@@ -53,7 +52,7 @@ class AddVehicleRemoteDataSourceimpl implements AddVehicleRemoteDataSource {
             await MultipartFile.fromFile(
               image.path,
               filename: image.path.split('/').last,
-              contentType: MediaType('image', 'jpeg'), // Ensure correct mime type
+              contentType:DioMediaType('image', 'jpeg'), // Ensure correct mime type
             ),
           ),
         );

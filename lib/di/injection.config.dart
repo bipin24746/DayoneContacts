@@ -30,16 +30,16 @@ import 'package:dayonecontacts/features/login_pages/clean_code/presentation/bloc
     as _i358;
 import 'package:dayonecontacts/features/login_pages/clean_code/presentation/bloc/otp_bloc/otp_verification_bloc.dart'
     as _i605;
-import 'package:dayonecontacts/main_home_screen/widgets/add_vehicle/add_vehicle_clean_code/data/data_source/add_vehicle_remote_data_source.dart'
-    as _i789;
-import 'package:dayonecontacts/main_home_screen/widgets/add_vehicle/add_vehicle_clean_code/data/repository/add_vehicle_repository_impl.dart'
-    as _i238;
-import 'package:dayonecontacts/main_home_screen/widgets/add_vehicle/add_vehicle_clean_code/domain/repository/add_vehicle_repository.dart'
-    as _i526;
-import 'package:dayonecontacts/main_home_screen/widgets/add_vehicle/add_vehicle_clean_code/domain/use_case/add_vehicle_usecase.dart'
-    as _i952;
-import 'package:dayonecontacts/main_home_screen/widgets/add_vehicle/add_vehicle_clean_code/presentation/bloc/add_vehicle_bloc.dart'
-    as _i922;
+import 'package:dayonecontacts/main_home_screen/widgets/add_vehicle/add_vehicle_clean_code/data/data_source/vehicle_remote_data_source.dart'
+    as _i0;
+import 'package:dayonecontacts/main_home_screen/widgets/add_vehicle/add_vehicle_clean_code/data/repository/vehicle_repository_impl.dart'
+    as _i195;
+import 'package:dayonecontacts/main_home_screen/widgets/add_vehicle/add_vehicle_clean_code/domain/repository/vehicle_repository.dart'
+    as _i742;
+import 'package:dayonecontacts/main_home_screen/widgets/add_vehicle/add_vehicle_clean_code/domain/use_case/vehicle_usecase.dart'
+    as _i971;
+import 'package:dayonecontacts/main_home_screen/widgets/add_vehicle/add_vehicle_clean_code/presentation/bloc/vehicle_bloc.dart'
+    as _i481;
 import 'package:dayonecontacts/main_home_screen/widgets/all_notices/all_notices_clean_code/data/data_source/all_notices_remote_datasource.dart'
     as _i926;
 import 'package:dayonecontacts/main_home_screen/widgets/all_notices/all_notices_clean_code/data/repositories/all_notices_repository_implementation.dart'
@@ -89,10 +89,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i361.Dio>(() => registerModule.dio);
     gh.lazySingleton<_i318.NoticeRemoteDataSource>(
         () => _i318.NoticeRemoteDataSourceimpl(gh<_i361.Dio>()));
-    gh.lazySingleton<_i789.AddVehicleRemoteDataSource>(
-        () => _i789.AddVehicleRemoteDataSourceimpl());
-    gh.lazySingleton<_i526.AddVehicleRepository>(() =>
-        _i238.AddVehicleRepositoryImpl(gh<_i789.AddVehicleRemoteDataSource>()));
     gh.lazySingleton<_i140.CurrentFlatRemoteDataSource>(
         () => _i140.CurrentFlatRemoteDataSourceimpl(gh<_i361.Dio>()));
     gh.lazySingleton<_i926.AllNoticeRemoteDataSource>(
@@ -100,14 +96,18 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i266.CurrentRepository>(() =>
         _i485.CurrentFlatRepositoryImpl(
             gh<_i140.CurrentFlatRemoteDataSource>()));
+    gh.lazySingleton<_i0.VehicleRemoteDataSource>(
+        () => _i0.VehicleRemoteDataSourceimpl());
+    gh.lazySingleton<_i742.VehicleRepository>(
+        () => _i195.VehicleRepositoryImpl(gh<_i0.VehicleRemoteDataSource>()));
     gh.lazySingleton<_i705.AuthDataSource>(
         () => _i705.AuthDataSourceimpl(dio: gh<_i361.Dio>()));
-    gh.lazySingleton<_i952.AddVehicleUseCase>(
-        () => _i952.AddVehicleUseCase(gh<_i526.AddVehicleRepository>()));
     gh.lazySingleton<_i206.VerifyOtpDataSource>(
         () => _i206.VerifyOtpDataSourceImpl(dio: gh<_i361.Dio>()));
     gh.lazySingleton<_i712.NoticeRepository>(
         () => _i98.NoticeRepositoryImpl(gh<_i318.NoticeRemoteDataSource>()));
+    gh.lazySingleton<_i971.VehicleUseCase>(
+        () => _i971.VehicleUseCase(gh<_i742.VehicleRepository>()));
     gh.lazySingleton<_i1063.AuthRepository>(() =>
         _i757.AuthRepositoryImpl(authDataSource: gh<_i705.AuthDataSource>()));
     gh.lazySingleton<_i44.GetCurrentFlat>(
@@ -123,11 +123,11 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i226.GetAllNoticesUsecase(gh<_i491.AllNoticeRepositories>()));
     gh.lazySingleton<_i399.AuthUseCase>(
         () => _i399.AuthUseCase(authRepository: gh<_i1063.AuthRepository>()));
-    gh.factory<_i922.AddVehicleBloc>(
-        () => _i922.AddVehicleBloc(gh<_i952.AddVehicleUseCase>()));
     gh.factory<_i667.CurrentFlatBloc>(
         () => _i667.CurrentFlatBloc(getCurrentFlat: gh<_i44.GetCurrentFlat>()));
     gh.factory<_i358.AuthBloc>(() => _i358.AuthBloc(gh<_i399.AuthUseCase>()));
+    gh.factory<_i481.AddVehicleBloc>(
+        () => _i481.AddVehicleBloc(gh<_i971.VehicleUseCase>()));
     gh.lazySingleton<_i1046.OtpUseCase>(
         () => _i1046.OtpUseCase(otpResponseRepo: gh<_i4.OtpResponseRepo>()));
     gh.factory<_i359.NoticeBloc>(

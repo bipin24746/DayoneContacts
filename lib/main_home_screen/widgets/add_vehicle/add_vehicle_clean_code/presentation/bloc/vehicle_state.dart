@@ -1,4 +1,4 @@
-part of 'add_vehicle_bloc.dart';
+part of 'vehicle_bloc.dart';
 
 abstract class AddVehicleState extends Equatable{
   @override
@@ -30,9 +30,3 @@ class AddVehicleFailure extends AddVehicleState{
   List<Object?> get props => [error];
 }
 
-class AddVehicleErrorState extends AddVehicleState{
-  final String errorMessage;
-  AddVehicleErrorState({
-    required this.errorMessage
-});
-}
