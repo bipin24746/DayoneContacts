@@ -1,32 +1,37 @@
 part of 'vehicle_bloc.dart';
 
-abstract class AddVehicleState extends Equatable{
+abstract class VehicleState extends Equatable {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 
-class AddVehicleInitital extends AddVehicleState{
+class VehicleInitital extends VehicleState {}
 
-}
+class VehicleLoading extends VehicleState {}
 
-class AddVehicleLoading extends AddVehicleState{}
+class VehicleSuccess extends VehicleState {
 
-class AddVehicleSuccess extends AddVehicleState{
   final String message;
-  AddVehicleSuccess(this.message);
+  VehicleSuccess(this.message);
 
   @override
-  // TODO: implement props
   List<Object?> get props => [message];
 }
 
-class AddVehicleFailure extends AddVehicleState{
-  final String error;
-  AddVehicleFailure(this.error);
+class VehicleFetchedSuccess extends VehicleState {
+  final List<VehicleEntity> vehicles;
 
-  @override
-  // TODO: implement props
-  List<Object?> get props => [error];
+  VehicleFetchedSuccess(this.vehicles) {
+    log("Vehicles in Bloc: ${vehicles.length}");
+  }
 }
 
+
+
+class VehicleFailure extends VehicleState {
+  final String error;
+  VehicleFailure(this.error);
+
+  @override
+  List<Object?> get props => [error];
+}

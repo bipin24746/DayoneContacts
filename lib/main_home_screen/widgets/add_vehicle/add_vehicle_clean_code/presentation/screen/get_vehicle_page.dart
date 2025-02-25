@@ -1,6 +1,10 @@
+import 'dart:developer';
 import 'package:auto_route/auto_route.dart';
+import 'package:dayonecontacts/di/injection.dart';
+import 'package:dayonecontacts/main_home_screen/widgets/add_vehicle/add_vehicle_clean_code/presentation/bloc/vehicle_bloc.dart';
 import 'package:dayonecontacts/router/app_router.gr.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 @RoutePage()
 class GetVehiclePage extends StatefulWidget {
@@ -14,7 +18,7 @@ class _GetVehiclePageState extends State<GetVehiclePage> {
   List<dynamic> vehiclesLists = [];
   bool isLoaded = true;
 
-  void _vehiclePopUp(String task) {
+  void _vehiclePopUp(Map<String, dynamic> vehicle) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -24,114 +28,43 @@ class _GetVehiclePageState extends State<GetVehiclePage> {
           width: MediaQuery.of(context).size.width,
           child: Column(
             children: [
-              Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 18.0),
-                    child: Text(
-                      "About Charlie",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Divider(
-                      thickness: 1,
-                    ),
-                  ),
-                  CircleAvatar(
-                    radius: 45,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 2, horizontal: 8),
-                      child: Text(
-                        "2-wheeler",
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  Text(
-                    "Bus Atto 3",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                  )
-                ],
-              ),
-              Row(children: [Padding(
-                padding: const EdgeInsets.only(top: 25.0,left: 20),
-                child: Row(
-                  children: [
-                    Container(
-                      height: 38,
-                      width: MediaQuery.of(context).size.width / 2.5,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.orangeAccent),
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Edit",
-                            style: TextStyle(
-                                color: Colors.orangeAccent,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15),
-                          ),
-                          Icon(
-                            Icons.edit,
-                            color: Colors.orangeAccent,
-                          )
-                        ],
-                      ),
-                    )
-                  ],
+              Padding(
+                padding: const EdgeInsets.only(top: 18.0),
+                child: Text(
+                  vehicle['name'] ?? "Unknown", // Ensure fallback for null values
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
               ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 25.0,left: 20),
-                  child: Row(
-                    children: [
-                      Container(
-                        height: 38,
-                        width: MediaQuery.of(context).size.width / 2.5,
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.redAccent),
-                            borderRadius: BorderRadius.circular(20)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Remove",
-                              style: TextStyle(
-                                  color: Colors.redAccent,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15),
-                            ),
-                            Icon(
-                              Icons.delete,
-                              color: Colors.redAccent,
-                            )
-                          ],
-                        ),
-                      )
-                    ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Divider(thickness: 1),
+              ),
+              CircleAvatar(
+                radius: 45,
+                backgroundImage: NetworkImage(vehicle['image']['url'] ?? ''), // Fallback to empty string
+              ),
+              SizedBox(height: 10),
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+                  child: Text(
+                    vehicle['type'] ?? "Unknown", // Ensure fallback for null values
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                )],)
-
+                ),
+              ),
+              Text(
+                vehicle['noplate'] ?? "Unknown Plate", // Ensure fallback for null values
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
             ],
           ),
         );
@@ -141,44 +74,43 @@ class _GetVehiclePageState extends State<GetVehiclePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Household",
-          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-        ),
-      ),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Padding(
-          padding: const EdgeInsets.only(left: 16.0),
-          child: Row(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      const CircleAvatar(
-                        backgroundColor: Colors.grey,
-                        radius: 20,
-                        child: Icon(
-                          Icons.car_repair,
-                          color: Colors.deepOrangeAccent,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      const Text(
-                        "Vehicles",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          color: Colors.black45,
-                        ),
-                      ),
-                    ],
+    return BlocProvider(
+      create: (context) {
+        final vehicleBloc = sl<VehicleBloc>();
+        log("Fetching vehicles...");
+        vehicleBloc.add(FetchVehiclesEvent());
+        return vehicleBloc;
+      },
+      child: Builder(
+        builder: (context) {
+          return BlocListener<VehicleBloc, VehicleState>(
+            listener: (context, state) {
+              if (state is VehicleSuccess) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Vehicle fetched Successfully"),
+                    backgroundColor: Colors.green,
                   ),
-                  SizedBox(height: 20),
+                );
+              } else if (state is VehicleFailure) {
+                log("Error: ${state.error}");
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("Failed to fetch vehicles: ${state.error}"),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
+            },
+            child: Scaffold(
+              appBar: AppBar(
+                title: Text(
+                  "Vehicles",
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                ),
+              ),
+              body: Column(
+                children: [
                   Row(
                     children: [
                       GestureDetector(
@@ -216,60 +148,80 @@ class _GetVehiclePageState extends State<GetVehiclePage> {
                           ),
                         ),
                       ),
-                      SizedBox(width: 10),
-                      // Wrap the entire container with GestureDetector
-                      GestureDetector(
-                        onTap: () {
-                          _vehiclePopUp("");
-                        },
-                        child: Container(
-                          height: 100,
-                          width: 100,
-                          decoration: BoxDecoration(
-                            border: Border.all(),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Column(
-                            spacing: 2,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(top: 4.0),
-                                child: CircleAvatar(radius: 23),
-                              ),
-                              Text(
-                                "Bus Atto 3",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              DecoratedBox(
-                                decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius: BorderRadius.circular(20),
+                      Expanded(
+                        child: BlocBuilder<VehicleBloc, VehicleState>(
+                          builder: (context, state) {
+                            if (state is VehicleLoading) {
+                              return const Center(child: CircularProgressIndicator());
+                            } else if (state is VehicleFetchedSuccess) {
+                              if (state.vehicles.isEmpty) {
+                                return const Center(child: Text("No vehicles available."));
+                              }
+                              return GridView.builder(
+                                physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3,
+                                  crossAxisSpacing: 10,
+                                  mainAxisSpacing: 10,
+                                  childAspectRatio: 1,
                                 ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 2, horizontal: 8),
-                                  child: Text(
-                                    "2-wheeler",
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
+                                itemCount: state.vehicles.length,
+                                itemBuilder: (context, index) {
+                                  final vehicle = state.vehicles[index];
+
+                                  return GestureDetector(
+                                    onTap: () => _vehiclePopUp(vehicle as Map<String, dynamic>),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(top: 4.0),
+                                            child: CircleAvatar(
+                                              radius: 23,
+                                              backgroundImage: NetworkImage(vehicle.type),
+                                            ),
+                                          ),
+                                          Text(vehicle.name, style: TextStyle(fontWeight: FontWeight.bold)),
+                                          DecoratedBox(
+                                            decoration: BoxDecoration(
+                                              color: Colors.black,
+                                              borderRadius: BorderRadius.circular(20),
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+                                              child: Text(
+                                                vehicle.type,
+                                                style: TextStyle(fontSize: 10, color: Colors.white, fontWeight: FontWeight.bold),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
+                                  );
+                                },
+                              );
+                            } else if (state is VehicleFailure) {
+                              return Center(child: Text(state.error));
+                            } else {
+                              return const Center(child: Text("No Vehicle Available"));
+                            }
+                          },
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ],
               ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }

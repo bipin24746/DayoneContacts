@@ -93,11 +93,11 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i140.CurrentFlatRemoteDataSourceimpl(gh<_i361.Dio>()));
     gh.lazySingleton<_i926.AllNoticeRemoteDataSource>(
         () => _i926.AllNoticeRemoteDataSourceimpl(gh<_i361.Dio>()));
+    gh.lazySingleton<_i0.VehicleRemoteDataSource>(
+        () => _i0.VehicleRemoteDataSourceImpl());
     gh.lazySingleton<_i266.CurrentRepository>(() =>
         _i485.CurrentFlatRepositoryImpl(
             gh<_i140.CurrentFlatRemoteDataSource>()));
-    gh.lazySingleton<_i0.VehicleRemoteDataSource>(
-        () => _i0.VehicleRemoteDataSourceimpl());
     gh.lazySingleton<_i742.VehicleRepository>(
         () => _i195.VehicleRepositoryImpl(gh<_i0.VehicleRemoteDataSource>()));
     gh.lazySingleton<_i705.AuthDataSource>(
@@ -126,8 +126,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i667.CurrentFlatBloc>(
         () => _i667.CurrentFlatBloc(getCurrentFlat: gh<_i44.GetCurrentFlat>()));
     gh.factory<_i358.AuthBloc>(() => _i358.AuthBloc(gh<_i399.AuthUseCase>()));
-    gh.factory<_i481.AddVehicleBloc>(
-        () => _i481.AddVehicleBloc(gh<_i971.VehicleUseCase>()));
+    gh.factory<_i481.VehicleBloc>(
+        () => _i481.VehicleBloc(gh<_i971.VehicleUseCase>()));
     gh.lazySingleton<_i1046.OtpUseCase>(
         () => _i1046.OtpUseCase(otpResponseRepo: gh<_i4.OtpResponseRepo>()));
     gh.factory<_i359.NoticeBloc>(

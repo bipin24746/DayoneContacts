@@ -13,6 +13,5 @@ class AuthUserEvent extends AuthEvent{
 });
 
   @override
-  // TODO: implement props
   List<Object?> get props => [phoneNo];
 }

@@ -6,7 +6,7 @@ class AllNoticesIntegration extends Equatable{
   const AllNoticesIntegration({required this.success,required this.data});
 
   @override
-  // TODO: implement props
+
   List<Object?> get props => [success,data];
 }
 

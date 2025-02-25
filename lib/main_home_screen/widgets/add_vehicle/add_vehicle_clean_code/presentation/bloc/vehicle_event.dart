@@ -1,18 +1,17 @@
 part of 'vehicle_bloc.dart';
 
-abstract class AddVehicleEvent extends Equatable {
+abstract class VehicleEvent extends Equatable {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 
-class SubmitVehicleEvent extends AddVehicleEvent {
+class CreateVehicleEvent extends VehicleEvent {
   final String type;
   final String name;
   final String noplate;
   final File? image;
 
-  SubmitVehicleEvent({
+  CreateVehicleEvent({
     required this.type,
     required this.name,
     required this.noplate,
@@ -20,6 +19,8 @@ class SubmitVehicleEvent extends AddVehicleEvent {
   });
 
   @override
-  // TODO: implement props
   List<Object?> get props => [type, name, noplate, image];
 }
+
+// Event for fetching all vehicles
+class FetchVehiclesEvent extends VehicleEvent {}
