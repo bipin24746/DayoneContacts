@@ -1,3 +1,25 @@
+import 'package:dayonecontacts/main_home_screen/widgets/add_vehicle/add_vehicle_clean_code/domain/entity/vehicle_entity.dart';
+
+class VehicleModel extends VehicleEntity {
+  const VehicleModel(
+      {required super.id,
+      required super.type,
+      required super.name,
+      required super.noplate,
+      required super.imageUrl});
+
+  // fromJson method to map API response to VehicleEntity
+  factory VehicleModel.fromJson(Map<String, dynamic> json) {
+    return VehicleModel(
+      id: json['id'] as String? ?? '',
+      type: json['type'] as String? ?? '',
+      name: json['name'] as String? ?? '',
+      noplate: json['noplate'] as String? ?? '',
+      imageUrl: json['image'] != null ? json['image']['url'] as String? : '',
+    );
+  }
+}
+
 // import 'dart:convert';
 // import 'package:dayonecontacts/main_home_screen/widgets/add_vehicle/add_vehicle_clean_code/domain/entity/vehicle_integration.dart';
 // import 'package:equatable/equatable.dart';

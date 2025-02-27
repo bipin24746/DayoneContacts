@@ -1,27 +1,16 @@
-import 'dart:io';
-
 import 'package:dayonecontacts/main_home_screen/widgets/add_vehicle/add_vehicle_clean_code/domain/entity/vehicle_entity.dart';
 import 'package:dayonecontacts/main_home_screen/widgets/add_vehicle/add_vehicle_clean_code/domain/repository/vehicle_repository.dart';
 import 'package:injectable/injectable.dart';
 
 @lazySingleton
-class VehicleUseCase {
+class GetVehicleUseCase{
   final VehicleRepository vehicleRepository;
-  VehicleUseCase(this.vehicleRepository);
-
-  Future<String> addVehicle({
-    required String type,
-    required String name,
-    required String noplate,
-    File? image,
-  }) async {
-    return await vehicleRepository.addVehicle(
-        type: type, name: name, noplate: noplate, image: image);
-  }
+  const GetVehicleUseCase(this.vehicleRepository);
 
   Future<List<VehicleEntity>> getVehicles() async {
     final result = await vehicleRepository.getVehicles();
-
+//TODO:: don't use any logic or anything here just return the repo methods.
+    ///TODO:: use this fold in bloc
     return result.fold(
           (failure) {
         // Handle failure case

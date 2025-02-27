@@ -36,8 +36,10 @@ import 'package:dayonecontacts/main_home_screen/widgets/add_vehicle/add_vehicle_
     as _i195;
 import 'package:dayonecontacts/main_home_screen/widgets/add_vehicle/add_vehicle_clean_code/domain/repository/vehicle_repository.dart'
     as _i742;
-import 'package:dayonecontacts/main_home_screen/widgets/add_vehicle/add_vehicle_clean_code/domain/use_case/vehicle_usecase.dart'
-    as _i971;
+import 'package:dayonecontacts/main_home_screen/widgets/add_vehicle/add_vehicle_clean_code/domain/use_case/add_vehicle_usecase.dart'
+    as _i952;
+import 'package:dayonecontacts/main_home_screen/widgets/add_vehicle/add_vehicle_clean_code/domain/use_case/get_vehicle_usecase.dart'
+    as _i426;
 import 'package:dayonecontacts/main_home_screen/widgets/add_vehicle/add_vehicle_clean_code/presentation/bloc/vehicle_bloc.dart'
     as _i481;
 import 'package:dayonecontacts/main_home_screen/widgets/all_notices/all_notices_clean_code/data/data_source/all_notices_remote_datasource.dart'
@@ -106,8 +108,10 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i206.VerifyOtpDataSourceImpl(dio: gh<_i361.Dio>()));
     gh.lazySingleton<_i712.NoticeRepository>(
         () => _i98.NoticeRepositoryImpl(gh<_i318.NoticeRemoteDataSource>()));
-    gh.lazySingleton<_i971.VehicleUseCase>(
-        () => _i971.VehicleUseCase(gh<_i742.VehicleRepository>()));
+    gh.lazySingleton<_i952.AddVehicleUseCase>(
+        () => _i952.AddVehicleUseCase(gh<_i742.VehicleRepository>()));
+    gh.lazySingleton<_i426.GetVehicleUseCase>(
+        () => _i426.GetVehicleUseCase(gh<_i742.VehicleRepository>()));
     gh.lazySingleton<_i1063.AuthRepository>(() =>
         _i757.AuthRepositoryImpl(authDataSource: gh<_i705.AuthDataSource>()));
     gh.lazySingleton<_i44.GetCurrentFlat>(
@@ -126,8 +130,10 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i667.CurrentFlatBloc>(
         () => _i667.CurrentFlatBloc(getCurrentFlat: gh<_i44.GetCurrentFlat>()));
     gh.factory<_i358.AuthBloc>(() => _i358.AuthBloc(gh<_i399.AuthUseCase>()));
-    gh.factory<_i481.VehicleBloc>(
-        () => _i481.VehicleBloc(gh<_i971.VehicleUseCase>()));
+    gh.factory<_i481.VehicleBloc>(() => _i481.VehicleBloc(
+          gh<_i952.AddVehicleUseCase>(),
+          gh<_i426.GetVehicleUseCase>(),
+        ));
     gh.lazySingleton<_i1046.OtpUseCase>(
         () => _i1046.OtpUseCase(otpResponseRepo: gh<_i4.OtpResponseRepo>()));
     gh.factory<_i359.NoticeBloc>(

@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:dayonecontacts/main_home_screen/widgets/add_vehicle/add_vehicle_clean_code/data/model/vehicle_model.dart';
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:injectable/injectable.dart';
@@ -15,7 +16,7 @@ abstract class VehicleRemoteDataSource {
     File? image,
   });
 
-  Future<List<Map<String, dynamic>>> getVehicles();
+  Future<List<VehicleEntity>> getVehicles();
 }
 
 @LazySingleton(as: VehicleRemoteDataSource)
@@ -79,7 +80,7 @@ class VehicleRemoteDataSourceImpl implements VehicleRemoteDataSource {
 
 
   @override
-  Future<List<Map<String, dynamic>>> getVehicles() async {
+  Future<List<VehicleEntity>> getVehicles() async {
     final prefs = await SharedPreferences.getInstance();
     final authToken = prefs.getString('authToken');
 
@@ -96,13 +97,10 @@ class VehicleRemoteDataSourceImpl implements VehicleRemoteDataSource {
       log("API Response: ${response.data}");
 
       if (response.statusCode == 200 && response.data['success'] == true) {
-        List<dynamic> vehiclesList = response.data['vehicles'] ?? [];
 
-        if (vehiclesList.isEmpty) {
-          log("No vehicles found in API response.");
-        }
-
-        return vehiclesList.cast<Map<String, dynamic>>();
+      final listResponse = List<VehicleEntity>.from((response.data['data'] as List? ??[]).map((x)=>VehicleModel.fromJson(x)));
+      log(' response $listResponse');
+      return listResponse;
       } else {
         throw Exception(response.data['message'] ?? 'Unknown error');
       }
